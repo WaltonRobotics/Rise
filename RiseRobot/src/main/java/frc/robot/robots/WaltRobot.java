@@ -37,6 +37,4 @@ public interface WaltRobot {
     void setSpeeds(double leftSpeed, double rightSpeed);
     void setVoltages(double leftVoltage, double rightVoltage);
 
-    DifferentialDriveOdometry getDriveOdometry();
-    DifferentialDriveKinematics getDriveDifferentialDriveKinematics();
 }

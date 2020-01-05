@@ -13,20 +13,14 @@ public class CompDeepSpace implements WaltRobot {
   // Config constants
   private final int SHIFTER_CHANNEL = 0;
 
-  private DifferentialDriveOdometry driveOdometry;
-  private DifferentialDriveKinematics differentialDriveKinematics;
-
   private final PIDController leftPIDController = new PIDController(1, 0, 0);
   private final PIDController rightPIDController = new PIDController(1, 0, 0);
 
   private final Solenoid shifter = new Solenoid(SHIFTER_CHANNEL);
 
   public CompDeepSpace() {
-    // TODO: Instantiate properly
-    /*
-    differentialDriveKinematics = new DifferentialDriveKinematics(getTrackWidth());
-    driveOdometry = new DifferentialDriveOdometry(differentialDriveKinematics);
-     */
+
+
   }
 
   @Override
@@ -92,15 +86,5 @@ public class CompDeepSpace implements WaltRobot {
   @Override
   public void setVoltages(double leftVoltage, double rightVoltage) {
 
-  }
-
-  @Override
-  public DifferentialDriveOdometry getDriveOdometry() {
-    return driveOdometry;
-  }
-
-  @Override
-  public DifferentialDriveKinematics getDriveDifferentialDriveKinematics() {
-    return differentialDriveKinematics;
   }
 }
