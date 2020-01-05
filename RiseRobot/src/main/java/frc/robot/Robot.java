@@ -1,7 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.robots.RobotIdentifier;
+import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
@@ -18,6 +21,8 @@ public class Robot extends TimedRobot {
   public static Shooter shooter;
   public static Spinner spinner;
 
+  public static WaltRobot currentRobot;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -26,6 +31,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
+    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
+
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     spinner = new Spinner();
