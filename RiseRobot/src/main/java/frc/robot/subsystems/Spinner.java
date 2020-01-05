@@ -7,5 +7,4 @@ public class Spinner extends SubsystemBase {
   public Spinner() {
 
   }
-
 }

@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Spinner;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -11,7 +14,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-  private RobotContainer m_robotContainer;
+  public static Drivetrain drivetrain;
+  public static Shooter shooter;
+  public static Spinner spinner;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -21,7 +26,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    drivetrain = new Drivetrain();
+    shooter = new Shooter();
+    spinner = new Spinner();
   }
 
   /**
@@ -52,7 +59,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+   * This autonomous runs the autonomous command selected
    */
   @Override
   public void autonomousInit() {
