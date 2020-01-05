@@ -1,5 +1,6 @@
 package frc.robot.robots;
 
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -37,4 +38,5 @@ public interface WaltRobot {
     void setSpeeds(double leftSpeed, double rightSpeed);
     void setVoltages(double leftVoltage, double rightVoltage);
 
+    ColorSensorV3 getColorSensor();
 }

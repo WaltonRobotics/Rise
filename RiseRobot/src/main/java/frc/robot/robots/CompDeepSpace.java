@@ -1,5 +1,6 @@
 package frc.robot.robots;
 
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -86,5 +87,10 @@ public class CompDeepSpace implements WaltRobot {
   @Override
   public void setVoltages(double leftVoltage, double rightVoltage) {
 
+  }
+
+  @Override
+  public ColorSensorV3 getColorSensor() {
+    return null;
   }
 }
