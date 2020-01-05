@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 
 public interface WaltRobot {
 
@@ -34,4 +36,7 @@ public interface WaltRobot {
 
     void setSpeeds(double leftSpeed, double rightSpeed);
     void setVoltages(double leftVoltage, double rightVoltage);
+
+    DifferentialDriveOdometry getDriveOdometry();
+    DifferentialDriveKinematics getDriveDifferentialDriveKinematics();
 }
