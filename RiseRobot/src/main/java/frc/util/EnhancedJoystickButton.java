@@ -5,10 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
- * Because JoystickButton is bad and doesn't have rising and falling edges, this
- * one does.
- *
- * @author Russell Newton
+ * JoystickButton wrapper class with built in rising and falling edge detection
  */
 public class EnhancedJoystickButton extends JoystickButton {
 
