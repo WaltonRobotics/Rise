@@ -1,5 +1,6 @@
 package frc.robot.robots;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -28,6 +29,8 @@ public interface WaltRobot {
     SpeedControllerGroup getRightSpeedControllerGroup();
 
     double getRpmToMeters();
+
+    Solenoid getShifter();
 
     void setSpeeds(double leftSpeed, double rightSpeed);
     void setVoltages(double leftVoltage, double rightVoltage);
