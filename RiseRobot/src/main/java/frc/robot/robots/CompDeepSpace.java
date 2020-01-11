@@ -1,5 +1,7 @@
 package frc.robot.robots;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -17,6 +19,7 @@ public class CompDeepSpace implements WaltRobot {
   private final PIDController rightPIDController = new PIDController(1, 0, 0);
 
   private final Solenoid shifter = new Solenoid(SHIFTER_CHANNEL);
+  private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
   public CompDeepSpace() {
 
@@ -86,5 +89,10 @@ public class CompDeepSpace implements WaltRobot {
   @Override
   public void setVoltages(double leftVoltage, double rightVoltage) {
 
+  }
+
+  @Override
+  public AHRS getAHRS() {
+    return ahrs;
   }
 }

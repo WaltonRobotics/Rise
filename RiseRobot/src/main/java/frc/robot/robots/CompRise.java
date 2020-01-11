@@ -1,5 +1,6 @@
 package frc.robot.robots;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -69,5 +70,10 @@ public class CompRise implements WaltRobot {
   @Override
   public void setVoltages(double leftVoltage, double rightVoltage) {
 
+  }
+
+  @Override
+  public AHRS getAHRS() {
+    return null;
   }
 }
