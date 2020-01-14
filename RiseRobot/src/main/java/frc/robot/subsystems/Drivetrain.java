@@ -3,6 +3,12 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
@@ -17,10 +23,21 @@ public class Drivetrain extends SubsystemBase {
 
   private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
+  private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(currentRobot.getTrackWidth());
+  private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
+
+  private RamseteController ramseteController = new RamseteController(currentRobot.getKBeta(), currentRobot.getKZeta());
+
+  private Pose2d robotPose = new Pose2d();
 
   public Drivetrain() {
     ahrs.zeroYaw();
     motorSetUp();
+  }
+
+  @Override
+  public void periodic() {
+    updateRobotPose();
   }
 
   public void motorSetUp() {
@@ -50,15 +67,21 @@ public class Drivetrain extends SubsystemBase {
     rightWheelsSlave.setSmartCurrentLimit(38);
 
     leftWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
-    leftWheelsSlave.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
     rightWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
-    rightWheelsSlave.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+
+    leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getRpmToMeters());
+    rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getRpmToMeters());
 
   }
 
   public void setSpeeds(double leftPower, double rightPower) {
-    rightWheelsMaster.set(rightPower);
     leftWheelsMaster.set(leftPower);
+    rightWheelsMaster.set(rightPower);
+  }
+
+  public void setVoltages(double leftVoltage, double rightVoltage) {
+    leftWheelsMaster.setVoltage(leftVoltage);
+    rightWheelsMaster.setVoltage(rightVoltage);
   }
 
   public void setArcadeSpeeds(double xSpeed, double zRotation) {
@@ -90,5 +113,38 @@ public class Drivetrain extends SubsystemBase {
       System.out.println("Shifted Down");
       currentRobot.getShifter().set(false);
     }
+  }
+
+  public Rotation2d getHeading() {
+    return Rotation2d.fromDegrees(-ahrs.getYaw());  // counter clock wise positive
+  }
+
+  /**
+   * Zeroes the heading of the robot.
+   */
+  public void zeroHeading() {
+    ahrs.zeroYaw();
+  }
+
+  public DifferentialDriveWheelSpeeds getSpeeds() {
+    return new DifferentialDriveWheelSpeeds(
+      leftWheelsMaster.getEncoder().getVelocity(),
+      rightWheelsMaster.getEncoder().getVelocity()
+    );
+  }
+
+  public void updateRobotPose() {
+    robotPose = driveOdometry.update(getHeading(), leftWheelsMaster.getEncoder().getPosition(), rightWheelsMaster.getEncoder().getPosition());
+  }
+
+  public void reset() {
+    leftWheelsMaster.getEncoder().setPosition(0);
+    rightWheelsMaster.getEncoder().setPosition(0);
+
+    driveOdometry.resetPosition(new Pose2d(), getHeading());
+  }
+
+  public RamseteController getRamseteController() {
+    return ramseteController;
   }
 }
