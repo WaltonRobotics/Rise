@@ -26,6 +26,4 @@ public interface WaltRobot {
 
     Solenoid getShifter();
 
-    AHRS getAHRS();
-
 }

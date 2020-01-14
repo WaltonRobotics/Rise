@@ -20,7 +20,6 @@ public class CompDeepSpace implements WaltRobot {
   private final PIDController rightPIDController = new PIDController(1, 0, 0);
 
   private final Solenoid shifter = new Solenoid(SHIFTER_CHANNEL);
-  private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
   private final double highGearRatio = 5.39;
   private final double wheelDiameter = Units.inchesToMeters(5);
@@ -74,10 +73,5 @@ public class CompDeepSpace implements WaltRobot {
   @Override
   public Solenoid getShifter() {
     return shifter;
-  }
-
-  @Override
-  public AHRS getAHRS() {
-    return ahrs;
   }
 }

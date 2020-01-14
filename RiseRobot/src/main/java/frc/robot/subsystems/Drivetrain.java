@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
@@ -13,8 +15,11 @@ public class Drivetrain extends SubsystemBase {
   public static final CANSparkMax leftWheelsMaster = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
   public static final CANSparkMax leftWheelsSlave = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
 
+  private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
+
+
   public Drivetrain() {
-    currentRobot.getAHRS().zeroYaw();
+    ahrs.zeroYaw();
     motorSetUp();
   }
 

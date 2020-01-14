@@ -51,8 +51,4 @@ public class CompRise implements WaltRobot {
     return null;
   }
 
-  @Override
-  public AHRS getAHRS() {
-    return null;
-  }
 }
