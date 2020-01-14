@@ -14,11 +14,11 @@ public class Drive extends CommandBase {
     }
 
     public double getLeftJoystickY() {
-        return leftJoystick.getY() > deadBand ? -leftJoystick.getY() : 0;
+        return Math.abs(leftJoystick.getY()) > deadBand ? -leftJoystick.getY() : 0;
     }
 
     public double getRightJoystickY() {
-        return rightJoystick.getY() > deadBand ? -rightJoystick.getY() : 0;
+        return Math.abs(rightJoystick.getY()) > deadBand ? -rightJoystick.getY() : 0;
     }
 
     @Override
