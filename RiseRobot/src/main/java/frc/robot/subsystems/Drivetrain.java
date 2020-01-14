@@ -29,6 +29,7 @@ public class Drivetrain extends SubsystemBase {
   private RamseteController ramseteController = new RamseteController(currentRobot.getKBeta(), currentRobot.getKZeta());
 
   private Pose2d robotPose = new Pose2d();
+  private boolean isHighGear = true;
 
   public Drivetrain() {
     ahrs.zeroYaw();
@@ -38,6 +39,7 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     updateRobotPose();
+    isHighGear = currentRobot.getShifter().get();
   }
 
   public void motorSetUp() {
@@ -142,6 +144,10 @@ public class Drivetrain extends SubsystemBase {
     rightWheelsMaster.getEncoder().setPosition(0);
 
     driveOdometry.resetPosition(new Pose2d(), getHeading());
+  }
+
+  public boolean isHighGear() {
+    return isHighGear;
   }
 
   public RamseteController getRamseteController() {
