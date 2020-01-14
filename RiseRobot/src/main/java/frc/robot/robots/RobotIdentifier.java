@@ -1,5 +1,8 @@
 package frc.robot.robots;
 
+/**
+ * Uses the DIO ports on the rio to identify the current robot.
+ */
 public enum RobotIdentifier {
   COMP_DEEPSPACE(false,false, new CompDeepSpace()),
   PRACTICE_RISE(false, true, new PracticeRise()),
@@ -27,5 +30,10 @@ public enum RobotIdentifier {
 
   public WaltRobot getCurrentRobot() {
     return currentRobot;
+  }
+
+  @Override
+  public String toString() {
+    return "Current robot is " + currentRobot;
   }
 }

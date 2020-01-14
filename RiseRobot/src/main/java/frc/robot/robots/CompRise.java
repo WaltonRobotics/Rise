@@ -2,7 +2,6 @@ package frc.robot.robots;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
@@ -43,16 +42,6 @@ public class CompRise implements WaltRobot {
   }
 
   @Override
-  public SpeedControllerGroup getLeftSpeedControllerGroup() {
-    return null;
-  }
-
-  @Override
-  public SpeedControllerGroup getRightSpeedControllerGroup() {
-    return null;
-  }
-
-  @Override
   public double getRpmToMeters() {
     return 0;
   }
@@ -60,16 +49,6 @@ public class CompRise implements WaltRobot {
   @Override
   public Solenoid getShifter() {
     return null;
-  }
-
-  @Override
-  public void setSpeeds(double leftSpeed, double rightSpeed) {
-
-  }
-
-  @Override
-  public void setVoltages(double leftVoltage, double rightVoltage) {
-
   }
 
   @Override

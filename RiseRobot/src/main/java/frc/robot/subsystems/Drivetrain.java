@@ -1,27 +1,24 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
 
 public class Drivetrain extends SubsystemBase {
 
-  public static final CANSparkMax rightWheelsMaster = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static final CANSparkMax rightWheelsSlave = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static final CANSparkMax rightWheelsMaster = new CANSparkMax(1, CANSparkMax.MotorType.kBrushless);
+  public static final CANSparkMax rightWheelsSlave = new CANSparkMax(2, CANSparkMax.MotorType.kBrushless);
 
-  public static final CANSparkMax leftWheelsMaster = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static final CANSparkMax leftWheelsSlave = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static final CANSparkMax leftWheelsMaster = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
+  public static final CANSparkMax leftWheelsSlave = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
 
   public Drivetrain() {
-    currentRobot.getAHRS().reset();
     currentRobot.getAHRS().zeroYaw();
-
-    motorSetUpTeleop();
+    motorSetUp();
   }
 
-  public void motorSetUpTeleop() {
+  public void motorSetUp() {
     leftWheelsMaster.restoreFactoryDefaults();
     leftWheelsSlave.restoreFactoryDefaults();
     rightWheelsMaster.restoreFactoryDefaults();
@@ -46,6 +43,12 @@ public class Drivetrain extends SubsystemBase {
     leftWheelsSlave.setSmartCurrentLimit(38);
     rightWheelsMaster.setSmartCurrentLimit(38);
     rightWheelsSlave.setSmartCurrentLimit(38);
+
+    leftWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+    leftWheelsSlave.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+    rightWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+    rightWheelsSlave.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+
   }
 
   public void setSpeeds(double leftPower, double rightPower) {

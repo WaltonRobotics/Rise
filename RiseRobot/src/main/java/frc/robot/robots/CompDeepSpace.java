@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.util.Units;
 
 public class CompDeepSpace implements WaltRobot {
 
@@ -20,6 +21,10 @@ public class CompDeepSpace implements WaltRobot {
 
   private final Solenoid shifter = new Solenoid(SHIFTER_CHANNEL);
   private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
+
+  private final double highGearRatio = 5.39;
+  private final double wheelDiameter = Units.inchesToMeters(5);
+  private final double encoderResolution = 60;
 
   public CompDeepSpace() {
 
@@ -62,33 +67,13 @@ public class CompDeepSpace implements WaltRobot {
   }
 
   @Override
-  public SpeedControllerGroup getLeftSpeedControllerGroup() {
-    return null;
-  }
-
-  @Override
-  public SpeedControllerGroup getRightSpeedControllerGroup() {
-    return null;
-  }
-
-  @Override
   public double getRpmToMeters() {
-    return 0.006649704450098395;
+    return 1 / highGearRatio * Math.PI * wheelDiameter / encoderResolution ;
   }
 
   @Override
   public Solenoid getShifter() {
     return shifter;
-  }
-
-  @Override
-  public void setSpeeds(double leftSpeed, double rightSpeed) {
-
-  }
-
-  @Override
-  public void setVoltages(double leftVoltage, double rightVoltage) {
-
   }
 
   @Override
