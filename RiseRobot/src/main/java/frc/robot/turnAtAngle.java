@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Robot.drivetrain;
 
-public class turnAtAngle extends CommandBase implements PIDOutput {
+public class turnAtAngle extends CommandBase {
     private double targetAngle;
     private double turnRate;
     public static PIDController turnController;
@@ -15,7 +15,7 @@ public class turnAtAngle extends CommandBase implements PIDOutput {
         addRequirements(drivetrain);
         this.targetAngle = targetAngle;
 
-        turnController = new PIDController(1, 0, 0, 0, drivetrain.getAhrs(), this);
+        turnController = new PIDController(1, 0, 0);
         turnController.enableContinuousInput(-180f, 180f);
         turnController.setTolerance(2.0);
     }
@@ -27,16 +27,12 @@ public class turnAtAngle extends CommandBase implements PIDOutput {
 
     @Override
     public void execute(){
+        turnRate = turnController.calculate(drivetrain.getHeading().getDegrees());
         drivetrain.setArcadeSpeeds(0, turnRate);
     }
 
     @Override
     public boolean isFinished() {
         return turnController.atSetpoint();
-    }
-
-    @Override
-    public void pidWrite(double output){
-        turnRate = output;
     }
 }
