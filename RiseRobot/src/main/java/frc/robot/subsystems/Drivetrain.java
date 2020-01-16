@@ -121,6 +121,10 @@ public class Drivetrain extends SubsystemBase {
     return Rotation2d.fromDegrees(-ahrs.getYaw());  // counter clock wise positive
   }
 
+  public AHRS getAhrs() {
+    return ahrs;
+  }
+
   /**
    * Zeroes the heading of the robot.
    */
