@@ -2,14 +2,26 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.TurnAtAngle;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
+
+import java.util.Arrays;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -76,7 +88,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
       new TurnAtAngle(90).schedule();
-
+    drivetrain.shiftUp();
+    drivetrain.reset();
+    getAutonomousCommand().schedule();
   }
 
   /**
@@ -84,11 +98,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
-
+    drivetrain.shiftUp();
+    drivetrain.reset();
   }
 
   /**
@@ -96,6 +112,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Left encoder", Units.metersToFeet(drivetrain.leftMetersTravelled()));
+    SmartDashboard.putNumber("Right encoder", Units.metersToFeet(drivetrain.rightMetersTravelled()));
   }
 
   @Override
@@ -110,4 +129,31 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+  public Command getAutonomousCommand() {
+    TrajectoryConfig config = new TrajectoryConfig(
+            Units.feetToMeters(2.0), Units.feetToMeters(2.0));
+    config.setKinematics(drivetrain.getDriveKinematics());
+
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            Arrays.asList(new Pose2d(), new Pose2d(Units.feetToMeters(5), 0, new Rotation2d())),
+            config
+    );
+
+    RamseteCommand command = new RamseteCommand(
+            trajectory,
+            drivetrain::getRobotPose,
+            drivetrain.getRamseteController(),
+            drivetrain.feedforward,
+            drivetrain.getDriveKinematics(),
+            drivetrain::getSpeeds,
+            drivetrain.leftPIDController,
+            drivetrain.rightPIDController,
+            drivetrain::setVoltages,
+            drivetrain
+    );
+
+    return command.andThen(() -> drivetrain.setVoltages(0, 0));
+  }
+
 }

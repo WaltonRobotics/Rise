@@ -17,7 +17,6 @@ public class CompDeepSpace implements WaltRobot {
 
   private final double highGearRatio = 5.39;
   private final double wheelDiameter = Units.inchesToMeters(5);
-  private final double encoderResolution = 60;
 
   public CompDeepSpace() {
 
@@ -26,7 +25,7 @@ public class CompDeepSpace implements WaltRobot {
 
   @Override
   public double getTrackWidth() {
-    return 0.78;
+    return 0.996;
   }
 
   @Override
@@ -61,7 +60,7 @@ public class CompDeepSpace implements WaltRobot {
 
   @Override
   public double getRpmToMeters() {
-    return 1 / highGearRatio * Math.PI * wheelDiameter / encoderResolution ;
+    return 1 / highGearRatio * Math.PI * wheelDiameter;
   }
 
   @Override

@@ -2,11 +2,10 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -33,6 +32,11 @@ public class Drivetrain extends SubsystemBase {
 
   private Pose2d robotPose = new Pose2d();
   private boolean isHighGear = true;
+
+  public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.237, 1.72, 0.46);
+
+  public PIDController leftPIDController = new PIDController(1.91, 0, 0);
+  public PIDController rightPIDController = new PIDController(1.91, 0, 0);
 
   public Drivetrain() {
     ahrs.zeroYaw();
@@ -85,6 +89,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void setVoltages(double leftVoltage, double rightVoltage) {
+    System.out.println(leftVoltage);
+    System.out.println(rightVoltage);
     leftWheelsMaster.setVoltage(leftVoltage);
     rightWheelsMaster.setVoltage(rightVoltage);
   }
@@ -137,9 +143,17 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-      leftWheelsMaster.getEncoder().getVelocity(),
-      rightWheelsMaster.getEncoder().getVelocity()
+      leftWheelsMaster.getEncoder().getVelocity() / 60,
+      rightWheelsMaster.getEncoder().getVelocity() / 60
     );
+  }
+
+  public double leftMetersTravelled() {
+    return leftWheelsMaster.getEncoder().getPosition();
+  }
+
+  public double rightMetersTravelled() {
+    return rightWheelsMaster.getEncoder().getPosition();
   }
 
   public void updateRobotPose() {
@@ -159,5 +173,13 @@ public class Drivetrain extends SubsystemBase {
 
   public RamseteController getRamseteController() {
     return ramseteController;
+  }
+
+  public DifferentialDriveKinematics getDriveKinematics() {
+    return driveKinematics;
+  }
+
+  public Pose2d getRobotPose() {
+    return robotPose;
   }
 }
