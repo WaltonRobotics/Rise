@@ -1,17 +1,16 @@
-package frc.robot;
+package frc.robot.commands.auton;
 
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Robot.drivetrain;
 
-public class turnAtAngle extends CommandBase {
+public class TurnAtAngle extends CommandBase {
     private double targetAngle;
     private double turnRate;
     public static PIDController turnController;
 
-    public turnAtAngle(double targetAngle){
+    public TurnAtAngle(double targetAngle){
         addRequirements(drivetrain);
         this.targetAngle = targetAngle;
 

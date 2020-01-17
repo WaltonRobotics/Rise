@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auton.TurnAtAngle;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
+      new TurnAtAngle(90).schedule();
 
   }
 
