@@ -6,16 +6,21 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 import static frc.robot.Robot.currentRobot;
 
 public class Drivetrain extends SubsystemBase {
+
+  private static double DEADBAND = 0.1;
 
   public static final CANSparkMax rightWheelsMaster = new CANSparkMax(1, CANSparkMax.MotorType.kBrushless);
   public static final CANSparkMax rightWheelsSlave = new CANSparkMax(2, CANSparkMax.MotorType.kBrushless);
@@ -47,6 +52,7 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     updateRobotPose();
     isHighGear = currentRobot.getShifter().get();
+    SmartDashboard.putNumber("Angle", getHeading().getDegrees());
   }
 
   public void motorSetUp() {
@@ -95,7 +101,19 @@ public class Drivetrain extends SubsystemBase {
     rightWheelsMaster.setVoltage(rightVoltage);
   }
 
-  public void setArcadeSpeeds(double xSpeed, double zRotation) {
+  protected double applyDeadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+    } else {
+      return 0.0;
+    }
+  }
+
+  public void setArcadeSpeeds(double xSpeed, double zRotation, boolean squareInputs) {
     xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
     zRotation = Math.copySign(zRotation * zRotation, zRotation);
 
@@ -165,6 +183,8 @@ public class Drivetrain extends SubsystemBase {
     rightWheelsMaster.getEncoder().setPosition(0);
 
     driveOdometry.resetPosition(new Pose2d(), getHeading());
+
+    ahrs.reset();
   }
 
   public boolean isHighGear() {

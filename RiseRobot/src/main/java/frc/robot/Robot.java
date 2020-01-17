@@ -10,10 +10,8 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.auton.TurnAtAngle;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -87,10 +85,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-      new TurnAtAngle(90).schedule();
     drivetrain.shiftUp();
     drivetrain.reset();
-    getAutonomousCommand().schedule();
+    //getAutonomousCommand().schedule();
+
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(1.0),
+            new TurnAtAngle(90)));
   }
 
   /**
