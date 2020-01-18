@@ -65,4 +65,9 @@ public class CompRise implements WaltRobot {
         return null;
     }
 
+    @Override
+    public double getMinimumShiftingTime() {
+        return 0;
+    }
+
 }

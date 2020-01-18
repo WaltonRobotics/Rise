@@ -65,4 +65,9 @@ public class PracticeRise implements WaltRobot {
         return null;
     }
 
+    @Override
+    public double getMinimumShiftingTime() {
+        return 0;
+    }
+
 }
