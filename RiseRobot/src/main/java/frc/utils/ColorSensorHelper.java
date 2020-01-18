@@ -2,6 +2,7 @@ package frc.utils;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import static frc.robot.Robot.currentRobot;
@@ -15,6 +16,45 @@ public class ColorSensorHelper {
 
     private final ColorMatch colorMatcher = new ColorMatch();
 
+    private final int targetDistanceLimit = 400;
+
+    private ControlPanelColor currentColor = ControlPanelColor.NONE;
+
+
+    public enum ControlPanelColor {
+        GREEN{
+            @Override
+            void doSomething() {
+
+            }
+        },
+        BLUE{
+            @Override
+            void doSomething() {
+
+            }
+        }, RED{
+            @Override
+            void doSomething() {
+
+            }
+        }, YELLOW{
+            @Override
+            void doSomething() {
+
+            }
+        }, NONE{
+            @Override
+            void doSomething() {
+                YELLOW.doSomething();
+            }
+        };
+
+        abstract void doSomething();
+        public ControlPanelColor chooseColor() {
+            return null;
+        }
+    }
     public ColorSensorHelper() {
         colorMatcher.addColorMatch(kBlueTarget);
         colorMatcher.addColorMatch(kGreenTarget);
@@ -22,10 +62,26 @@ public class ColorSensorHelper {
         colorMatcher.addColorMatch(kYellowTarget);
     }
 
-    public Color getColorMatch() {
+    public ControlPanelColor getColorMatch() {
         Color detectedColor = currentRobot.getColorSensor().getColor();
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-        return match.color;
+        if (getProximity() > SmartDashboard.getNumber("IRSensorLimit", targetDistanceLimit)) {
+            if (match.color.equals(kRedTarget)) {
+                return ControlPanelColor.RED;
+            } else if (match.color.equals(kYellowTarget)) {
+                return ControlPanelColor.YELLOW;
+            } else if (match.color.equals(kGreenTarget)) {
+                return ControlPanelColor.GREEN;
+            } else if (match.color.equals(kBlueTarget)) {
+                return ControlPanelColor.BLUE;
+            }
+        }
+        return ControlPanelColor.NONE;
+    }
+
+    public int getProximity(){
+        int detectedValue = currentRobot.getColorSensor().getProximity();
+        return detectedValue;
     }
 
 }
