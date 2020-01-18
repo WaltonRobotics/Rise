@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -89,7 +91,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        new SequentialCommandGroup(new ShiftUp(), new DriveStraight(1.0, 0.5)).schedule();
+        drivetrain.reset();
+        new SequentialCommandGroup(new ShiftUp(), getAutonomousCommand()).schedule();
     }
 
     /**
@@ -104,6 +107,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.shiftUp();
         drivetrain.reset();
+        drivetrain.zeroNeoEncoders();
     }
 
     /**
@@ -112,8 +116,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("Left encoder", Units.metersToFeet(drivetrain.leftMetersTravelled()));
-        SmartDashboard.putNumber("Right encoder", Units.metersToFeet(drivetrain.rightMetersTravelled()));
     }
 
     @Override
@@ -131,11 +133,13 @@ public class Robot extends TimedRobot {
 
     public Command getAutonomousCommand() {
         TrajectoryConfig config = new TrajectoryConfig(
-                Units.feetToMeters(2.0), Units.feetToMeters(2.0));
+                Units.feetToMeters(13.0), Units.feetToMeters(7.0));
+        config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(15)));
+        config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
         config.setKinematics(drivetrain.getDriveKinematics());
 
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                Arrays.asList(new Pose2d(), new Pose2d(Units.feetToMeters(5), 0, new Rotation2d())),
+                Arrays.asList(new Pose2d(), new Pose2d(Units.feetToMeters(10), 0, new Rotation2d())),
                 config
         );
 

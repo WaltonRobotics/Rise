@@ -1,6 +1,5 @@
 package frc.robot.commands.auton;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -28,13 +27,13 @@ public class DriveStraight extends CommandBase {
         double turnRate = -currentRobot.getDistancePIDController().calculate(drivetrain.getHeading().getDegrees(), 0);
 
         SmartDashboard.putNumber("Turn rate", turnRate);
-        SmartDashboard.putNumber("Left meters", drivetrain.leftMetersTravelled());
-        SmartDashboard.putNumber("Right meters", drivetrain.rightMetersTravelled());
+        SmartDashboard.putNumber("Left meters", drivetrain.leftEncoderPulses());
+        SmartDashboard.putNumber("Right meters", drivetrain.rightEncoderPulses());
         drivetrain.setArcadeSpeeds(power, turnRate);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs((drivetrain.leftMetersTravelled() + drivetrain.rightMetersTravelled()) / 2) >= desiredDistance;
+        return Math.abs((drivetrain.leftEncoderPulses() + drivetrain.rightEncoderPulses()) / 2) >= desiredDistance;
     }
 }

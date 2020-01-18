@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
+import static frc.robot.Robot.drivetrain;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -47,6 +48,10 @@ public class Drivetrain extends SubsystemBase {
         updateRobotPose();
         isHighGear = currentRobot.getShifter().get();
         SmartDashboard.putNumber("Angle", getHeading().getDegrees());
+        SmartDashboard.putNumber("Left neo encoder velocity", drivetrain.getCANEncoderLeftVelocity());
+        SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
+        SmartDashboard.putNumber("Left neo encoder distance", drivetrain.getCANEncoderLeftMeters());
+        SmartDashboard.putNumber("right neo encoder distance", drivetrain.getCANEncoderRightMeters());
     }
 
     public void motorSetUp() {
@@ -75,11 +80,14 @@ public class Drivetrain extends SubsystemBase {
         rightWheelsMaster.setSmartCurrentLimit(38);
         rightWheelsSlave.setSmartCurrentLimit(38);
 
-        leftWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
-        rightWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getRpmToMeters());
+        double velocityFactor = 1 / 6.58905 * Math.PI * .127 / 60;
+        double positionFactor = 1 / 6.58905 * Math.PI * .127;
 
-        leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getRpmToMeters());
-        rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getRpmToMeters());
+        leftWheelsMaster.getEncoder().setVelocityConversionFactor(velocityFactor);
+        rightWheelsMaster.getEncoder().setVelocityConversionFactor(velocityFactor);
+
+        leftWheelsMaster.getEncoder().setPositionConversionFactor(positionFactor);
+        rightWheelsMaster.getEncoder().setPositionConversionFactor(positionFactor);
 
         encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
         encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());
@@ -128,7 +136,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public Rotation2d getHeading() {
-        return Rotation2d.fromDegrees(-ahrs.getYaw());  // counter clock wise positive
+        return Rotation2d.fromDegrees(-ahrs.getAngle());  // counter clock wise positive
     }
 
     /**
@@ -140,17 +148,17 @@ public class Drivetrain extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-                leftWheelsMaster.getEncoder().getVelocity() / 60,
-                rightWheelsMaster.getEncoder().getVelocity() / 60
+                getCANEncoderLeftVelocity(),
+                getCANEncoderRightVelocity()
         );
     }
 
-    public double leftMetersTravelled() {
-        return encoderLeft.getDistance();
+    public double leftEncoderPulses() {
+        return encoderLeft.get();
     }
 
-    public double rightMetersTravelled() {
-        return encoderRight.getDistance();
+    public double rightEncoderPulses() {
+        return encoderRight.get();
     }
 
     private void updateRobotPose() {
@@ -158,15 +166,13 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset() {
-        leftWheelsMaster.getEncoder().setPosition(0);
-        rightWheelsMaster.getEncoder().setPosition(0);
-
         encoderLeft.reset();
         encoderRight.reset();
 
-        driveOdometry.resetPosition(new Pose2d(), getHeading());
-
         zeroHeading();
+        zeroNeoEncoders();
+
+        driveOdometry.resetPosition(new Pose2d(), getHeading());
     }
 
     public boolean isHighGear() {
@@ -183,5 +189,26 @@ public class Drivetrain extends SubsystemBase {
 
     public Pose2d getRobotPose() {
         return robotPose;
+    }
+
+    public double getCANEncoderLeftMeters() {
+        return leftWheelsMaster.getEncoder().getPosition();
+    }
+
+    public double getCANEncoderRightMeters() {
+        return rightWheelsMaster.getEncoder().getPosition();
+    }
+
+    public double getCANEncoderLeftVelocity() {
+        return leftWheelsMaster.getEncoder().getVelocity();
+    }
+
+    public double getCANEncoderRightVelocity() {
+        return rightWheelsMaster.getEncoder().getVelocity();
+    }
+
+    public void zeroNeoEncoders() {
+        rightWheelsMaster.getEncoder().setPosition(0);
+        leftWheelsMaster.getEncoder().setPosition(0);
     }
 }
