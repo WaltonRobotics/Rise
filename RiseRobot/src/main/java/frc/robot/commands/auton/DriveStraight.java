@@ -14,8 +14,6 @@ public class DriveStraight extends CommandBase {
     public DriveStraight(double desiredDistance, double power) {
         this.desiredDistance = desiredDistance;
         this.power = power;
-
-        distanceController = new PIDController(1, 0, 0);
     }
 
     @Override

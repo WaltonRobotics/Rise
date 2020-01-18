@@ -13,10 +13,16 @@ public interface WaltRobot {
 
     double getKZeta();
 
-    // Velocity controller constants
+    // Velocity controller
     PIDController getLeftPIDController();
 
     PIDController getRightPIDController();
+
+    // Turn controller
+    PIDController getTurnPIDController();
+
+    // Distance controller
+    PIDController getDistancePIDController();
 
     // Shooter feedforward
     SimpleMotorFeedforward getFlywheelFeedforward();
@@ -24,10 +30,13 @@ public interface WaltRobot {
     // Drivetrain feedforward
     SimpleMotorFeedforward getDrivetrainFeedforward();
 
+    // Encoder constants
     double getRpmToMeters();
 
     double getDistancePerPulse();
 
     Solenoid getShifter();
+
+    double getMinimumShiftingTime();
 
 }

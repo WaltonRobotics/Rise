@@ -4,7 +4,7 @@ package frc.robot.robots;
  * Uses the DIO ports on the rio to identify the current robot.
  */
 public enum RobotIdentifier {
-    COMP_DEEPSPACE(true, true, new CompDeepSpace()),
+    COMP_DEEP_SPACE(true, true, new CompDeepSpace()),
     PRACTICE_RISE(false, true, new PracticeRise()),
     COMP_RISE(false, false, new CompRise());
 

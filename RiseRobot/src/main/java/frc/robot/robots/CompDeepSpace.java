@@ -48,6 +48,16 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
+    public PIDController getTurnPIDController() {
+        return new PIDController(0.008, 0, 0);
+    }
+
+    @Override
+    public PIDController getDistancePIDController() {
+        return new PIDController(1, 0, 0);
+    }
+
+    @Override
     public SimpleMotorFeedforward getFlywheelFeedforward() {
         return null;
     }
@@ -70,5 +80,10 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public Solenoid getShifter() {
         return shifter;
+    }
+
+    @Override
+    public double getMinimumShiftingTime() {
+        return 1.0;
     }
 }

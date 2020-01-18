@@ -31,6 +31,16 @@ public class PracticeRise implements WaltRobot {
     }
 
     @Override
+    public PIDController getTurnPIDController() {
+        return null;
+    }
+
+    @Override
+    public PIDController getDistancePIDController() {
+        return null;
+    }
+
+    @Override
     public SimpleMotorFeedforward getFlywheelFeedforward() {
         return null;
     }
