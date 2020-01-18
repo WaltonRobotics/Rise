@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        drivetrain.shiftUp();
         drivetrain.reset();
         new SequentialCommandGroup(new ShiftUp(), getAutonomousCommand()).schedule();
     }
@@ -133,13 +134,14 @@ public class Robot extends TimedRobot {
 
     public Command getAutonomousCommand() {
         TrajectoryConfig config = new TrajectoryConfig(
-                Units.feetToMeters(13.0), Units.feetToMeters(7.0));
+                Units.feetToMeters(15.0), Units.feetToMeters(7.0));
         config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(15)));
         config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
         config.setKinematics(drivetrain.getDriveKinematics());
 
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                Arrays.asList(new Pose2d(), new Pose2d(Units.feetToMeters(10), 0, new Rotation2d())),
+                Arrays.asList(new Pose2d(Units.feetToMeters(6.832), Units.feetToMeters(19.053), Rotation2d.fromDegrees(0.0)),
+                        new Pose2d(Units.feetToMeters(11.015), Units.feetToMeters(15.106), Rotation2d.fromDegrees(-90.0))),
                 config
         );
 

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
@@ -172,7 +173,7 @@ public class Drivetrain extends SubsystemBase {
         zeroHeading();
         zeroNeoEncoders();
 
-        driveOdometry.resetPosition(new Pose2d(), getHeading());
+        driveOdometry.resetPosition(new Pose2d(Units.feetToMeters(6.832), Units.feetToMeters(19.053), Rotation2d.fromDegrees(0.0)), getHeading());
     }
 
     public boolean isHighGear() {
