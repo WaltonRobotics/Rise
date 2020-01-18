@@ -1,18 +1,33 @@
 package frc.robot;
 
+import static frc.robot.Constants.ButtonMap.SHIFT_DOWN_BUTTON_KEY;
+import static frc.robot.Constants.ButtonMap.SHIFT_UP_BUTTON_KEY;
+import static frc.robot.Constants.ButtonMap.getButtonIndex;
+import static frc.robot.Constants.Joystick.GAMEPAD_PORT;
+import static frc.robot.Constants.Joystick.LEFT_JOYSTICK_PORT;
+import static frc.robot.Constants.Joystick.RIGHT_JOYSTICK_PORT;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.utils.EnhancedJoystickButton;
 import frc.utils.Gamepad;
 
-import static frc.robot.Constants.Joystick.*;
-
 public class OI {
-    public static Joystick leftJoystick = new Joystick(LEFT_JOYSTICK_PORT);
-    public static Joystick rightJoystick = new Joystick(RIGHT_JOYSTICK_PORT);
 
-    public static JoystickButton shiftUpButton = new JoystickButton(leftJoystick, SHIFT_UP_BUTTON);
-    public static JoystickButton shiftDownButton = new JoystickButton(leftJoystick, SHIFT_DOWN_BUTTON);
+  public static Joystick leftJoystick = new Joystick(LEFT_JOYSTICK_PORT);
+  public static Joystick rightJoystick = new Joystick(RIGHT_JOYSTICK_PORT);
+  public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
 
-    public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
+  /*
+  Use the following format to create new buttons.
+
+  public static EnhancedJoystickButton button = new EnhancedJoystickButton(joystick,
+      getButtonIndex(key));
+
+  Using an EnhancedJoystickButton lets us have dynamic button mapping.
+   */
+  public static EnhancedJoystickButton shiftUpButton = new EnhancedJoystickButton(leftJoystick,
+      getButtonIndex(SHIFT_UP_BUTTON_KEY));
+  public static EnhancedJoystickButton shiftDownButton = new EnhancedJoystickButton(leftJoystick,
+      getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
 
 }
