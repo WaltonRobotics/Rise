@@ -83,6 +83,7 @@ public class Drivetrain extends SubsystemBase {
 
         encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
         encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());
+        encoderRight.setReverseDirection(true);
     }
 
     public void setSpeeds(double leftPower, double rightPower) {

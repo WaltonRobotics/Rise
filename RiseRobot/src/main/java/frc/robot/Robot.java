@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.auton.DriveStraight;
+import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -44,7 +47,8 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
 
-        currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
+        currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(),
+                new DigitalInput(10).get()).getCurrentRobot();
 
         drivetrain = new Drivetrain();
         shooter = new Shooter();
@@ -85,8 +89,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        drivetrain.shiftUp();
-        drivetrain.reset();
+        new SequentialCommandGroup(new ShiftUp(), new DriveStraight(1.0, 0.5)).schedule();
     }
 
     /**

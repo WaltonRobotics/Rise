@@ -54,7 +54,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public PIDController getDistancePIDController() {
-        return new PIDController(1, 0, 0);
+        return new PIDController(0.0001, 0, 0);
     }
 
     @Override
