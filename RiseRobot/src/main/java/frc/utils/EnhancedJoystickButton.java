@@ -2,7 +2,6 @@ package frc.utils;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -36,8 +35,17 @@ public class EnhancedJoystickButton extends Button {
     // The default for get() is based on a BooleanSupplier passed into the Button constructor.
     // Because of this, we can use the EnhancedButtonIndex get() instead of overriding it.
     super(buttonIndex::get);
-    whenPressed(new SetValue(true));
-    whenReleased(new SetValue(false));
+
+    // Set up rising/falling edge detection.
+    previous = current = false;
+    whenActive(() -> {
+      previous = current;
+      current = true;
+    });
+    whenInactive(() -> {
+      previous = current;
+      current = false;
+    });
   }
 
   /**
@@ -88,13 +96,15 @@ public class EnhancedJoystickButton extends Button {
 
     public boolean get() {
       // Unbound
-      if(indexSupplier.getAsInt() == -1) return false;
+      if (indexSupplier.getAsInt() == -1) {
+        return false;
+      }
 
       // If POV_N:  (-2 + 2) * -45 = 0
       // If POV_NE: (-3 + 2) * -45 = 45
       // If POV_E:  (-4 + 2) * -45 = 90
       // etc...
-      if(indexSupplier.getAsInt() < 0) {
+      if (indexSupplier.getAsInt() < 0) {
         return joystickSupplier.get().getPOV() == (indexSupplier.getAsInt() + 2) * -45;
       }
 
@@ -107,31 +117,6 @@ public class EnhancedJoystickButton extends Button {
 
     public int getIndex() {
       return indexSupplier.getAsInt();
-    }
-  }
-
-  /**
-   * This handles the value setting, because you can only run commands on rising and falling
-   * action.
-   *
-   * @author Russell Newton, Walton Robotics
-   */
-  private class SetValue extends CommandBase {
-
-    /**
-     * Sets the {@code EnhancedJoystickButton} values, as necessary.
-     */
-    public SetValue(boolean value) {
-      previous = current;
-      current = value;
-    }
-
-    /**
-     * Stop immediately.
-     */
-    @Override
-    public boolean isFinished() {
-      return true;
     }
   }
 
