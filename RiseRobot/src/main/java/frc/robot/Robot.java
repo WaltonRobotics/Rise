@@ -1,5 +1,15 @@
 package frc.robot;
 
+import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
+import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
+import static frc.robot.Constants.ButtonMap.buttonMap;
+import static frc.robot.Constants.ButtonMap.updateButtonIndex;
+import static frc.robot.Constants.ButtonMap.updateButtonJoystick;
+import static frc.robot.Constants.ButtonMap.writeButtonMapToFile;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -9,6 +19,7 @@ import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
+import java.util.Map.Entry;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,6 +35,8 @@ public class Robot extends TimedRobot {
 
   public static WaltRobot currentRobot;
 
+  public static NetworkTableInstance networkTableInstance;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,13 +46,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
+    currentRobot = RobotIdentifier
+        .findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
 
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     spinner = new Spinner();
 
+    networkTableInstance = NetworkTableInstance.getDefault();
+
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
+
+    putButtonMapOnShuffleboard();
   }
 
   /**
@@ -63,6 +81,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    writeButtonMapToFile();
   }
 
   @Override
@@ -74,7 +93,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
 
   }
 
@@ -108,5 +126,28 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  private void putButtonMapOnShuffleboard() {
+//    Shuffleboard
+    NetworkTable buttonMapTable = networkTableInstance.getTable("Button Map");
+    
+
+    for (Entry<String, int[]> mapping : buttonMap.entrySet()) {
+      NetworkTable mappingTable = buttonMapTable.getSubTable(mapping.getKey());
+      NetworkTableEntry joystickEntry = mappingTable.getEntry("Joystick");
+      NetworkTableEntry indexEntry = mappingTable.getEntry("Button Number");
+      joystickEntry.setNumber(mapping.getValue()[0]);
+      indexEntry.setNumber(mapping.getValue()[1]);
+
+      // Add listeners to update the button map when values are changed
+      joystickEntry.addListener(notification ->
+              updateButtonJoystick(mapping.getKey(), (int) notification.value.getDouble()),
+          kNew | kUpdate);
+      indexEntry.addListener(notification ->
+              updateButtonIndex(mapping.getKey(), (int) notification.value.getDouble()),
+          kNew | kUpdate);
+    }
+
   }
 }

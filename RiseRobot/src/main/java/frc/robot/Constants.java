@@ -77,7 +77,7 @@ public final class Constants {
     Ignore these. Don't change them.
      */
     private static final String buttonMapFileLocation = "/home/lvuser/button_map.json";
-    private static final Map<String, int[]> buttonMap = getButtonMap();
+    public static final Map<String, int[]> buttonMap = getButtonMap();
     private static final List<Joystick> controllers = Stream.of(
         new Joystick[]{leftJoystick, rightJoystick, gamepad}).collect(Collectors.toList());
     private static boolean hasChanged = false;
@@ -119,11 +119,26 @@ public final class Constants {
     }
 
     /**
-     * Update the buttonMap value at {@code key}.
+     * Update the buttonMap index at {@code key}.
      */
-    public static void updateButtonIndex(String key, EnhancedButtonIndex index) {
-      buttonMap.put(key, new int[]{index.getJoystick().getPort(), index.getIndex()});
+    public static void updateButtonIndex(String key, int index) {
+      buttonMap.get(key)[1] = index;
       hasChanged = true;
+    }
+
+    /**
+     * Update the buttonMap joystick at {@code key}.
+     */
+    public static void updateButtonJoystick(String key, int port) {
+      buttonMap.get(key)[0] = port;
+      hasChanged = true;
+    }
+
+    /**
+     * Update the buttonMap value at {@code key} with an EnhancedButtonIndex.
+     */
+    public static void updateButtonValue(String key, EnhancedButtonIndex value) {
+      buttonMap.put(key, new int[]{value.getJoystick().getPort(), value.getIndex()});
     }
 
     /**
