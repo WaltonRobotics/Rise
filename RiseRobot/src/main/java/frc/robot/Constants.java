@@ -8,6 +8,7 @@
 package frc.robot;
 
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.robot.Constants.Joysticks.controllers;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.leftJoystick;
 import static frc.robot.OI.rightJoystick;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,6 +46,15 @@ public final class Constants {
     public static final int LEFT_JOYSTICK_PORT = 0;
     public static final int RIGHT_JOYSTICK_PORT = 1;
     public static final int GAMEPAD_PORT = 2;
+
+    /*
+    If new controllers are added, place them in the initializer list.
+     */
+    static final List<Joystick> controllers = Stream.of(
+        new Joystick[]{
+            // This is the initializer list. Place new controllers here.
+            leftJoystick, rightJoystick, gamepad,
+        }).collect(Collectors.toList());
 
   }
 
@@ -77,9 +86,7 @@ public final class Constants {
     Ignore these. Don't change them.
      */
     private static final String buttonMapFileLocation = "/home/lvuser/button_map.json";
-    public static final Map<String, int[]> buttonMap = getButtonMap();
-    private static final List<Joystick> controllers = Stream.of(
-        new Joystick[]{leftJoystick, rightJoystick, gamepad}).collect(Collectors.toList());
+    static final Map<String, int[]> buttonMap = getButtonMap();
     private static boolean hasChanged = false;
 
     /**
@@ -90,7 +97,7 @@ public final class Constants {
       try {
         // Read Json File
         return parseJsonToMap(new File(buttonMapFileLocation),
-            new TypeReference<Map<String, int[]>>() {
+            new TypeReference<Map<String, int[]>>() { // Leaving this in for clarity
             });
       } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e) {
         System.out.println("File " + buttonMapFileLocation

@@ -129,9 +129,7 @@ public class Robot extends TimedRobot {
   }
 
   private void putButtonMapOnShuffleboard() {
-//    Shuffleboard
     NetworkTable buttonMapTable = networkTableInstance.getTable("Button Map");
-    
 
     for (Entry<String, int[]> mapping : buttonMap.entrySet()) {
       NetworkTable mappingTable = buttonMapTable.getSubTable(mapping.getKey());
