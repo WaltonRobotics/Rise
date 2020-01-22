@@ -77,12 +77,26 @@ public final class Constants {
     This simulates an initializer list for the map.
      */
     private static final Map<String, int[]> defaultMap = Stream.of(new Object[][]{
+
 //      {KEY,                 new int[] {DEFAULT JOYSTICK PORT, DEFAULT VALUE}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
+
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
 
     /*
+
+
+
+
+
+
+    Ignore these. Don't change them.
+    Ignore these. Don't change them.
+    Ignore these. Don't change them.
+    Ignore these. Don't change them.
+    Ignore these. Don't change them.
+    Ignore these. Don't change them.
     Ignore these. Don't change them.
      */
     private static final String buttonMapFileLocation = "/home/lvuser/button_map.json";
