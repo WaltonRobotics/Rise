@@ -128,13 +128,20 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
+  /**
+   * @author Russell Newton, Walton Robotics
+   */
   private void putButtonMapOnShuffleboard() {
     NetworkTable buttonMapTable = networkTableInstance.getTable("Button Map");
 
+    buttonMapTable.getEntry(".type").setString("ButtonMap");
+
+    NetworkTable mapTable = buttonMapTable.getSubTable("Mappings");
     for (Entry<String, int[]> mapping : buttonMap.entrySet()) {
-      NetworkTable mappingTable = buttonMapTable.getSubTable(mapping.getKey());
+      NetworkTable mappingTable = mapTable.getSubTable(mapping.getKey());
+      mappingTable.getEntry(".type").setString("ButtonMapping");
       NetworkTableEntry joystickEntry = mappingTable.getEntry("Joystick");
-      NetworkTableEntry indexEntry = mappingTable.getEntry("Button Number");
+      NetworkTableEntry indexEntry = mappingTable.getEntry("Index");
       joystickEntry.setNumber(mapping.getValue()[0]);
       indexEntry.setNumber(mapping.getValue()[1]);
 
@@ -146,6 +153,5 @@ public class Robot extends TimedRobot {
               updateButtonIndex(mapping.getKey(), (int) notification.value.getDouble()),
           kNew | kUpdate);
     }
-
   }
 }
