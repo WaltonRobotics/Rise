@@ -25,9 +25,8 @@ import java.util.Map.Entry;
 
 /**
  * The DynamicButtonMap class helps to abstract the use of EnhancedJoystickButtons with
- * NetworkTables. <p>In order to properly set up a DynamicButtonMap, default values must be added
- * with {@code addDefaultMapping()} before calling{@code getButtonIndex()} on an instanceof {@code
- * DynamicButtonMap}.
+ * NetworkTables. <p>In order to properly set up a DynamicButtonMap, having static buttons may cause
+ * NullPointerExceptions if they're in the same class as static Joysticks.
  *
  * @author Russell Newton, Walton Robotics
  **/
@@ -40,14 +39,15 @@ public final class DynamicButtonMap {
   private final ArrayList<GenericHID> joysticks;
   private boolean hasChanged;
 
-  public DynamicButtonMap(ArrayList<GenericHID> joysticks) {
+  public DynamicButtonMap(ArrayList<GenericHID> joysticks, Map<String, int[]> defaults) {
     this.joysticks = joysticks;
+    defaultMap.putAll(defaults);
     hasChanged = false;
     mappings = loadFromFile();
   }
 
-  public DynamicButtonMap(GenericHID... joysticks) {
-    this(new ArrayList<>(List.of(joysticks)));
+  public DynamicButtonMap(GenericHID[] joysticks, Map<String, int[]> defaults) {
+    this(new ArrayList<>(List.of(joysticks)), defaults);
   }
 
   /**
@@ -68,10 +68,6 @@ public final class DynamicButtonMap {
     }
 
     return defaultMap;
-  }
-
-  public static void addDefaultMapping(String name, GenericHID controller, int index) {
-    defaultMap.put(name, new int[]{controller.getPort(), index});
   }
 
   /**

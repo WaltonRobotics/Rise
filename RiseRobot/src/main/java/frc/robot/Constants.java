@@ -7,13 +7,12 @@
 
 package frc.robot;
 
-import static frc.robot.OI.gamepad;
-import static frc.robot.OI.leftJoystick;
-import static frc.robot.OI.rightJoystick;
+import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.utils.DynamicButtonMap;
+import frc.utils.Gamepad;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,6 +34,10 @@ public final class Constants {
     public static final int LEFT_JOYSTICK_PORT = 0;
     public static final int RIGHT_JOYSTICK_PORT = 1;
     public static final int GAMEPAD_PORT = 2;
+
+    public static Joystick leftJoystick = new Joystick(LEFT_JOYSTICK_PORT);
+    public static Joystick rightJoystick = new Joystick(RIGHT_JOYSTICK_PORT);
+    public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
 
     /*
     If new controllers are added, place them in the initializer list.
@@ -64,10 +67,10 @@ public final class Constants {
     /*
     Add default mappings here.
      */
-    public static void setDefaults(){
-      DynamicButtonMap.addDefaultMapping(SHIFT_UP_BUTTON_KEY, leftJoystick, 3);
-      DynamicButtonMap.addDefaultMapping(SHIFT_DOWN_BUTTON_KEY, leftJoystick, 2);
-    }
+    public static final Map<String, int[]> defaultMappings = Stream.of(new Object[][]{
+        {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
+        {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}}
+    }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
 
 }
