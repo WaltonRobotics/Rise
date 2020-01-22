@@ -6,6 +6,7 @@ import edu.wpi.first.shuffleboard.api.widget.SimpleAnnotatedWidget;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.collections.FXCollections;
@@ -38,7 +39,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
       {"Right Joystick", 1},
       {"Gamepad", 2}
   }).collect(Collectors.toMap(n -> (String) n[0], n -> (Integer) n[1]));
-  private Map<String, Integer> namedButtons = Stream.of(new Object[][]{
+  private Map<String, Integer> namedButtons = new TreeMap<>(Stream.of(new Object[][]{
       {"POV_NW", -9},
       {"POV_W", -8},
       {"POV_SW", -7},
@@ -49,12 +50,12 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
       {"POV_N", -2},
       {"UNBOUND", -1},
       {"STANDARD", 0}
-  }).collect(Collectors.toMap(n -> (String) n[0], n -> (Integer) n[1]));
+  }).collect(Collectors.toMap(n -> (String) n[0], n -> (Integer) n[1])));
 
   @FXML
   private void initialize() {
     dataOrDefault.addListener((__, oldValue, newValue) ->
-        newValue.getMappings().forEach((k, v) -> {
+        new TreeMap<>(newValue.getMappings()).forEach((k, v) -> {
           if (!activeRows.containsKey(k)) {
             activeRows.put(k, v);
             addHBox(k, v);

@@ -18,10 +18,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * The DynamicButtonMap class helps to abstract the use of EnhancedJoystickButtons with
@@ -32,7 +32,7 @@ import java.util.Map.Entry;
  **/
 public final class DynamicButtonMap {
 
-  private static final HashMap<String, int[]> defaultMap = new HashMap<>();
+  private static final TreeMap<String, int[]> defaultMap = new TreeMap<>();
   private static final String buttonMapFileLocation = "/home/lvuser/button_map.json";
 
   private final Map<String, int[]> mappings;
@@ -151,7 +151,23 @@ public final class DynamicButtonMap {
 
   /**
    * Puts DynamicButtonMap data onto a NetworkTable so that it can be used by the DynamicButtonMap
-   * widget.
+   * widget. It will fit the following format:
+   * <pre>
+   * /table
+   *   Button Map
+   *   │  .type = ButtonMap
+   *   │  Mappings
+   *      │   [BUTTON NAME]
+   *      │   │   .type = ButtonMapping
+   *      │   │   Joystick = -1
+   *      │   │   Index = -1
+   *      │
+   *      │   [BUTTON NAME]
+   *      │   │   .type = ButtonMapping
+   *      │   │   Joystick = -1
+   *      │   │   Index = -1
+   *      │   etc...
+   * </pre>
    *
    * @author Russell Newton, Walton Robotics
    */
