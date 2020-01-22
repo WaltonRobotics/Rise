@@ -9,9 +9,6 @@ package frc.robot;
 
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
-import edu.wpi.first.wpilibj.Joystick;
-import frc.utils.Gamepad;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,19 +32,6 @@ public final class Constants {
     public static final int RIGHT_JOYSTICK_PORT = 1;
     public static final int GAMEPAD_PORT = 2;
 
-    public static Joystick leftJoystick = new Joystick(LEFT_JOYSTICK_PORT);
-    public static Joystick rightJoystick = new Joystick(RIGHT_JOYSTICK_PORT);
-    public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
-
-    /*
-    If new controllers are added, place them in the initializer list.
-     */
-    static final List<Joystick> controllers = Stream.of(
-        new Joystick[]{
-            // This is the initializer list. Place new controllers here.
-            leftJoystick, rightJoystick, gamepad,
-        }).collect(Collectors.toList());
-
   }
 
   /**
@@ -58,18 +42,21 @@ public final class Constants {
   public static class ButtonMapDefaults {
 
     /*
-    Add button keys here. When you add new ones, you should also run writeButtonMapToFile().
-    This will update the Json file to match the default values.
+    Add button keys here. When you add new ones, be sure to add their default mappings below.
+    Default indexes can be negative.
      */
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
 
     /*
-    Add default mappings here.
+    Add default mappings here, following the template
      */
     public static final Map<String, int[]> defaultMappings = Stream.of(new Object[][]{
+
+//      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
-        {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}}
+        {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
+
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
 
