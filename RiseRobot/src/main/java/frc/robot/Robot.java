@@ -1,25 +1,21 @@
 package frc.robot;
 
-import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
-import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
-import static frc.robot.Constants.ButtonMap.buttonMap;
-import static frc.robot.Constants.ButtonMap.updateButtonIndex;
-import static frc.robot.Constants.ButtonMap.updateButtonJoystick;
-import static frc.robot.Constants.ButtonMap.writeButtonMapToFile;
+import static frc.robot.OI.gamepad;
+import static frc.robot.OI.leftJoystick;
+import static frc.robot.OI.rightJoystick;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ButtonMapDefaults;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
-import java.util.Map.Entry;
+import frc.utils.DynamicButtonMap;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -34,6 +30,8 @@ public class Robot extends TimedRobot {
   public static Spinner spinner;
 
   public static WaltRobot currentRobot;
+
+  public static DynamicButtonMap dynamicButtonMap;
 
   public static NetworkTableInstance networkTableInstance;
 
@@ -53,11 +51,16 @@ public class Robot extends TimedRobot {
     shooter = new Shooter();
     spinner = new Spinner();
 
+    // Set up dynamic button map. This is the order it has to go in.
+    dynamicButtonMap = new DynamicButtonMap(leftJoystick, rightJoystick, gamepad);
+    ButtonMapDefaults.setDefaults();
+    OI.setButtonValues();
+
     networkTableInstance = NetworkTableInstance.getDefault();
 
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
 
-    putButtonMapOnShuffleboard();
+    dynamicButtonMap.sendToNetworkTable();
   }
 
   /**
@@ -81,7 +84,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    writeButtonMapToFile();
+    dynamicButtonMap.writeToFile();
   }
 
   @Override
@@ -126,32 +129,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-  }
-
-  /**
-   * @author Russell Newton, Walton Robotics
-   */
-  private void putButtonMapOnShuffleboard() {
-    NetworkTable buttonMapTable = networkTableInstance.getTable("Button Map");
-
-    buttonMapTable.getEntry(".type").setString("ButtonMap");
-
-    NetworkTable mapTable = buttonMapTable.getSubTable("Mappings");
-    for (Entry<String, int[]> mapping : buttonMap.entrySet()) {
-      NetworkTable mappingTable = mapTable.getSubTable(mapping.getKey());
-      mappingTable.getEntry(".type").setString("ButtonMapping");
-      NetworkTableEntry joystickEntry = mappingTable.getEntry("Joystick");
-      NetworkTableEntry indexEntry = mappingTable.getEntry("Index");
-      joystickEntry.setNumber(mapping.getValue()[0]);
-      indexEntry.setNumber(mapping.getValue()[1]);
-
-      // Add listeners to update the button map when values are changed
-      joystickEntry.addListener(notification ->
-              updateButtonJoystick(mapping.getKey(), (int) notification.value.getDouble()),
-          kNew | kUpdate);
-      indexEntry.addListener(notification ->
-              updateButtonIndex(mapping.getKey(), (int) notification.value.getDouble()),
-          kNew | kUpdate);
-    }
   }
 }
