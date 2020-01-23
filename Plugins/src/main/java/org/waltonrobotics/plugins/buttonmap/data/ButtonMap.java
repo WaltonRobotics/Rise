@@ -36,6 +36,11 @@ public class ButtonMap extends ComplexData<ButtonMap> {
     return this;
   }
 
+  /**
+   * The map needs to be sent back to NetworkTables in the same way that it was received.
+   *
+   * @see ButtonMapType
+   */
   @Override
   public Map<String, Object> asMap() {
     HashMap<String, Object> map = new HashMap<>();

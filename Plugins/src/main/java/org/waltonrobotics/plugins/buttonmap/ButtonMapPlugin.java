@@ -14,13 +14,18 @@ import org.waltonrobotics.plugins.buttonmap.data.ButtonMappingType;
 import org.waltonrobotics.plugins.buttonmap.widget.ButtonMapWidget;
 
 /**
+ * If you want to install this plugin, either use the "install" Gradle task on the source, or get
+ * the .jar file from the build/libs/ folder.
+ *
  * @author Russell Newton
  **/
 @Description(
     group = "org.waltonrobotics.plugins",
     name = "ButtonMap",
     version = "1.0.0",
-    summary = "A plugin used to display and adjust a dynamic button map"
+    summary = "A plugin used to display and adjust a NetworkTable button map. "
+        + "Be sure to use this with Walton Robotics's 2020 "
+        + "EnhancedJoystickButtons and DynamicButtonMap."
 )
 public class ButtonMapPlugin extends Plugin {
 
