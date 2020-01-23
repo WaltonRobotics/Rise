@@ -14,6 +14,8 @@ import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -29,9 +31,13 @@ import org.waltonrobotics.plugins.buttonmap.data.ButtonMapping;
 @ParametrizedController("ButtonMapWidget.fxml")
 public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
 
-  private static final double hBoxSpacing = 4;
+  private static final double hBoxSpacing = 5;
   @FXML
   private VBox root;
+  @FXML
+  private ScrollPane scrollPane;
+
+  private VBox content;
 
   private ObservableMap<String, ButtonMapping> activeRows = FXCollections.observableHashMap();
   private Map<String, Integer> joysticks = Stream.of(new Object[][]{
@@ -54,6 +60,10 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
 
   @FXML
   private void initialize() {
+    content = new VBox();
+    scrollPane.setPannable(true);
+    scrollPane.setContent(content);
+    scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
     dataOrDefault.addListener((__, oldValue, newValue) ->
         new TreeMap<>(newValue.getMappings()).forEach((k, v) -> {
           if (!activeRows.containsKey(k)) {
@@ -68,7 +78,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
     HBox row = new HBox(hBoxSpacing);
     row.getChildren().add(new Label(mappingName));
     row.getChildren().add(getMappingAsComboBoxes(mappingName, mapping));
-    root.getChildren().add(row);
+    content.getChildren().add(row);
   }
 
   private HBox getMappingAsComboBoxes(String mappingName, ButtonMapping mapping) {
