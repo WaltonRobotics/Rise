@@ -96,7 +96,7 @@ public class EnhancedJoystickButton extends Button {
 
     public boolean get() {
       // Unbound
-      if (indexSupplier.getAsInt() == -1) {
+      if (indexSupplier.getAsInt() == 0 || indexSupplier.getAsInt() == -1) {
         return false;
       }
 

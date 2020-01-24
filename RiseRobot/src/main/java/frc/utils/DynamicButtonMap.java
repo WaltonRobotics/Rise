@@ -54,12 +54,15 @@ public final class DynamicButtonMap {
    * Attempt to load the Map from {@code buttonMapFileLocation}. If there is a problem, the default
    * Map is loaded.
    */
-  private static Map<String, int[]> loadFromFile() {
+  private Map<String, int[]> loadFromFile() {
     try {
+      System.out.println("Attempting to load Button Map from " + buttonMapFileLocation);
       // Read Json File
-      return parseJsonToMap(new File(buttonMapFileLocation),
+      Map<String, int[]> map = parseJsonToMap(new File(buttonMapFileLocation),
           new TypeReference<Map<String, int[]>>() {
           });
+      System.out.println("Successfully loaded Button Map!");
+      return map;
     } catch (InvalidFormatException e) {
       System.out.println("File " + buttonMapFileLocation
           + " contains values that aren't deserializable into Integers");
@@ -67,6 +70,7 @@ public final class DynamicButtonMap {
       System.out.println("Cannot load file " + buttonMapFileLocation);
     }
 
+    hasChanged = true;
     return defaultMap;
   }
 
@@ -115,15 +119,18 @@ public final class DynamicButtonMap {
    */
   public void writeToFile() {
     if (hasChanged) {
+      System.out.println("Writing ButtonMap to " + buttonMapFileLocation);
 
       File jsonFile = new File(buttonMapFileLocation);
       File duplicateFile = new File(buttonMapFileLocation + ".backup");
       try {
 
-        // Attempt to backup file
-        Files.copy(jsonFile.toPath(), duplicateFile.toPath(), REPLACE_EXISTING);
-        jsonFile.delete();
-        jsonFile = new File(buttonMapFileLocation);
+        if(jsonFile.exists()) {
+          // Attempt to backup file
+          Files.copy(jsonFile.toPath(), duplicateFile.toPath(), REPLACE_EXISTING);
+          jsonFile.delete();
+          jsonFile = new File(buttonMapFileLocation);
+        }
 
         // Overwrite with new data
         try (FileWriter fw = new FileWriter(jsonFile)) {
@@ -134,6 +141,7 @@ public final class DynamicButtonMap {
 
       } catch (IOException e) {
         System.out.println("Unable to backup file " + buttonMapFileLocation);
+        e.printStackTrace();
       }
 
     } else {
@@ -181,15 +189,17 @@ public final class DynamicButtonMap {
       mappingTable.getEntry(".type").setString("ButtonMapping");
       NetworkTableEntry joystickEntry = mappingTable.getEntry("Joystick");
       NetworkTableEntry indexEntry = mappingTable.getEntry("Index");
-      joystickEntry.setNumber(mapping.getValue()[0]);
-      indexEntry.setNumber(mapping.getValue()[1]);
+      joystickEntry.setNumber((double) mapping.getValue()[0]);
+      indexEntry.setNumber((double) mapping.getValue()[1]);
 
       // Add listeners to update the button map when values are changed
-      joystickEntry.addListener(notification ->
-              updateButtonJoystick(mapping.getKey(), (int) notification.value.getDouble()),
+      joystickEntry.addListener(notification -> {
+            System.out.println("Updating Joystick for " + mapping.getKey() + " to " + notification.value.getDouble());
+              updateButtonJoystick(mapping.getKey(), (int) notification.value.getDouble());},
           kNew | kUpdate);
-      indexEntry.addListener(notification ->
-              updateButtonIndex(mapping.getKey(), (int) notification.value.getDouble()),
+      indexEntry.addListener(notification -> {
+            System.out.println("Updating Button for " + mapping.getKey() + " to " + notification.value.getDouble());
+            updateButtonIndex(mapping.getKey(), (int) notification.value.getDouble());},
           kNew | kUpdate);
     }
   }

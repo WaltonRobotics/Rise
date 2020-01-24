@@ -20,7 +20,7 @@ public class OI {
   public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
 
   public static DynamicButtonMap buttonMap = new DynamicButtonMap(
-        new GenericHID[]{leftJoystick, rightJoystick, gamepad}, defaultMappings);
+      new GenericHID[]{leftJoystick, rightJoystick, gamepad}, defaultMappings);
 
   /*
   Use the following format to create new buttons.
@@ -32,7 +32,6 @@ public class OI {
    */
   public static EnhancedJoystickButton shiftUpButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(SHIFT_UP_BUTTON_KEY));
-  public static EnhancedJoystickButton shiftDownButton= new EnhancedJoystickButton(
+  public static EnhancedJoystickButton shiftDownButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
-
 }

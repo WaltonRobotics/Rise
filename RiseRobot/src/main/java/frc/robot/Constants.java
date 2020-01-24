@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
 import java.util.Map;
@@ -47,6 +48,7 @@ public final class Constants {
      */
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
+    public static final String TEST_BUTTON_KEY = "Test";
 
     /*
     Add default mappings here, following the template
