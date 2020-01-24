@@ -1,6 +1,6 @@
-package org.waltonrobotics.plugins.buttonmap.data;
+package org.waltonrobotics.plugin.data;
 
-import static org.waltonrobotics.plugins.buttonmap.data.ButtonMap.subTableName;
+import static org.waltonrobotics.plugin.data.ButtonMap.subTableName;
 
 import edu.wpi.first.shuffleboard.api.data.ComplexDataType;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Although the NetworkTable appears like this on Shuffleboard, this isn't how the data is sent to
@@ -68,8 +69,8 @@ public class ButtonMapType extends ComplexDataType<ButtonMap> {
    * Entries are added to a map of maps, keyed by the button's name and valued by pairs of Joystick
    * and Index entries.
    * <p>Each of these pairs are then converted into ButtonMappings and added to the ButtonMap.
-   * <p>The source code has been loosely commented. If your goal is to figure out how it works, good
-   * luck.
+   * <p>The source code has been loosely commented. If your goal is to figure out how it works,
+   * good luck.
    *
    * @see ButtonMapType
    */
@@ -152,6 +153,9 @@ public class ButtonMapType extends ComplexDataType<ButtonMap> {
 
   @Override
   public ButtonMap getDefaultValue() {
-    return new ButtonMap(new HashMap<>());
+    return new ButtonMap(Stream.of(new Object[][]{
+        {"", new int[]{-1, -1}}
+    }).collect(Collectors
+        .toMap(n -> (String) n[0], n -> new ButtonMapping(((int[]) n[1])[0], ((int[]) n[1])[1]))));
   }
 }

@@ -1,4 +1,4 @@
-package org.waltonrobotics.plugins.buttonmap.data;
+package org.waltonrobotics.plugin.data;
 
 import edu.wpi.first.shuffleboard.api.data.ComplexDataType;
 import edu.wpi.first.shuffleboard.api.util.Maps;

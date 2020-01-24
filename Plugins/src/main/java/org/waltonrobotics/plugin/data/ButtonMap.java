@@ -1,4 +1,4 @@
-package org.waltonrobotics.plugins.buttonmap.data;
+package org.waltonrobotics.plugin.data;
 
 import com.google.common.collect.ImmutableMap;
 import edu.wpi.first.shuffleboard.api.data.ComplexData;

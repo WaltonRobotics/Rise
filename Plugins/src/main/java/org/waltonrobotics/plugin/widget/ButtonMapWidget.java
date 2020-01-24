@@ -1,4 +1,4 @@
-package org.waltonrobotics.plugins.buttonmap.widget;
+package org.waltonrobotics.plugin.widget;
 
 import edu.wpi.first.shuffleboard.api.widget.Description;
 import edu.wpi.first.shuffleboard.api.widget.ParametrizedController;
@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,9 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.waltonrobotics.plugins.buttonmap.data.ButtonMap;
-import org.waltonrobotics.plugins.buttonmap.data.ButtonMapType;
-import org.waltonrobotics.plugins.buttonmap.data.ButtonMapping;
+import org.waltonrobotics.plugin.data.ButtonMap;
+import org.waltonrobotics.plugin.data.ButtonMapType;
+import org.waltonrobotics.plugin.data.ButtonMapping;
 
 /**
  * @author Russell Newton, Walton Robotics
@@ -38,9 +39,12 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
   @FXML
   private ScrollPane scrollPane;
   private VBox content;
+  @FXML
+  private Button applyButton;
 
   // Button mappings observable on Shuffleboard
   private ObservableMap<String, ButtonMapping> activeRows = FXCollections.observableHashMap();
+  private ObservableMap<String, ButtonMapping> changedRows = FXCollections.observableHashMap();
   // These constants fit with WaltonRobotics's standard of port numbering
   private Map<String, Integer> joysticks = Stream.of(new Object[][]{
       {"Left Joystick", 0},
@@ -94,7 +98,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
   /**
    * @return an HBox containing the ButtonMapping numbering options
    */
-  private HBox getMappingAsComboBoxes(String mappingName, ButtonMapping mapping) {
+  private HBox getMappingAsComboBoxes(String mappingName, ButtonMapping defaultMapping) {
     HBox subRow = new HBox(hBoxSpacing);
 
     // Add the Joystick names to the ComboBox
@@ -102,30 +106,36 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
         FXCollections.observableList(new ArrayList<>(joysticks.keySet())));
     // Start with the mapping default selected
     joysticksCB.getSelectionModel().select(
-        joysticks.entrySet().stream().filter(n -> n.getValue().equals(mapping.getJoystick())).map(
-            Entry::getKey).toArray(String[]::new)[0]);
+        joysticks.entrySet().stream().filter(n -> n.getValue().equals(defaultMapping.getJoystick()))
+            .map(
+                Entry::getKey).toArray(String[]::new)[0]);
 
     // Add the named button names to the ComboBox
     ComboBox<String> namedButtonsCB = new ComboBox<>(
         FXCollections.observableList(new ArrayList<>(namedButtons.keySet())));
     // Start with the mapping default selected
     namedButtonsCB.getSelectionModel().select(namedButtons.entrySet().stream()
-        .filter(n -> n.getValue() == Math.min(0, mapping.getIndex())).map(
+        .filter(n -> n.getValue() == Math.min(0, defaultMapping.getIndex())).map(
             Entry::getKey).toArray(String[]::new)[0]);
 
     // Initialize the index field
     TextField numberField = new TextField();
     // Set the text to the mapping default
-    numberField.setText(mapping.getIndex() + "");
+    numberField.setText(defaultMapping.getIndex() + "");
     // If the namedButtonsCB is not selecting "STANDARD", turn this field invisible and uneditable
-    numberField.editableProperty().setValue(mapping.getIndex() >= 0);
-    numberField.visibleProperty().setValue(mapping.getIndex() >= 0);
+    numberField.editableProperty().setValue(defaultMapping.getIndex() >= 0);
+    numberField.visibleProperty().setValue(defaultMapping.getIndex() >= 0);
 
     // When the selected Joystick changes, adjust the mapping in the ButtonMap
     joysticksCB.getSelectionModel().selectedItemProperty().addListener((__, oldData, newData) -> {
       int joystick = joysticks.get(newData);
-      setData(getData().removeMapping(mappingName)
-          .addMapping(mappingName, new ButtonMapping(joystick, mapping.getIndex())));
+      ButtonMapping newMapping;
+      if(!changedRows.containsKey(mappingName)) {
+        newMapping = dataOrDefault.get().getMappings().get(mappingName);
+      } else {
+        newMapping = changedRows.get(mappingName);
+      }
+      changedRows.put(mappingName, new ButtonMapping(joystick, newMapping.getIndex()));
     });
 
     // Same with named buttons
@@ -134,15 +144,26 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
           if (!newData.equals("STANDARD")) {
             numberField.editableProperty().setValue(false);
             numberField.visibleProperty().setValue(false);
-            setData(getData().removeMapping(mappingName).addMapping(mappingName,
-                new ButtonMapping(mapping.getJoystick(), namedButtons.get(newData))));
+            ButtonMapping newMapping;
+            if(!changedRows.containsKey(mappingName)) {
+              newMapping = dataOrDefault.get().getMappings().get(mappingName);
+            } else {
+              newMapping = changedRows.get(mappingName);
+            }
+            changedRows.put(mappingName,
+                new ButtonMapping(newMapping.getJoystick(), namedButtons.get(newData)));
           } else {
             numberField.editableProperty().setValue(true);
             numberField.visibleProperty().setValue(true);
             try {
+              ButtonMapping newMapping;
+              if(!changedRows.containsKey(mappingName)) {
+                newMapping = dataOrDefault.get().getMappings().get(mappingName);
+              } else {
+                newMapping = changedRows.get(mappingName);
+              }
               int index = Integer.parseInt(newData);
-              setData(getData().removeMapping(mappingName).addMapping(mappingName,
-                  new ButtonMapping(mapping.getJoystick(), index)));
+              changedRows.put(mappingName, new ButtonMapping(newMapping.getJoystick(), index));
             } catch (NumberFormatException e) {
               numberField.setText("-1");
             }
@@ -155,8 +176,13 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
           !(numberField.getText().equals("") || numberField.getText().equals("-"))) {
         try {
           int index = Integer.parseInt(newData);
-          setData(getData().removeMapping(mappingName).addMapping(mappingName,
-              new ButtonMapping(mapping.getJoystick(), index)));
+          ButtonMapping newMapping;
+          if(!changedRows.containsKey(mappingName)) {
+            newMapping = dataOrDefault.get().getMappings().get(mappingName);
+          } else {
+            newMapping = changedRows.get(mappingName);
+          }
+          changedRows.put(mappingName, new ButtonMapping(newMapping.getJoystick(), index));
         } catch (NumberFormatException e) {
           numberField.setText("-1");
         }
@@ -165,6 +191,14 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
 
     subRow.getChildren().addAll(joysticksCB, namedButtonsCB, numberField);
     return subRow;
+  }
+
+  @FXML
+  private void updateData() {
+    for (Entry<String, ButtonMapping> mapping : changedRows.entrySet()) {
+      setData(dataOrDefault.get().removeMapping(mapping.getKey())
+          .addMapping(mapping.getKey(), mapping.getValue()));
+    }
   }
 
   @Override

@@ -1,8 +1,7 @@
-package org.waltonrobotics.plugins.buttonmap.data;
+package org.waltonrobotics.plugin.data;
 
 import edu.wpi.first.shuffleboard.api.data.ComplexData;
 import java.util.Map;
-import javafx.scene.layout.HBox;
 
 /**
  * @author Russell Newton, Walton Robotics
