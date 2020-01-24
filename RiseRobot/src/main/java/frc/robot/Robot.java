@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.DriveStraight;
+import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
@@ -145,7 +146,7 @@ public class Robot extends TimedRobot {
                 config
         );
 
-        RamseteCommand command = new RamseteCommand(
+        RamseteTrackingCommand command = new RamseteTrackingCommand(
                 trajectory,
                 drivetrain::getRobotPose,
                 drivetrain.getRamseteController(),

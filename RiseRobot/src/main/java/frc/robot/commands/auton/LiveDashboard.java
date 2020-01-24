@@ -4,6 +4,12 @@ import edu.wpi.first.networktables.NetworkTable;
 public class LiveDashboard {
     private final NetworkTable liveDashboardTable = LiveDashboardTable.getTable("Live_Dashboard");
 
+    public static LiveDashboard getInstance() {
+        return instance;
+    }
+
+    private static final LiveDashboard instance = new LiveDashboard();
+
     public void setRobotX(double robotX) {
         liveDashboardTable.getEntry("robotX").setDouble(robotX);
     }
@@ -13,33 +19,33 @@ public class LiveDashboard {
     }
 
     public void setRobotHeading(double robotHeading) {
-        this.robotHeading = robotHeading;
+        liveDashboardTable.getEntry("robotHeading").setDouble(robotHeading);
     }
 
     public void setFollowingPath(boolean followingPath) {
-        isFollowingPath = followingPath;
+        liveDashboardTable.getEntry("isFollowingPath").setBoolean(followingPath);
     }
 
     public void setPathX(double pathX) {
-        this.pathX = pathX;
+        liveDashboardTable.getEntry("pathX").setDouble(pathX);
     }
 
     public void setPathY(double pathY) {
-        this.pathY = pathY;
+        liveDashboardTable.getEntry("pathY").setDouble(pathY);
     }
 
     public void setPathHeading(double pathHeading) {
-        this.pathHeading = pathHeading;
+        liveDashboardTable.getEntry("pathHeading").setDouble(pathHeading);
     }
 
     private double robotX = liveDashboardTable.getEntry("robotX").getDouble(0.0);
     private double robotY = liveDashboardTable.getEntry("robotY").getDouble(0.0);
     private double robotHeading = liveDashboardTable.getEntry("robotHeading").getDouble(0.0);
-    private boolean isFollowingPath = liveDashboardTable.getEntry("robotHeading").getBoolean(false);
+    private boolean isFollowingPath = liveDashboardTable.getEntry("isFollowingPath").getBoolean(false);
 
     private double pathX = liveDashboardTable.getEntry("pathX").getDouble(0.0);
-    private double pathY = liveDashboardTable.getEntry("pathX").getDouble(0.0);
-    private double pathHeading = liveDashboardTable.getEntry("pathX").getDouble(0.0);
+    private double pathY = liveDashboardTable.getEntry("pathY").getDouble(0.0);
+    private double pathHeading = liveDashboardTable.getEntry("pathHeading").getDouble(0.0);
 
     public double getRobotX() {
         return robotX;

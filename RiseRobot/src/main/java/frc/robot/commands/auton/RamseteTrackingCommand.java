@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -147,15 +148,15 @@ public class RamseteTrackingCommand extends CommandBase {
             m_rightController.reset();
         }
 
-        LiveDashboard.getInstance.setFollowingPath(true);
+        LiveDashboard.getInstance().setFollowingPath(true);
 
-        LiveDashboard.INSTANCE.setRobotX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
-        LiveDashboard.INSTANCE.setRobotY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
-        LiveDashboard.INSTANCE.setRobotHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
+        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
+        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
+        LiveDashboard.getInstance().setRobotHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
 
-        LiveDashboard.INSTANCE.setPathX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
-        LiveDashboard.INSTANCE.setPathY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
-        LiveDashboard.INSTANCE.setPathHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
+        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
+        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
+        LiveDashboard.getInstance().setPathHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
 
     }
 
@@ -198,11 +199,21 @@ public class RamseteTrackingCommand extends CommandBase {
 
         m_prevTime = curTime;
         m_prevSpeeds = targetWheelSpeeds;
+
+        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_pose.get().getTranslation().getX()));
+        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_pose.get().getTranslation().getY()));
+        LiveDashboard.getInstance().setRobotHeading(m_pose.get().getRotation().getRadians());
+
+        LiveDashboard.getInstance().setPathHeading(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getRotation().getDegrees()));
+        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getTranslation().getX()));
+        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getTranslation().getY()));
     }
 
     @Override
     public void end(boolean interrupted) {
         m_timer.stop();
+
+        LiveDashboard.getInstance().setFollowingPath(false);
     }
 
     @Override
