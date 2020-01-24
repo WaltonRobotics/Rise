@@ -1,5 +1,8 @@
 package frc.robot;
 
+import static frc.robot.OI.buttonMap;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,6 +27,8 @@ public class Robot extends TimedRobot {
 
   public static WaltRobot currentRobot;
 
+  public static NetworkTableInstance networkTableInstance;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,13 +38,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
+    currentRobot = RobotIdentifier
+        .findByInputs(new DigitalInput(9).get(), new DigitalInput(10).get()).getCurrentRobot();
 
     drivetrain = new Drivetrain();
     shooter = new Shooter();
     spinner = new Spinner();
 
+    networkTableInstance = NetworkTableInstance.getDefault();
+
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
+
+    buttonMap.sendToNetworkTable();
   }
 
   /**
@@ -63,6 +73,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    buttonMap.writeToFile();
   }
 
   @Override
@@ -74,7 +85,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
 
   }
 
