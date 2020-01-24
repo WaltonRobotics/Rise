@@ -22,37 +22,29 @@ public class ColorSensorHelper {
 
 
     public enum ControlPanelColor {
-        GREEN{
+        RED{
             @Override
-            void doSomething() {
-
+            public int getValue() {
+                return 0;
             }
-        },
-        BLUE{
+        },GREEN{
             @Override
-            void doSomething() {
-
+            public int getValue() {
+                return 1;
             }
-        }, RED{
+        }, BLUE{
             @Override
-            void doSomething() {
-
+            public int getValue() {
+                return 2;
             }
-        }, YELLOW{
+        },YELLOW{
             @Override
-            void doSomething() {
-
+            public int getValue() {
+                return 3;
             }
-        }, NONE{
-            @Override
-            void doSomething() {
-                YELLOW.doSomething();
-            }
-        };
-
-        abstract void doSomething();
-        public ControlPanelColor chooseColor() {
-            return null;
+        }, NONE;
+        public int getValue(){
+            return -1;
         }
     }
     public ColorSensorHelper() {
