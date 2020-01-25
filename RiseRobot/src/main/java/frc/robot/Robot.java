@@ -24,6 +24,7 @@ import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
+import frc.utils.WaltTimedRobot;
 
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ import java.util.Arrays;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
     public static Shooter shooter;
@@ -135,14 +136,18 @@ public class Robot extends TimedRobot {
 
     public Command getAutonomousCommand() {
         TrajectoryConfig config = new TrajectoryConfig(
-                Units.feetToMeters(15.0), Units.feetToMeters(7.0));
-        config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(15)));
+                Units.feetToMeters(6.0), Units.feetToMeters(4.0));
+        config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(6)));
         config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
         config.setKinematics(drivetrain.getDriveKinematics());
 
+        Pose2d initialPose = new Pose2d(Units.feetToMeters(9.385), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0));
+
+        drivetrain.reset(initialPose);
+
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                Arrays.asList(new Pose2d(Units.feetToMeters(6.832), Units.feetToMeters(19.053), Rotation2d.fromDegrees(0.0)),
-                        new Pose2d(Units.feetToMeters(11.015), Units.feetToMeters(15.106), Rotation2d.fromDegrees(-90.0))),
+                Arrays.asList(initialPose,
+                        new Pose2d(Units.feetToMeters(16.671), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0))),
                 config
         );
 

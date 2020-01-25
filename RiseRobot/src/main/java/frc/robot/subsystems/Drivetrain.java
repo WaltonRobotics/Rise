@@ -63,9 +63,9 @@ public class Drivetrain extends SubsystemBase {
 
         leftWheelsMaster.setInverted(true);
 
-        leftWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        leftWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kBrake);
         leftWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rightWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        rightWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kBrake);
         rightWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         leftWheelsSlave.follow(leftWheelsMaster);
@@ -172,8 +172,12 @@ public class Drivetrain extends SubsystemBase {
 
         zeroHeading();
         zeroNeoEncoders();
+    }
 
-        driveOdometry.resetPosition(new Pose2d(Units.feetToMeters(6.832), Units.feetToMeters(19.053), Rotation2d.fromDegrees(0.0)), getHeading());
+    public void reset(Pose2d startingPose) {
+        reset();
+
+        driveOdometry.resetPosition(startingPose, getHeading());
     }
 
     public boolean isHighGear() {
