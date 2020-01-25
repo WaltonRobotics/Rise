@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static frc.robot.OI.buttonMap;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -53,6 +55,8 @@ public class Robot extends WaltTimedRobot {
 
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(),
                 new DigitalInput(10).get()).getCurrentRobot();
+
+        buttonMap.sendToNetworkTable();
 
         drivetrain = new Drivetrain();
         shooter = new Shooter();
