@@ -10,8 +10,8 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.68, 0, 0);
-    private final PIDController rightPIDController = new PIDController(1.0, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.45, 0, 0);
+    private final PIDController rightPIDController = new PIDController(1.45, 0, 0);
 
     private final Solenoid shifter = new Solenoid(shifterChannel);
 
