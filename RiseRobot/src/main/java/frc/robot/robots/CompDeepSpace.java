@@ -10,12 +10,12 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.49, 0, 0);
-    private final PIDController rightPIDController = new PIDController(0.5, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.68, 0, 0);
+    private final PIDController rightPIDController = new PIDController(1.0, 0, 0);
 
     private final Solenoid shifter = new Solenoid(shifterChannel);
 
-    private final double highGearRatio = 6.58905;
+    private final double highGearRatio = 6.58905 * 1.051;
     private final double wheelDiameter = Units.inchesToMeters(5);
 
     public CompDeepSpace() {
@@ -71,7 +71,12 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public double getRpmToMeters() {
+    public double getVelocityFactor() {
+        return 1 / highGearRatio * Math.PI * wheelDiameter / 60;
+    }
+
+    @Override
+    public double getPositionFactor() {
         return 1 / highGearRatio * Math.PI * wheelDiameter;
     }
 
@@ -89,4 +94,10 @@ public class CompDeepSpace implements WaltRobot {
     public double getMinimumShiftingTime() {
         return 1.0;
     }
+
+    @Override
+    public double getTrajectoryTimeAdditive() {
+        return 2.0;
+    }
+
 }

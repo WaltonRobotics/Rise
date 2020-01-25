@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.DriveStraight;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
+import frc.robot.commands.auton.routines.ShootAndPickup;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -99,7 +100,7 @@ public class Robot extends WaltTimedRobot {
     public void autonomousInit() {
         drivetrain.shiftUp();
         drivetrain.reset();
-        new SequentialCommandGroup(new ShiftUp(), getAutonomousCommand()).schedule();
+        new SequentialCommandGroup(new ShiftUp(), new ShootAndPickup()).schedule();
     }
 
     /**
@@ -136,39 +137,6 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void testPeriodic() {
-    }
-
-    public Command getAutonomousCommand() {
-        TrajectoryConfig config = new TrajectoryConfig(
-                Units.feetToMeters(6.0), Units.feetToMeters(4.0));
-        config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(6)));
-        config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
-        config.setKinematics(drivetrain.getDriveKinematics());
-
-        Pose2d initialPose = new Pose2d(Units.feetToMeters(9.385), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0));
-
-        drivetrain.reset(initialPose);
-
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                Arrays.asList(initialPose,
-                        new Pose2d(Units.feetToMeters(16.671), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0))),
-                config
-        );
-
-        RamseteTrackingCommand command = new RamseteTrackingCommand(
-                trajectory,
-                drivetrain::getRobotPose,
-                drivetrain.getRamseteController(),
-                currentRobot.getDrivetrainFeedforward(),
-                drivetrain.getDriveKinematics(),
-                drivetrain::getSpeeds,
-                currentRobot.getLeftPIDController(),
-                currentRobot.getRightPIDController(),
-                drivetrain::setVoltages,
-                drivetrain
-        );
-
-        return command.andThen(() -> drivetrain.setVoltages(0, 0));
     }
 
 }

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+import static frc.robot.Robot.currentRobot;
 
 /**
  * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory
@@ -218,6 +219,6 @@ public class RamseteTrackingCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds());
+        return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds() + currentRobot.getTrajectoryTimeAdditive());
     }
 }

@@ -51,7 +51,12 @@ public class CompRise implements WaltRobot {
     }
 
     @Override
-    public double getRpmToMeters() {
+    public double getVelocityFactor() {
+        return 0;
+    }
+
+    @Override
+    public double getPositionFactor() {
         return 0;
     }
 
@@ -68,6 +73,11 @@ public class CompRise implements WaltRobot {
     @Override
     public double getMinimumShiftingTime() {
         return 0;
+    }
+
+    @Override
+    public double getTrajectoryTimeAdditive() {
+        return 5.0;
     }
 
 }

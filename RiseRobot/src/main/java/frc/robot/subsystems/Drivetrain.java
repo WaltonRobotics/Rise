@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Robot.currentRobot;
@@ -81,14 +80,11 @@ public class Drivetrain extends SubsystemBase {
         rightWheelsMaster.setSmartCurrentLimit(38);
         rightWheelsSlave.setSmartCurrentLimit(38);
 
-        double velocityFactor = 1 / 6.58905 * Math.PI * .127 / 60;
-        double positionFactor = 1 / 6.58905 * Math.PI * .127;
+        leftWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getVelocityFactor());
+        rightWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getVelocityFactor());
 
-        leftWheelsMaster.getEncoder().setVelocityConversionFactor(velocityFactor);
-        rightWheelsMaster.getEncoder().setVelocityConversionFactor(velocityFactor);
-
-        leftWheelsMaster.getEncoder().setPositionConversionFactor(positionFactor);
-        rightWheelsMaster.getEncoder().setPositionConversionFactor(positionFactor);
+        leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
+        rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
 
         encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
         encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());

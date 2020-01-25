@@ -31,12 +31,16 @@ public interface WaltRobot {
     SimpleMotorFeedforward getDrivetrainFeedforward();
 
     // Encoder constants
-    double getRpmToMeters();
+
+    double getVelocityFactor();
+    double getPositionFactor();
 
     double getDistancePerPulse();
 
     Solenoid getShifter();
 
     double getMinimumShiftingTime();
+
+    double getTrajectoryTimeAdditive();
 
 }
