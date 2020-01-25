@@ -1,5 +1,6 @@
 package frc.robot.commands.auton.routines;
 
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,29 +17,23 @@ public class ShootAndPickup extends SequentialCommandGroup {
                 new InstantCommand(() -> System.out.println("Shooting three balls!")),
                 new WaitCommand(2.0),
                 new InstantCommand(() -> drivetrain.reset(Paths.ShootAndTrenchPickup.shootingLine)),
-                new RamseteTrackingCommand(
-                        Paths.ShootAndTrenchPickup.generateToTrenchPickup(),
-                        drivetrain::getRobotPose,
-                        drivetrain.getRamseteController(),
-                        currentRobot.getDrivetrainFeedforward(),
-                        drivetrain.getDriveKinematics(),
-                        drivetrain::getSpeeds,
-                        currentRobot.getLeftPIDController(),
-                        currentRobot.getRightPIDController(),
-                        drivetrain::setVoltages,
-                        drivetrain),
-                new RamseteTrackingCommand(
-                        Paths.ShootAndTrenchPickup.generateBackupToShoot(),
-                        drivetrain::getRobotPose,
-                        drivetrain.getRamseteController(),
-                        currentRobot.getDrivetrainFeedforward(),
-                        drivetrain.getDriveKinematics(),
-                        drivetrain::getSpeeds,
-                        currentRobot.getLeftPIDController(),
-                        currentRobot.getRightPIDController(),
-                        drivetrain::setVoltages,
-                        drivetrain)
+                createRamseteCommand(Paths.ShootAndTrenchPickup.generateToTrenchPickup()),
+                createRamseteCommand(Paths.ShootAndTrenchPickup.generateBackupToShoot())
         );
+    }
+
+    private RamseteTrackingCommand createRamseteCommand(Trajectory trajectory) {
+        return new RamseteTrackingCommand(
+                Paths.ShootAndTrenchPickup.generateBackupToShoot(),
+                drivetrain::getRobotPose,
+                drivetrain.getRamseteController(),
+                currentRobot.getDrivetrainFeedforward(),
+                drivetrain.getDriveKinematics(),
+                drivetrain::getSpeeds,
+                currentRobot.getLeftPIDController(),
+                currentRobot.getRightPIDController(),
+                drivetrain::setVoltages,
+                drivetrain);
     }
 
 }
