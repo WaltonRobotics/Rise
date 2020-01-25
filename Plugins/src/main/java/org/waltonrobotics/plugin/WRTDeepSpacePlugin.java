@@ -29,8 +29,8 @@ import org.waltonrobotics.plugin.widget.ButtonMapWidget;
 public class WRTDeepSpacePlugin extends Plugin {
 
 //  private final Theme wrtTheme =
-//      new Theme( "WRT Theme", "org/waltonrobotics/plugin/wrt-theme.css");
-
+//      new Theme(WRTDeepSpacePlugin.class, "WRT Theme", "wrt-theme.css");
+//
 //  @Override
 //  public List<Theme> getThemes() {
 //    return List.of(wrtTheme);
