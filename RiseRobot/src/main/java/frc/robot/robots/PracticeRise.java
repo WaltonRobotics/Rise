@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 public class PracticeRise implements WaltRobot {
+  
   @Override
   public double getTrackWidth() {
     return 0;

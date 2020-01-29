@@ -9,11 +9,14 @@ public interface WaltRobot {
 
     // Ramsete constants
     double getTrackWidth();
+
     double getKBeta();
+
     double getKZeta();
 
     // Velocity controller constants
     PIDController getLeftPIDController();
+
     PIDController getRightPIDController();
 
     // Shooter feedforward

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Spinner extends SubsystemBase {
 
-  public Spinner() {
+    public Spinner() {
 
-  }
+    }
 }
