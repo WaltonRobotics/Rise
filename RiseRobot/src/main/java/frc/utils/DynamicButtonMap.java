@@ -65,11 +65,13 @@ public final class DynamicButtonMap {
       for(Entry<String, int[]> mapping: defaultMap.entrySet()) {
         if(!map.containsKey(mapping.getKey())) {
           map.put(mapping.getKey(), mapping.getValue());
+          hasChanged = true;
         }
       }
       for(Entry<String, int[]> mapping: map.entrySet()) {
         if(!defaultMap.containsKey(mapping.getKey())) {
           map.remove(mapping.getKey());
+          hasChanged = true;
         }
       }
       return map;
