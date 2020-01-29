@@ -15,9 +15,11 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Paths;
 
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.currentRobot;
+import static frc.robot.Robot.drivetrain;
 
 /**
  * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory
@@ -72,29 +74,20 @@ public class RamseteTrackingCommand extends CommandBase {
      * @param requirements    The subsystems to require.
      */
     @SuppressWarnings("PMD.ExcessiveParameterList")
-    public RamseteTrackingCommand(Trajectory trajectory,
-                          Supplier<Pose2d> pose,
-                          RamseteController controller,
-                          SimpleMotorFeedforward feedforward,
-                          DifferentialDriveKinematics kinematics,
-                          Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds,
-                          PIDController leftController,
-                          PIDController rightController,
-                          BiConsumer<Double, Double> outputVolts,
-                          Subsystem... requirements) {
-        m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
-        m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
-        m_follower = requireNonNullParam(controller, "controller", "RamseteCommand");
-        m_feedforward = feedforward;
-        m_kinematics = requireNonNullParam(kinematics, "kinematics", "RamseteCommand");
-        m_speeds = requireNonNullParam(wheelSpeeds, "wheelSpeeds", "RamseteCommand");
-        m_leftController = requireNonNullParam(leftController, "leftController", "RamseteCommand");
-        m_rightController = requireNonNullParam(rightController, "rightController", "RamseteCommand");
-        m_output = requireNonNullParam(outputVolts, "outputVolts", "RamseteCommand");
+    public RamseteTrackingCommand(Trajectory trajectory) {
+        m_trajectory = trajectory;
+        m_pose = drivetrain::getRobotPose;
+        m_follower = drivetrain.getRamseteController();
+        m_feedforward = currentRobot.getDrivetrainFeedforward();
+        m_kinematics = drivetrain.getDriveKinematics();
+        m_speeds = drivetrain::getSpeeds;
+        m_leftController = currentRobot.getLeftPIDController();
+        m_rightController = currentRobot.getRightPIDController();
+        m_output = drivetrain::setVoltages;
 
         m_usePID = true;
 
-        addRequirements(requirements);
+        addRequirements(drivetrain);
     }
 
     /**

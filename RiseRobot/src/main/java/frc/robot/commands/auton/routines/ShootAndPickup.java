@@ -23,17 +23,7 @@ public class ShootAndPickup extends SequentialCommandGroup {
     }
 
     private RamseteTrackingCommand createRamseteCommand(Trajectory trajectory) {
-        return new RamseteTrackingCommand(
-                trajectory,
-                drivetrain::getRobotPose,
-                drivetrain.getRamseteController(),
-                currentRobot.getDrivetrainFeedforward(),
-                drivetrain.getDriveKinematics(),
-                drivetrain::getSpeeds,
-                currentRobot.getLeftPIDController(),
-                currentRobot.getRightPIDController(),
-                drivetrain::setVoltages,
-                drivetrain);
+        return new RamseteTrackingCommand(trajectory);
     }
 
 }

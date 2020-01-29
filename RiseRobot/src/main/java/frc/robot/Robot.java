@@ -21,6 +21,7 @@ import frc.robot.commands.auton.DriveStraight;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.auton.routines.ShootAndPickup;
+import frc.robot.commands.auton.routines.TestForward;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -100,7 +101,7 @@ public class Robot extends WaltTimedRobot {
     public void autonomousInit() {
         drivetrain.shiftUp();
         drivetrain.reset();
-        new SequentialCommandGroup(new ShiftUp(), new ShootAndPickup()).schedule();
+        new SequentialCommandGroup(new ShiftUp(), new TestForward()).schedule();
     }
 
     /**
