@@ -27,7 +27,6 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-
         drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
 
         if (shiftUpButton.get() && !drivetrain.isHighGear()) {
