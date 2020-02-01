@@ -17,6 +17,15 @@
       </padding>
 
     </ScrollPane>
-    <Button fx:id="applyButton" mnemonicParsing="false" onAction="#updateData" text="Apply" />
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="125.0">
+         <children>
+          <Button fx:id="applyButton" mnemonicParsing="false" onAction="#updateData" text="Apply" />
+            <Button fx:id="resetButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Defaults" />
+            <Button fx:id="randomizeButton" layoutX="66.0" layoutY="10.0" mnemonicParsing="false" onAction="#randomize" text="Randomize" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
   </children>
 </VBox>
