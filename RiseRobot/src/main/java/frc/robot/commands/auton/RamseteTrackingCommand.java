@@ -1,8 +1,5 @@
 package frc.robot.commands.auton;
 
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -15,7 +12,9 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Paths;
+
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.currentRobot;
@@ -105,11 +104,11 @@ public class RamseteTrackingCommand extends CommandBase {
      * @param requirements          The subsystems to require.
      */
     public RamseteTrackingCommand(Trajectory trajectory,
-                          Supplier<Pose2d> pose,
-                          RamseteController follower,
-                          DifferentialDriveKinematics kinematics,
-                          BiConsumer<Double, Double> outputMetersPerSecond,
-                          Subsystem... requirements) {
+                                  Supplier<Pose2d> pose,
+                                  RamseteController follower,
+                                  DifferentialDriveKinematics kinematics,
+                                  BiConsumer<Double, Double> outputMetersPerSecond,
+                                  Subsystem... requirements) {
         m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
         m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
         m_follower = requireNonNullParam(follower, "follower", "RamseteCommand");

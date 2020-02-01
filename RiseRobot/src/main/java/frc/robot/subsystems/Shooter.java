@@ -11,7 +11,7 @@ public class Shooter extends SubsystemBase {
 
     private static final TalonFX shooterMaster = new TalonFX(0);
 
-  private static final TalonFX shooterSlave = makeSlave(1, false);
+    private static final TalonFX shooterSlave = makeSlave(1, false);
     private static final SupplyCurrentLimitConfiguration CURRENT_LIMITING_ENABLED = new SupplyCurrentLimitConfiguration(true, 38, 40, 2.0);
     private static final SupplyCurrentLimitConfiguration CURRENT_LIMITING_DISABLED = new SupplyCurrentLimitConfiguration();
     private static final double G = 2;
@@ -30,6 +30,7 @@ public class Shooter extends SubsystemBase {
     private double integratedAngularVelocity = 0.0;
     private double previousLinearVelocity = 0.0;
     private double setpointRpm = 0.0;
+
     public Shooter() {
         shooterMaster.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         shooterMaster.setInverted(false);

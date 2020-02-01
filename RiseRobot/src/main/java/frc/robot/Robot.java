@@ -1,31 +1,11 @@
 package frc.robot;
 
-import static frc.robot.OI.alignButton;
-import static frc.robot.OI.buttonMap;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.auton.DriveStraight;
-import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.auton.TurnAtAngle;
-import frc.robot.commands.auton.routines.ShootAndPickup;
-import frc.robot.commands.auton.routines.TestForward;
 import frc.robot.commands.teleop.Drive;
-import frc.robot.commands.teleop.FindTargetAngle;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
@@ -33,7 +13,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
 import frc.utils.WaltTimedRobot;
 
-import java.util.Arrays;
+import static frc.robot.OI.buttonMap;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
