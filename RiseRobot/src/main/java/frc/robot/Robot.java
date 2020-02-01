@@ -1,5 +1,6 @@
 package frc.robot;
 
+import static frc.robot.OI.alignButton;
 import static frc.robot.OI.buttonMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,6 +24,7 @@ import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.auton.routines.ShootAndPickup;
 import frc.robot.commands.auton.routines.TestForward;
 import frc.robot.commands.teleop.Drive;
+import frc.robot.commands.teleop.FindTargetAngle;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
@@ -117,6 +119,7 @@ public class Robot extends WaltTimedRobot {
         drivetrain.shiftUp();
         drivetrain.reset();
         drivetrain.zeroNeoEncoders();
+        alignButton.whenPressed(new FindTargetAngle());
     }
 
     /**
