@@ -7,7 +7,6 @@ import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.teleop.FindTargetAngle;
 import frc.utils.DynamicButtonMap;
 import frc.utils.EnhancedJoystickButton;
 import frc.utils.Gamepad;
