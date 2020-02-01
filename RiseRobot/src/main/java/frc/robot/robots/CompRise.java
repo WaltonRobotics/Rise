@@ -80,4 +80,9 @@ public class CompRise implements WaltRobot {
         return 5.0;
     }
 
+    @Override
+    public double getMaxAlignmentTime() {
+        return 0;
+    }
+
 }

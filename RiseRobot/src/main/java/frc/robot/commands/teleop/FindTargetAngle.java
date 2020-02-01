@@ -1,11 +1,15 @@
 package frc.robot.commands.teleop;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.TurnAtAngle;
 import frc.utils.LimelightHelper;
 
+import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
-public class FindTargetAngle extends SequentialCommandGroup {
+public class FindTargetAngle extends CommandBase {
 
     private double targetAngle;
 
@@ -14,7 +18,7 @@ public class FindTargetAngle extends SequentialCommandGroup {
         System.out.println("command initialized");
         double tx = LimelightHelper.getTX();
         double heading = drivetrain.getHeading().getDegrees();
-        targetAngle = heading + tx;
+        targetAngle = heading - tx;
     }
 
     @Override
@@ -25,7 +29,8 @@ public class FindTargetAngle extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         if(LimelightHelper.getTV() == 1) {
-            addCommands(new TurnAtAngle(targetAngle));
+            System.out.println("Running turn command");
+            CommandScheduler.getInstance().schedule(new TurnAtAngle(targetAngle).withTimeout(currentRobot.getMaxAlignmentTime()));
         }
     }
 

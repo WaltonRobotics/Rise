@@ -1,5 +1,8 @@
 package frc.robot.robots;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -8,6 +11,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.util.Units;
 
+import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
+import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
 import static frc.robot.Robot.currentRobot;
 
 public class CompDeepSpace implements WaltRobot {
@@ -18,17 +23,25 @@ public class CompDeepSpace implements WaltRobot {
     private final PIDController leftPIDController = new PIDController(1.45, 0, 0);
     private final PIDController rightPIDController = new PIDController(1.45, 0, 0);
 
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.194, 2.11, 0.525);
+
     private final Solenoid shifter = new Solenoid(shifterChannel);
 
     private final double highGearRatio = 6.58905 * 1.051;
     private final double wheelDiameter = Units.inchesToMeters(5);
 
     private PIDController turnPIDController;
+    private PIDController distancePIDController;
 
     public CompDeepSpace() {
-        turnPIDController = new PIDController(0.008, 0, 0);
+        turnPIDController = new PIDController(0, 0, 0);
         turnPIDController.enableContinuousInput(-180f, 180f);
         turnPIDController.setTolerance(2.0);
+
+        distancePIDController = new PIDController(0.0001, 0, 0);
+        distancePIDController.setTolerance(0.5);
+
+        sendTurnToAngleToNT();
     }
 
     // 32 l
@@ -66,7 +79,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public PIDController getDistancePIDController() {
-        return new PIDController(0.0001, 0, 0);
+        return distancePIDController;
     }
 
     @Override
@@ -76,7 +89,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public SimpleMotorFeedforward getDrivetrainFeedforward() {
-        return new SimpleMotorFeedforward(0.194, 2.11, 0.525);
+        return drivetrainFeedforward;
     }
 
     @Override
@@ -107,6 +120,27 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public double getTrajectoryTimeAdditive() {
         return 2.0;
+    }
+
+    @Override
+    public double getMaxAlignmentTime() {
+        return 3.0;
+    }
+
+    private void sendTurnToAngleToNT() {
+        NetworkTableInstance nti = NetworkTableInstance.getDefault();
+        NetworkTable turnToPID = nti.getTable("Turn To Angle PID");
+        NetworkTableEntry ttP = turnToPID.getEntry("P");
+        NetworkTableEntry ttI = turnToPID.getEntry("I");
+        NetworkTableEntry ttD = turnToPID.getEntry("D");
+
+        ttP.setDefaultNumber(0.008);
+        ttI.setDefaultNumber(0);
+        ttD.setDefaultNumber(0);
+
+        ttP.addListener(notification -> turnPIDController.setP(notification.value.getDouble()), kNew | kUpdate);
+        ttI.addListener(notification -> turnPIDController.setI(notification.value.getDouble()), kNew | kUpdate);
+        ttD.addListener(notification -> turnPIDController.setD(notification.value.getDouble()), kNew | kUpdate);
     }
 
 }

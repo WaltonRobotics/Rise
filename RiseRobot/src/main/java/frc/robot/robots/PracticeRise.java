@@ -80,4 +80,9 @@ public class PracticeRise implements WaltRobot {
         return 5.0;
     }
 
+    @Override
+    public double getMaxAlignmentTime() {
+        return 0;
+    }
+
 }

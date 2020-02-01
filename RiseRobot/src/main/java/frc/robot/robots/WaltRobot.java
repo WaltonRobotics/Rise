@@ -43,4 +43,6 @@ public interface WaltRobot {
 
     double getTrajectoryTimeAdditive();
 
+    double getMaxAlignmentTime();
+
 }

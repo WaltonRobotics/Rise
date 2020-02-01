@@ -30,16 +30,7 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-        // drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
-        double turnRate = SmartDashboard.getNumber("Config turn rate", 0.25);
-
-        SmartDashboard.putNumber("Left joystick", getLeftJoystickY());
-
-        if (Math.abs(getLeftJoystickY()) > 0.5) {
-            drivetrain.setSpeeds(turnRate, -turnRate);
-        } else {
-            drivetrain.setSpeeds(0, 0);
-        }
+        drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
 
         if (shiftUpButton.get() && !drivetrain.isHighGear()) {
             drivetrain.shiftUp();
