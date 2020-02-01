@@ -63,9 +63,9 @@ public class Drivetrain extends SubsystemBase {
         leftWheelsMaster.setInverted(true);
 
         leftWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        leftWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        leftWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kCoast);
         rightWheelsSlave.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rightWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        rightWheelsMaster.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
         leftWheelsSlave.follow(leftWheelsMaster);
         rightWheelsSlave.follow(rightWheelsMaster);
