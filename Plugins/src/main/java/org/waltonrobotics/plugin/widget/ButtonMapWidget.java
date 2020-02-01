@@ -1,5 +1,7 @@
 package org.waltonrobotics.plugin.widget;
 
+import static org.waltonrobotics.plugin.data.ButtonMap.defaultMappings;
+
 import edu.wpi.first.shuffleboard.api.widget.Description;
 import edu.wpi.first.shuffleboard.api.widget.ParametrizedController;
 import edu.wpi.first.shuffleboard.api.widget.SimpleAnnotatedWidget;
@@ -41,6 +43,10 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
   private VBox content;
   @FXML
   private Button applyButton;
+  @FXML
+  private Button resetButton;
+  @FXML
+  private Button randomizeButton;
 
   // Button mappings observable on Shuffleboard
   private ObservableMap<String, ButtonMapping> activeRows = FXCollections.observableHashMap();
@@ -130,7 +136,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
     joysticksCB.getSelectionModel().selectedItemProperty().addListener((__, oldData, newData) -> {
       int joystick = joysticks.get(newData);
       ButtonMapping newMapping;
-      if(!changedRows.containsKey(mappingName)) {
+      if (!changedRows.containsKey(mappingName)) {
         newMapping = dataOrDefault.get().getMappings().get(mappingName);
       } else {
         newMapping = changedRows.get(mappingName);
@@ -145,7 +151,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
             numberField.editableProperty().setValue(false);
             numberField.visibleProperty().setValue(false);
             ButtonMapping newMapping;
-            if(!changedRows.containsKey(mappingName)) {
+            if (!changedRows.containsKey(mappingName)) {
               newMapping = dataOrDefault.get().getMappings().get(mappingName);
             } else {
               newMapping = changedRows.get(mappingName);
@@ -157,7 +163,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
             numberField.visibleProperty().setValue(true);
             try {
               ButtonMapping newMapping;
-              if(!changedRows.containsKey(mappingName)) {
+              if (!changedRows.containsKey(mappingName)) {
                 newMapping = dataOrDefault.get().getMappings().get(mappingName);
               } else {
                 newMapping = changedRows.get(mappingName);
@@ -177,7 +183,7 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
         try {
           int index = Integer.parseInt(newData);
           ButtonMapping newMapping;
-          if(!changedRows.containsKey(mappingName)) {
+          if (!changedRows.containsKey(mappingName)) {
             newMapping = dataOrDefault.get().getMappings().get(mappingName);
           } else {
             newMapping = changedRows.get(mappingName);
@@ -199,6 +205,40 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
       setData(dataOrDefault.get().removeMapping(mapping.getKey())
           .addMapping(mapping.getKey(), mapping.getValue()));
     }
+  }
+
+  @FXML
+  private void restoreDefault() {
+    content.getChildren().clear();
+    activeRows.clear();
+    setData(defaultMappings);
+  }
+
+  @FXML
+  private void randomize() {
+    content.getChildren().clear();
+    activeRows.clear();
+    setData(
+        new ButtonMap(dataOrDefault.get().getMappings().entrySet().stream().map(n -> new Entry() {
+          @Override
+          public Object getKey() {
+            return n.getKey();
+          }
+
+          @Override
+          public Object getValue() {
+            int controller = (int) (Math.random() * joysticks.size());
+            int buttonType = (int) (Math.random() * 2);
+            return new ButtonMapping(controller,
+                buttonType == 0 ? (int) (Math.random() * 15 + 1) :
+                    (int) -(Math.random() * (namedButtons.size() - 1) + 1));
+          }
+
+          @Override
+          public Object setValue(Object value) {
+            return null;
+          }
+        }).collect(Collectors.toMap(n -> (String) n.getKey(), n -> (ButtonMapping) n.getValue()))));
   }
 
   @Override

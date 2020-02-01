@@ -11,6 +11,7 @@ import java.util.Map;
 public class ButtonMap extends ComplexData<ButtonMap> {
 
   public static final String subTableName = "Mappings";
+  public static ButtonMap defaultMappings;
   private final ImmutableMap<String, ButtonMapping> mappings;
 
   public ButtonMap(Map<String, ButtonMapping> mappings) {
@@ -36,6 +37,10 @@ public class ButtonMap extends ComplexData<ButtonMap> {
     return this;
   }
 
+  public static void setDefaultMappings(ButtonMap map) {
+    defaultMappings = map;
+  }
+
   /**
    * The map needs to be sent back to NetworkTables in the same way that it was received.
    *
@@ -45,8 +50,8 @@ public class ButtonMap extends ComplexData<ButtonMap> {
   public Map<String, Object> asMap() {
     HashMap<String, Object> map = new HashMap<>();
     mappings.forEach((k, v) -> {
-      map.put(String.format("%s/%s/%s", subTableName, k, "Joystick"), v.getJoystick());
-      map.put(String.format("%s/%s/%s", subTableName, k, "Index"), v.getIndex());
+      map.put(String.format("%s/%s/%s", subTableName, k, "Joystick"), (double) v.getJoystick());
+      map.put(String.format("%s/%s/%s", subTableName, k, "Index"), (double) v.getIndex());
     });
     return map;
   }
