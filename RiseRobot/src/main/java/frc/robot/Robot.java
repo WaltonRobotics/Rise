@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.DriveStraight;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
+import frc.robot.commands.auton.TurnAtAngle;
 import frc.robot.commands.auton.routines.ShootAndPickup;
 import frc.robot.commands.auton.routines.TestForward;
 import frc.robot.commands.teleop.Drive;
@@ -101,9 +102,7 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void autonomousInit() {
-        drivetrain.shiftUp();
-        drivetrain.reset();
-        new SequentialCommandGroup(new ShiftUp(), new TestForward()).schedule();
+        new SequentialCommandGroup(new ShiftUp(), new TurnAtAngle(90)).schedule();
     }
 
     /**
@@ -119,7 +118,6 @@ public class Robot extends WaltTimedRobot {
         drivetrain.shiftUp();
         drivetrain.reset();
         drivetrain.zeroNeoEncoders();
-        alignButton.whenPressed(new FindTargetAngle());
     }
 
     /**

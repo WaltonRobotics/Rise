@@ -1,6 +1,4 @@
 package frc.robot.commands.teleop;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.TurnAtAngle;
 import frc.utils.LimelightHelper;
@@ -21,12 +19,14 @@ public class FindTargetAngle extends SequentialCommandGroup {
 
     @Override
     public void execute() {
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        if(LimelightHelper.getTV() == 1)
+        if(LimelightHelper.getTV() == 1) {
             addCommands(new TurnAtAngle(targetAngle));
+        }
     }
 
     @Override

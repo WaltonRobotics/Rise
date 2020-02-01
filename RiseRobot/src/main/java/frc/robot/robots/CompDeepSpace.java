@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.util.Units;
 
+import static frc.robot.Robot.currentRobot;
+
 public class CompDeepSpace implements WaltRobot {
 
     // Config constants
@@ -21,8 +23,12 @@ public class CompDeepSpace implements WaltRobot {
     private final double highGearRatio = 6.58905 * 1.051;
     private final double wheelDiameter = Units.inchesToMeters(5);
 
-    public CompDeepSpace() {
+    private PIDController turnPIDController;
 
+    public CompDeepSpace() {
+        turnPIDController = new PIDController(0.008, 0, 0);
+        turnPIDController.enableContinuousInput(-180f, 180f);
+        turnPIDController.setTolerance(2.0);
     }
 
     // 32 l
@@ -55,7 +61,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public PIDController getTurnPIDController() {
-        return new PIDController(0.008, 0, 0);
+        return turnPIDController;
     }
 
     @Override

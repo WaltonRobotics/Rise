@@ -37,5 +37,7 @@ public class OI {
           buttonMap.getButtonIndex(ALIGN_TARGET_BUTTON_KEY));
 
   static {
+    alignButton.whenPressed(new FindTargetAngle());
   }
+
 }

@@ -139,7 +139,7 @@ public class Drivetrain extends SubsystemBase {
     /**
      * Zeroes the heading of the robot.
      */
-    private void zeroHeading() {
+    public void zeroHeading() {
         ahrs.zeroYaw();
     }
 

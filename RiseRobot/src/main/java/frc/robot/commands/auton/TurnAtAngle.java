@@ -10,27 +10,28 @@ public class TurnAtAngle extends CommandBase {
     private double targetAngle;
 
     public TurnAtAngle(double targetAngle) {
+        System.out.println("turn at angle" + targetAngle);
         addRequirements(drivetrain);
 
         this.targetAngle = targetAngle;
 
         drivetrain.motorSetUp();
-
-        currentRobot.getTurnPIDController().enableContinuousInput(-180f, 180f);
-        currentRobot.getTurnPIDController().setTolerance(2.0);
     }
 
     @Override
     public void initialize() {
         currentRobot.getTurnPIDController().setSetpoint(targetAngle);
-        drivetrain.reset();
+        drivetrain.zeroHeading();
     }
 
     @Override
     public void execute() {
         double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees());
         SmartDashboard.putNumber("Turn rate", turnRate);
-        drivetrain.setArcadeSpeeds(0, turnRate);
+        SmartDashboard.putNumber("Angle", drivetrain.getHeading().getDegrees());
+        SmartDashboard.putNumber("Desired angle", currentRobot.getTurnPIDController().getSetpoint());
+        System.out.println(turnRate);
+        drivetrain.setSpeeds(turnRate, -turnRate);
     }
 
     @Override

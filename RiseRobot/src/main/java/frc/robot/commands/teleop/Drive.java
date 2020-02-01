@@ -1,5 +1,7 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.OI.*;
@@ -23,11 +25,21 @@ public class Drive extends CommandBase {
 
     @Override
     public void initialize() {
+        SmartDashboard.putNumber("Config turn rate", 0.25);
     }
 
     @Override
     public void execute() {
-        drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
+        // drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
+        double turnRate = SmartDashboard.getNumber("Config turn rate", 0.25);
+
+        SmartDashboard.putNumber("Left joystick", getLeftJoystickY());
+
+        if (Math.abs(getLeftJoystickY()) > 0.5) {
+            drivetrain.setSpeeds(turnRate, -turnRate);
+        } else {
+            drivetrain.setSpeeds(0, 0);
+        }
 
         if (shiftUpButton.get() && !drivetrain.isHighGear()) {
             drivetrain.shiftUp();
