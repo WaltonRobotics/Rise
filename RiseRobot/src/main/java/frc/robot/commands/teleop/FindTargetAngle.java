@@ -1,8 +1,7 @@
 package frc.robot.commands.teleop;
-import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.TurnAtAngle;
 import frc.utils.LimelightHelper;
 
@@ -28,7 +27,7 @@ public class FindTargetAngle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        if(LimelightHelper.getTV() == 1) {
+        if (LimelightHelper.getTV() == 1) {
             System.out.println("Running turn command");
             CommandScheduler.getInstance().schedule(new TurnAtAngle(targetAngle).withTimeout(currentRobot.getMaxAlignmentTime()));
         }

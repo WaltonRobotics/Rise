@@ -33,6 +33,7 @@ public interface WaltRobot {
     // Encoder constants
 
     double getVelocityFactor();
+
     double getPositionFactor();
 
     double getDistancePerPulse();

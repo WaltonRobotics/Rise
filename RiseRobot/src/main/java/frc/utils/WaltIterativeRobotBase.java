@@ -2,36 +2,29 @@ package frc.utils;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.NotifierJNI;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class WaltIterativeRobotBase extends RobotBase {
-    protected double m_period;
-
-    private enum Mode {
-        kNone,
-        kDisabled,
-        kAutonomous,
-        kTeleop,
-        kTest
-    }
-
-    private Mode m_lastMode = Mode.kNone;
-    private final Watchdog m_watchdog;
-
     public static final double kDefaultPeriod = 0.02;
-
+    private final Watchdog m_watchdog;
     // The C pointer to the notifier object. We don't use it directly, it is
     // just passed to the JNI bindings.
     private final int m_notifier = NotifierJNI.initializeNotifier();
-
+    protected double m_period;
+    private Mode m_lastMode = Mode.kNone;
     // The absolute expiration time
     private double m_expirationTime;
+    private boolean m_rpFirstRun = true;
+    private boolean m_dpFirstRun = true;
+    private boolean m_apFirstRun = true;
+
+    /* ----------- Overridable initialization code ----------------- */
+    private boolean m_tpFirstRun = true;
+    private boolean m_tmpFirstRun = true;
 
     /**
      * Constructor for IterativeRobotBase.
@@ -49,8 +42,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
     @Override
     public abstract void startCompetition();
 
-    /* ----------- Overridable initialization code ----------------- */
-
     /**
      * Robot-wide initialization code should go here.
      *
@@ -64,6 +55,8 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
     public void robotInit() {
         System.out.println("Default robotInit() method... Override me!");
     }
+
+    /* ----------- Overridable periodic code ----------------- */
 
     /**
      * Initialization code for disabled mode should go here.
@@ -106,10 +99,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         System.out.println("Default testInit() method... Override me!");
     }
 
-    /* ----------- Overridable periodic code ----------------- */
-
-    private boolean m_rpFirstRun = true;
-
     /**
      * Periodic code for all robot modes should go here.
      */
@@ -119,8 +108,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
             m_rpFirstRun = false;
         }
     }
-
-    private boolean m_dpFirstRun = true;
 
     /**
      * Periodic code for disabled mode should go here.
@@ -132,8 +119,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_apFirstRun = true;
-
     /**
      * Periodic code for autonomous mode should go here.
      */
@@ -144,8 +129,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         }
     }
 
-    private boolean m_tpFirstRun = true;
-
     /**
      * Periodic code for teleop mode should go here.
      */
@@ -155,8 +138,6 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
             m_tpFirstRun = false;
         }
     }
-
-    private boolean m_tmpFirstRun = true;
 
     /**
      * Periodic code for test mode should go here.
@@ -250,5 +231,13 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
 
     private void printLoopOverrunMessage() {
 //        DriverStation.reportWarning("Loop time of " + m_period + "s overrun\n", false);
+    }
+
+    private enum Mode {
+        kNone,
+        kDisabled,
+        kAutonomous,
+        kTeleop,
+        kTest
     }
 }
