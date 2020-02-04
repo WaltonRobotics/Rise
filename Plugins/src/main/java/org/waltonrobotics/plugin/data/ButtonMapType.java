@@ -59,6 +59,81 @@ public class ButtonMapType extends ComplexDataType<ButtonMap> {
     super(NAME, ButtonMap.class);
   }
 
+  public static ButtonMap deserializeButtonMap(Map<String, Object> map, String subTableName) {
+    /*
+    Let's follow a mapping from NT to ButtonMapping.
+    We start with:
+        │   Mappings/[BUTTON NAME]/.type = ButtonMapping
+        │   Mappings/[BUTTON Name]/Joystick = -1
+        │   Mappings/[BUTTON Name]/Index = -1
+     */
+
+
+      /*
+      This step simplifies the mapping down to:
+        │   [BUTTON Name]/Joystick = -1
+        │   [BUTTON Name]/Index = -1
+
+      But if multiple mappings are on the NT, they may not be in this order and may be separated by
+      other mappings' data.
+       */
+    List<Entry<String, Object>> unpairedMappings =
+        map.entrySet().stream().filter(n -> n.getKey().startsWith(subTableName)).map(n ->
+            new Map.Entry<String, Object>() {
+              @Override
+              public String getKey() {
+                return n.getKey().substring(subTableName.length() + 1);
+              }
+
+              @Override
+              public Object getValue() {
+                return n.getValue();
+              }
+
+              @Override
+              public Object setValue(Object value) {
+                return null;
+              }
+            }).collect(Collectors.toList());
+
+      /*
+      This step pairs up the data into maps that look like:
+        [BUTTON NAME] = {
+            "Joystick" = -1,
+            "Index" = -1
+        }
+       */
+    HashMap<String, Map<String, Object>> pairedMappings = new HashMap<>();
+    unpairedMappings.forEach(n -> {
+      int lastSlash = n.getKey().lastIndexOf("/");
+      String buttonName = n.getKey().substring(0, lastSlash);
+      if (n.getKey().substring(lastSlash + 1).equals("Joystick") ||
+          n.getKey().substring(lastSlash + 1).equals("Index")) {
+        if (!pairedMappings.containsKey(buttonName)) {
+          HashMap<String, Object> tempMap = new HashMap<>();
+          tempMap.put(n.getKey().substring(lastSlash + 1), n.getValue());
+          pairedMappings.put(buttonName, tempMap);
+        } else {
+          pairedMappings.get(buttonName).put(n.getKey().substring(lastSlash + 1), n.getValue());
+        }
+      }
+    });
+
+    HashMap<String, ButtonMapping> finalMappings = new HashMap<>();
+
+      /*
+      I filter out any mapping pairs that do not have two entries, just in case.
+       */
+    pairedMappings.entrySet().stream().filter(n -> n.getValue().size() == 2).forEach(n -> {
+      Map<String, Object> values = n.getValue();
+      int joystick = ((Double) values.get("Joystick")).intValue();
+      int index = ((Double) values.get("Index")).intValue();
+      finalMappings.put(n.getKey(), new ButtonMapping(joystick, index));
+    });
+
+    return new ButtonMap(finalMappings);
+  }
+
   /**
    * This is magic code. It works if the data is properly sent to NetworkTables by WaltonRobotics's
    * DynamicButtonMap. Entries are gathered up as the key-value pairs from the "Button Map" entry in
@@ -76,78 +151,9 @@ public class ButtonMapType extends ComplexDataType<ButtonMap> {
    */
   @Override
   public Function<Map<String, Object>, ButtonMap> fromMap() {
-    /*
-    Let's follow a mapping from NT to ButtonMapping.
-    We start with:
-        │   Mappings/[BUTTON NAME]/.type = ButtonMapping
-        │   Mappings/[BUTTON Name]/Joystick = -1
-        │   Mappings/[BUTTON Name]/Index = -1
-     */
     return map -> {
-      String mappingName = subTableName;
-
-      /*
-      This step simplifies the mapping down to:
-        │   [BUTTON Name]/Joystick = -1
-        │   [BUTTON Name]/Index = -1
-
-      But if multiple mappings are on the NT, they may not be in this order and may be separated by
-      other mappings' data.
-       */
-      List<Entry<String, Object>> unpairedMappings =
-          map.entrySet().stream().filter(n -> n.getKey().startsWith(mappingName)).map(n ->
-              new Map.Entry<String, Object>() {
-                @Override
-                public String getKey() {
-                  return n.getKey().substring(mappingName.length() + 1);
-                }
-
-                @Override
-                public Object getValue() {
-                  return n.getValue();
-                }
-
-                @Override
-                public Object setValue(Object value) {
-                  return null;
-                }
-              }).collect(Collectors.toList());
-
-      /*
-      This step pairs up the data into maps that look like:
-        [BUTTON NAME] = {
-            "Joystick" = -1,
-            "Index" = -1
-        }
-       */
-      HashMap<String, Map<String, Object>> pairedMappings = new HashMap<>();
-      unpairedMappings.forEach(n -> {
-        int lastSlash = n.getKey().lastIndexOf("/");
-        String buttonName = n.getKey().substring(0, lastSlash);
-        if (n.getKey().substring(lastSlash + 1).equals("Joystick") ||
-            n.getKey().substring(lastSlash + 1).equals("Index")) {
-          if (!pairedMappings.containsKey(buttonName)) {
-            HashMap<String, Object> tempMap = new HashMap<>();
-            tempMap.put(n.getKey().substring(lastSlash + 1), n.getValue());
-            pairedMappings.put(buttonName, tempMap);
-          } else {
-            pairedMappings.get(buttonName).put(n.getKey().substring(lastSlash + 1), n.getValue());
-          }
-        }
-      });
-
-      HashMap<String, ButtonMapping> finalMappings = new HashMap<>();
-
-      /*
-      I filter out any mapping pairs that do not have two entries, just in case.
-       */
-      pairedMappings.entrySet().stream().filter(n -> n.getValue().size() == 2).forEach(n -> {
-        Map<String, Object> values = n.getValue();
-        int joystick = ((Double) values.get("Joystick")).intValue();
-        int index = ((Double) values.get("Index")).intValue();
-        finalMappings.put(n.getKey(), new ButtonMapping(joystick, index));
-      });
-      return new ButtonMap(finalMappings);
+      ButtonMap.setDefaultMappings(deserializeButtonMap(map, "Default " + subTableName));
+      return deserializeButtonMap(map, subTableName);
     };
   }
 

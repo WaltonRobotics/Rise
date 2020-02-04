@@ -196,6 +196,7 @@ public final class DynamicButtonMap {
     buttonMapTable.getEntry(".type").setString("ButtonMap");
 
     NetworkTable mapTable = buttonMapTable.getSubTable("Mappings");
+    NetworkTable defaultTable = buttonMapTable.getSubTable("Default Mappings");
     for (Entry<String, int[]> mapping : mappings.entrySet()) {
       NetworkTable mappingTable = mapTable.getSubTable(mapping.getKey());
       mappingTable.getEntry(".type").setString("ButtonMapping");
@@ -203,6 +204,10 @@ public final class DynamicButtonMap {
       NetworkTableEntry indexEntry = mappingTable.getEntry("Index");
       joystickEntry.setNumber((double) mapping.getValue()[0]);
       indexEntry.setNumber((double) mapping.getValue()[1]);
+
+      NetworkTable defaultMappingTable = defaultTable.getSubTable(mapping.getKey());
+      defaultMappingTable.getEntry("Joystick").setNumber((double) defaultMap.get(mapping.getKey())[0]);
+      defaultMappingTable.getEntry("Index").setNumber((double) defaultMap.get(mapping.getKey())[1]);
 
       // Add listeners to update the button map when values are changed
       joystickEntry.addListener(notification -> {
