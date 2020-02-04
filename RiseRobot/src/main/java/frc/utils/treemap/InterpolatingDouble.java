@@ -3,10 +3,14 @@ package frc.utils.treemap;
 public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
         Comparable<InterpolatingDouble> {
 
-    public Double value = 0.0;
+    public Double value;
 
     public InterpolatingDouble(Double val) {
         value = val;
+    }
+
+    public InterpolatingDouble() {
+        this(0.0);
     }
 
     @Override
