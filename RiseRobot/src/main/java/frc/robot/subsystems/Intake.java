@@ -9,15 +9,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeConveyor extends SubsystemBase {
+public class Intake extends SubsystemBase {
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
-  private final VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
+  // Will need another controller for centering motors
 
   private final Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
-  private final Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
 
-  public IntakeConveyor() {
+  public Intake() {
 
   }
 
