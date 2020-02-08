@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
+import frc.robot.commands.teleop.IntakeCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Climber;
@@ -66,6 +67,7 @@ public class Robot extends WaltTimedRobot {
 
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
+        CommandScheduler.getInstance().setDefaultCommand(intake, new IntakeCommand());
     }
 
     /**
