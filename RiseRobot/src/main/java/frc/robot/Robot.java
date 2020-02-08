@@ -19,8 +19,11 @@ import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Spinner;
+import frc.robot.subsystems.TurretShooter;
 import frc.utils.WaltTimedRobot;
 
 import java.util.Arrays;
@@ -35,6 +38,9 @@ public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
     public static Spinner spinner;
+    public static TurretShooter shooter;
+    public static Climber climber;
+    public static Intake intake;
 
     public static WaltRobot currentRobot;
 
@@ -54,6 +60,10 @@ public class Robot extends WaltTimedRobot {
 
         drivetrain = new Drivetrain();
         spinner = new Spinner();
+        shooter = new TurretShooter();
+        climber = new Climber();
+        intake = new Intake();
+
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
     }
