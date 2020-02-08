@@ -1,19 +1,29 @@
 package frc.robot;
 
+import static frc.robot.OI.buttonMap;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
-import frc.robot.commands.auton.TurnAtAngle;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
 import frc.utils.WaltTimedRobot;
 
-import static frc.robot.OI.buttonMap;
+import java.util.Arrays;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +34,6 @@ import static frc.robot.OI.buttonMap;
 public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
-    public static Shooter shooter;
     public static Spinner spinner;
 
     public static WaltRobot currentRobot;
@@ -44,7 +53,6 @@ public class Robot extends WaltTimedRobot {
         buttonMap.sendToNetworkTable();
 
         drivetrain = new Drivetrain();
-        shooter = new Shooter();
         spinner = new Spinner();
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
@@ -82,7 +90,9 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void autonomousInit() {
-        new SequentialCommandGroup(new ShiftUp(), new TurnAtAngle(90)).schedule();
+        drivetrain.shiftUp();
+        drivetrain.reset();
+        new SequentialCommandGroup(new ShiftUp(), getAutonomousCommand()).schedule();
     }
 
     /**
@@ -119,6 +129,39 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void testPeriodic() {
+    }
+
+    public Command getAutonomousCommand() {
+        TrajectoryConfig config = new TrajectoryConfig(
+                Units.feetToMeters(6.0), Units.feetToMeters(4.0));
+        config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(6)));
+        config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+        config.setKinematics(drivetrain.getDriveKinematics());
+
+        Pose2d initialPose = new Pose2d(Units.feetToMeters(9.385), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0));
+
+        drivetrain.reset(initialPose);
+
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                Arrays.asList(initialPose,
+                        new Pose2d(Units.feetToMeters(16.671), Units.feetToMeters(2.414), Rotation2d.fromDegrees(0.0))),
+                config
+        );
+
+        RamseteTrackingCommand command = new RamseteTrackingCommand(
+                trajectory,
+                drivetrain::getRobotPose,
+                drivetrain.getRamseteController(),
+                currentRobot.getDrivetrainFeedforward(),
+                drivetrain.getDriveKinematics(),
+                drivetrain::getSpeeds,
+                currentRobot.getLeftPIDController(),
+                currentRobot.getRightPIDController(),
+                drivetrain::setVoltages,
+                drivetrain
+        );
+
+        return command.andThen(() -> drivetrain.setVoltages(0, 0));
     }
 
 }

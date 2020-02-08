@@ -14,22 +14,26 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.CANBusIDs.DRIVE_LEFT_MASTER_ID;
+import static frc.robot.Constants.CANBusIDs.DRIVE_LEFT_SLAVE_ID;
+import static frc.robot.Constants.CANBusIDs.DRIVE_RIGHT_MASTER_ID;
+import static frc.robot.Constants.CANBusIDs.DRIVE_RIGHT_SLAVE_ID;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
 public class Drivetrain extends SubsystemBase {
 
-    private static final Encoder encoderRight = new Encoder(
-            new DigitalInput(0),
-            new DigitalInput(1));
-    private static final Encoder encoderLeft = new Encoder(
-            new DigitalInput(2),
-            new DigitalInput(3));
+//    private static final Encoder encoderRight = new Encoder(
+//            new DigitalInput(0),
+//            new DigitalInput(1));
+//    private static final Encoder encoderLeft = new Encoder(
+//            new DigitalInput(2),
+//            new DigitalInput(3));
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
-    private CANSparkMax rightWheelsMaster = new CANSparkMax(1, CANSparkMax.MotorType.kBrushless);
-    private CANSparkMax rightWheelsSlave = new CANSparkMax(2, CANSparkMax.MotorType.kBrushless);
-    private CANSparkMax leftWheelsMaster = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
-    private CANSparkMax leftWheelsSlave = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
+    private final CANSparkMax rightWheelsMaster = new CANSparkMax(DRIVE_RIGHT_MASTER_ID, CANSparkMax.MotorType.kBrushless);
+    private final CANSparkMax rightWheelsSlave = new CANSparkMax(DRIVE_RIGHT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
+    private final CANSparkMax leftWheelsMaster = new CANSparkMax(DRIVE_LEFT_MASTER_ID, CANSparkMax.MotorType.kBrushless);
+    private final CANSparkMax leftWheelsSlave = new CANSparkMax(DRIVE_LEFT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
     private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(currentRobot.getTrackWidth());
     private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
 
@@ -86,9 +90,9 @@ public class Drivetrain extends SubsystemBase {
         leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
         rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
 
-        encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
-        encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());
-        encoderRight.setReverseDirection(true);
+//        encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
+//        encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());
+//        encoderRight.setReverseDirection(true);
     }
 
     public void setSpeeds(double leftPower, double rightPower) {
@@ -151,11 +155,13 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public double leftEncoderPulses() {
-        return encoderLeft.get();
+//        return encoderLeft.get();
+        return leftWheelsMaster.getEncoder().getPosition();
     }
 
     public double rightEncoderPulses() {
-        return encoderRight.get();
+//        return encoderRight.get();
+        return rightWheelsMaster.getEncoder().getPosition();
     }
 
     private void updateRobotPose() {
@@ -163,8 +169,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset() {
-        encoderLeft.reset();
-        encoderRight.reset();
+//        encoderLeft.reset();
+//        encoderRight.reset();
 
         zeroHeading();
         zeroNeoEncoders();
