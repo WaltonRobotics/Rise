@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
+
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
@@ -105,9 +107,8 @@ public final class Constants {
 
     public static class FieldConfiguration {
 
-        public static final double DISTANCE_BETWEEN_BASELINES = 9.779254;
-        public static final double DISTANCE_TO_RED_BASELINE = 3.046476;
-        public static final double REFLECTION_LINE_DISTANCE = DISTANCE_TO_RED_BASELINE + DISTANCE_BETWEEN_BASELINES / 2;
+        public static final double DISTANCE_TO_REFLECTION_LINE = Units.feetToMeters(54) / 2;
+        public static final double LIVE_DASHBOARD_FIELD_HEIGHT = Units.feetToMeters(27);
 
     }
 

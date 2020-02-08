@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.utils.LiveDashboardHelper;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -19,6 +20,7 @@ import java.util.function.Supplier;
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
+import static frc.utils.LiveDashboardHelper.putRobotData;
 
 /**
  * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory
@@ -131,15 +133,9 @@ public class RamseteTrackingCommand extends CommandBase {
 
         LiveDashboard.getInstance().setFollowingPath(true);
 
-        drivetrain.resetOdometry(m_trajectory.getInitialPose());
 
-        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getX()));
-        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getY()));
-        LiveDashboard.getInstance().setRobotHeading(m_trajectory.getInitialPose().getRotation().getDegrees());
-
-        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getX()));
-        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getY()));
-        LiveDashboard.getInstance().setPathHeading(m_trajectory.getInitialPose().getRotation().getDegrees());
+        LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
+        LiveDashboardHelper.putTrajectoryData(m_trajectory.getInitialPose());
     }
 
     @Override
@@ -182,13 +178,8 @@ public class RamseteTrackingCommand extends CommandBase {
         m_prevTime = curTime;
         m_prevSpeeds = targetWheelSpeeds;
 
-        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_pose.get().getTranslation().getX()));
-        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_pose.get().getTranslation().getY()));
-        LiveDashboard.getInstance().setRobotHeading(m_pose.get().getRotation().getRadians());
-
-        LiveDashboard.getInstance().setPathHeading(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getRotation().getDegrees()));
-        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getTranslation().getX()));
-        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.sample(curTime).poseMeters.getTranslation().getY()));
+        LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
+        LiveDashboardHelper.putTrajectoryData(m_trajectory.sample(curTime).poseMeters);
     }
 
     @Override

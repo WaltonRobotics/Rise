@@ -62,6 +62,6 @@ public class TurnAtAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return currentRobot.getTurnPIDController().atSetpoint();
     }
 }

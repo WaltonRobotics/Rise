@@ -31,6 +31,20 @@ public class Paths {
                     config
             );
         }
+
+        public static Trajectory generateTestSCurve() {
+            TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(7), Units.feetToMeters(3));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
+            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+            config.setKinematics(drivetrain.getDriveKinematics());
+
+            return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(4.756), Units.feetToMeters(19.094), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(10.554), Units.feetToMeters(13.295), Rotation2d.fromDegrees(0.0))),
+                    config
+            );
+        }
     }
 
     public static class CrossBaseline {
@@ -66,26 +80,37 @@ public class Paths {
 
     }
 
-    public static class ShootAndTrenchPickup {
+    public static class Two {
 
-        public static Pose2d shootingLine = new Pose2d(Units.feetToMeters(9.268), Units.feetToMeters(19.566), Rotation2d.fromDegrees(0.0));
-        public static Pose2d trenchPickUp = new Pose2d(Units.feetToMeters(19.133), Units.feetToMeters(24.602), Rotation2d.fromDegrees(0.0));
-
-
-        public static Trajectory generateToTrenchPickup() {
+        public static Trajectory generateTwoTrenchPickup() {
             TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(13), Units.feetToMeters(7));
+                    Units.feetToMeters(5), Units.feetToMeters(3));
             config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(shootingLine, trenchPickUp),
+                    Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(18.726), Units.feetToMeters(24.688), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }
 
-        public static Trajectory generateBackupToShoot() {
+        public static Trajectory generateTwoIntakeThreeBalls() {
+            TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(5), Units.feetToMeters(3));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
+            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+            config.setKinematics(drivetrain.getDriveKinematics());
+
+            return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(18.726), Units.feetToMeters(24.688), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(25.678), Units.feetToMeters(24.688), Rotation2d.fromDegrees(0.0))),
+                    config
+            );
+        }
+
+        public static Trajectory generateTwoPrime() {
             TrajectoryConfig config = new TrajectoryConfig(
                     Units.feetToMeters(13), Units.feetToMeters(7));
             config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
@@ -94,7 +119,8 @@ public class Paths {
             config.setReversed(true);
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(trenchPickUp, shootingLine),
+                    Arrays.asList(new Pose2d(Units.feetToMeters(18.877), Units.feetToMeters(24.688), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }

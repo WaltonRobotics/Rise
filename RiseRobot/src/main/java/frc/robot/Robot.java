@@ -1,32 +1,27 @@
 package frc.robot;
 
+import static frc.robot.Constants.FieldConfiguration.LIVE_DASHBOARD_FIELD_HEIGHT;
 import static frc.robot.OI.buttonMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.LiveDashboard;
-import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Spinner;
 import frc.utils.AutonSelector;
+import frc.utils.LiveDashboardHelper;
 import frc.utils.WaltTimedRobot;
 
-import java.util.List;
-
-import static frc.robot.Constants.FieldConfiguration.DISTANCE_BETWEEN_BASELINES;
-import static frc.robot.Constants.FieldConfiguration.REFLECTION_LINE_DISTANCE;
+import static frc.robot.Constants.FieldConfiguration.DISTANCE_TO_REFLECTION_LINE;
 import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
-import static frc.robot.OI.buttonMap;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -62,7 +57,7 @@ public class Robot extends WaltTimedRobot {
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
 
-        SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
+        SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
         SmartDashboard.putBoolean(IS_BLUE, false);
     }
 
@@ -80,7 +75,6 @@ public class Robot extends WaltTimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-
         if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
             isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
         } else {
@@ -128,15 +122,7 @@ public class Robot extends WaltTimedRobot {
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
 
-        if (isBlue) {
-            LiveDashboard.getInstance().setRobotX(Units.metersToFeet(REFLECTION_LINE_DISTANCE * 2 - drivetrain.getRobotPose().getTranslation().getX()));
-            LiveDashboard.getInstance().setRobotY(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getY()));
-            LiveDashboard.getInstance().setRobotHeading(drivetrain.getRobotPose().getRotation().plus(Rotation2d.fromDegrees(180)).getRadians());
-        } else {
-            LiveDashboard.getInstance().setRobotX(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getX()));
-            LiveDashboard.getInstance().setRobotY(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getY()));
-            LiveDashboard.getInstance().setRobotHeading(drivetrain.getRobotPose().getRotation().getRadians());
-        }
+        LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
     }
 
     @Override

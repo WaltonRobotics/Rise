@@ -30,7 +30,7 @@ public class CompDeepSpace implements WaltRobot {
     private PIDController distancePIDController;
 
     public CompDeepSpace() {
-        turnPIDController = new PIDController(0.015, 0.0075, 0);
+        turnPIDController = new PIDController(0.01, 0, 0);
         turnPIDController.enableContinuousInput(-180f, 180f);
         turnPIDController.setTolerance(0.5, 0.5);
 
@@ -115,7 +115,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public double getTrajectoryTimeAdditive() {
-        return 2.0;
+        return 0.0;
     }
 
     @Override
