@@ -26,7 +26,6 @@ public enum AutonSelector {
     TWO_A(3, "2A", new TimeAuton(
             new ShiftUp(),
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
-            DifferentialDriveOdometry
             new WaitCommand(2),
             // new TurnAtAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
