@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  private VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
-  private VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
+  private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
+  private final VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
 
-  private Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
-  private Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
+  private final Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
+  private final Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
 
   public IntakeConveyor() {
 

@@ -41,7 +41,7 @@ public final class Constants {
 
     public static final int CLIMBER_ID = 10;
 
-    public static final int SPINNER = 11;
+    public static final int SPINNER_ID = 11;
 
   }
 
@@ -51,7 +51,7 @@ public final class Constants {
     public static final int CONVEYOR_STOP_ID = 1;
 
     public static final int CLIMBER_LOCK_ID = 2;
-    public static final int CLIMBER_LIFT_ID = 3;
+    public static final int CLIMBER_TOGGLE_ID = 3;
 
     public static final int SPINNER_TOGGLE_ID = 4;
 
