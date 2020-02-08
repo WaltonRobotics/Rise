@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -14,10 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.CANBusIDs.DRIVE_LEFT_MASTER_ID;
-import static frc.robot.Constants.CANBusIDs.DRIVE_LEFT_SLAVE_ID;
-import static frc.robot.Constants.CANBusIDs.DRIVE_RIGHT_MASTER_ID;
-import static frc.robot.Constants.CANBusIDs.DRIVE_RIGHT_SLAVE_ID;
+import static frc.robot.Constants.CANBusIDs.*;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 

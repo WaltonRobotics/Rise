@@ -9,13 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Units;
 
-import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
-import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
-import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
-
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean

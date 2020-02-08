@@ -7,7 +7,6 @@ import frc.robot.commands.auton.LiveDashboard;
 
 import static frc.robot.Constants.FieldConfiguration.DISTANCE_TO_REFLECTION_LINE;
 import static frc.robot.Constants.FieldConfiguration.LIVE_DASHBOARD_FIELD_HEIGHT;
-import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.isBlue;
 
 public class LiveDashboardHelper {

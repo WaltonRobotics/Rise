@@ -1,14 +1,15 @@
 package frc.utils;
 
 
-import static java.lang.Math.signum;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
 import io.github.jdiemke.triangulation.Triangle2D;
 import io.github.jdiemke.triangulation.Vector2D;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.simple.ops.SimpleOperations_DDRM;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,8 +19,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.ejml.data.DMatrixRMaj;
-import org.ejml.simple.ops.SimpleOperations_DDRM;
+
+import static java.lang.Math.signum;
 
 /**
  * <p>

@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.commands.teleop.FindTargetAngle;
 import frc.robot.commands.teleop.FindTargetAngleClosedLoop;
 import frc.utils.DynamicButtonMap;
 import frc.utils.EnhancedJoystickButton;

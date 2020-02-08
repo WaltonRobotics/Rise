@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.utils.LiveDashboardHelper;
@@ -20,7 +19,6 @@ import java.util.function.Supplier;
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
-import static frc.utils.LiveDashboardHelper.putRobotData;
 
 /**
  * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory

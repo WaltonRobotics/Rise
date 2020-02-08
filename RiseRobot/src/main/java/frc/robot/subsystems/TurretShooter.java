@@ -1,13 +1,10 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_MASTER_ID;
-import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_SLAVE_ID;
-import static frc.robot.Constants.CANBusIDs.SHOOTER_TURRET_ID;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static frc.robot.Constants.CANBusIDs.*;
 
 public class TurretShooter extends SubsystemBase {
 
