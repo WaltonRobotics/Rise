@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static frc.robot.OI.buttonMap;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -10,12 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.LiveDashboard;
 import frc.robot.commands.auton.ShiftUp;
-import frc.robot.commands.auton.TurnAtAngle;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
 import frc.utils.AutonSelector;
 import frc.utils.WaltTimedRobot;
@@ -37,7 +37,6 @@ import static frc.robot.OI.buttonMap;
 public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
-    public static Shooter shooter;
     public static Spinner spinner;
 
     public static WaltRobot currentRobot;
@@ -59,7 +58,6 @@ public class Robot extends WaltTimedRobot {
         buttonMap.sendToNetworkTable();
 
         drivetrain = new Drivetrain();
-        shooter = new Shooter();
         spinner = new Spinner();
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
