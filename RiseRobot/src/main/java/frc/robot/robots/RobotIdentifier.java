@@ -4,36 +4,36 @@ package frc.robot.robots;
  * Uses the DIO ports on the rio to identify the current robot.
  */
 public enum RobotIdentifier {
-  COMP_DEEPSPACE(true,true, new CompDeepSpace()),
-  PRACTICE_RISE(false, true, new PracticeRise()),
-  COMP_RISE(false,false, new CompRise());
+    COMP_DEEP_SPACE(true, true, new CompDeepSpace()),
+    PRACTICE_RISE(false, true, new PracticeRise()),
+    COMP_RISE(false, false, new CompRise());
 
-  boolean input1;
-  boolean input2;
+    boolean input1;
+    boolean input2;
 
-  WaltRobot currentRobot;
+    WaltRobot currentRobot;
 
-  RobotIdentifier(boolean input1, boolean input2, WaltRobot robot) {
-    this.input1 = input1;
-    this.input2 = input2;
-    this.currentRobot = robot;
-  }
-
-  public static RobotIdentifier findByInputs(boolean input1, boolean input2){
-    for(RobotIdentifier i : values()){
-      if(i.input1 == input1 && i.input2 == input2){
-        return i;
-      }
+    RobotIdentifier(boolean input1, boolean input2, WaltRobot robot) {
+        this.input1 = input1;
+        this.input2 = input2;
+        this.currentRobot = robot;
     }
-    return COMP_RISE;
-  }
 
-  public WaltRobot getCurrentRobot() {
-    return currentRobot;
-  }
+    public static RobotIdentifier findByInputs(boolean input1, boolean input2) {
+        for (RobotIdentifier i : values()) {
+            if (i.input1 == input1 && i.input2 == input2) {
+                return i;
+            }
+        }
+        return COMP_RISE;
+    }
 
-  @Override
-  public String toString() {
-    return "Current robot is " + currentRobot;
-  }
+    public WaltRobot getCurrentRobot() {
+        return currentRobot;
+    }
+
+    @Override
+    public String toString() {
+        return "Current robot is " + currentRobot;
+    }
 }

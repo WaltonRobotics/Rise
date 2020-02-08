@@ -1,53 +1,43 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static frc.robot.Constants.CANBusIDs.SPINNER_ID;
+import static frc.robot.Constants.PneumaticIDs.SPINNER_TOGGLE_ID;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.ColorSensorHelper;
 
 public class Spinner extends SubsystemBase {
-  private Talon genericMotor = new Talon(0);
-  private Encoder genericEncoder = new Encoder(0,0);
-  private ColorSensorHelper colorSensorHelper = new ColorSensorHelper();
 
-  public Spinner() {
-    SmartDashboard.putNumber("IRSensorLimit", 200);
-  }
+    private final TalonSRX spinnerMotor = new TalonSRX(SPINNER_ID);
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putString("Color", getColor());
-    SmartDashboard.putNumber("IR Sensor", getColorSensorHelper().getProximity());
-  }
+    private final Solenoid spinnerToggle = new Solenoid(SPINNER_TOGGLE_ID);
 
-  public ColorSensorHelper getColorSensorHelper() {
-    return colorSensorHelper;
-  }
+    private final ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
 
-  public void setSpeed(double speed){
-    genericMotor.setSpeed(speed);
-  }
+    private final ColorSensorHelper colorSensorHelper = new ColorSensorHelper(colorSensor);
 
-  public String getColor(){
-    return colorSensorHelper.getColorMatch().name();
-  }
+    public Spinner() {
 
-  public int getEncoderValue(){
-    return genericEncoder.get();
-  }
-
-  public String getExpectedColor(){
-    switch (getColor()){
-      case "RED":
-        return "GREEN";
-      case "GREEN":
-        return "BLUE";
-      case "BLUE":
-        return "YELLOW";
-      case "YELLOW":
-        return "RED";
     }
-    return "NONE";
-  }
+
+    public ColorSensorHelper getColorSensorHelper() {
+        return colorSensorHelper;
+    }
+
+    public void setSpeed(double speed){
+        spinnerMotor.set(ControlMode.Velocity, speed);
+    }
+
+    public String getColor(){
+        return colorSensorHelper.getColorMatch().name();
+    }
+
+    public int getEncoderValue(){
+        return spinnerMotor.getSelectedSensorPosition();
+    }
 }

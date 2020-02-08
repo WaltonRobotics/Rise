@@ -1,8 +1,6 @@
 package frc.robot;
 
-import static frc.robot.Constants.ButtonMapDefaults.SHIFT_DOWN_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.SHIFT_UP_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.defaultMappings;
+import static frc.robot.Constants.ButtonMapDefaults.*;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
@@ -34,4 +32,9 @@ public class OI {
       buttonMap.getButtonIndex(SHIFT_UP_BUTTON_KEY));
   public static EnhancedJoystickButton shiftDownButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
+  public static EnhancedJoystickButton alignButton = new EnhancedJoystickButton(
+          buttonMap.getButtonIndex(ALIGN_TARGET_BUTTON_KEY));
+
+  static {
+  }
 }

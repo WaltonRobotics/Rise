@@ -1,23 +1,28 @@
 package frc.robot.robots;
 
-import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 
 public interface WaltRobot {
 
     // Ramsete constants
     double getTrackWidth();
+
     double getKBeta();
+
     double getKZeta();
 
-    // Velocity controller constants
+    // Velocity controller
     PIDController getLeftPIDController();
+
     PIDController getRightPIDController();
+
+    // Turn controller
+    PIDController getTurnPIDController();
+
+    // Distance controller
+    PIDController getDistancePIDController();
 
     // Shooter feedforward
     SimpleMotorFeedforward getFlywheelFeedforward();
@@ -25,18 +30,13 @@ public interface WaltRobot {
     // Drivetrain feedforward
     SimpleMotorFeedforward getDrivetrainFeedforward();
 
-    // Left SpeedController group
-    SpeedControllerGroup getLeftSpeedControllerGroup();
-
-    // right SpeedController group
-    SpeedControllerGroup getRightSpeedControllerGroup();
-
+    // Encoder constants
     double getRpmToMeters();
+
+    double getDistancePerPulse();
 
     Solenoid getShifter();
 
-    void setSpeeds(double leftSpeed, double rightSpeed);
-    void setVoltages(double leftVoltage, double rightVoltage);
+    double getMinimumShiftingTime();
 
-    ColorSensorV3 getColorSensor();
 }

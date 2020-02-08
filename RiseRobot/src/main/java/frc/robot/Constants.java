@@ -8,6 +8,7 @@
 package frc.robot;
 
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
+import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
 import java.util.Map;
@@ -23,6 +24,38 @@ import java.util.stream.Stream;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static class CANBusIDs {
+
+    public static final int DRIVE_RIGHT_MASTER_ID = 1;
+    public static final int DRIVE_RIGHT_SLAVE_ID = 2;
+    public static final int DRIVE_LEFT_MASTER_ID = 3;
+    public static final int DRIVE_LEFT_SLAVE_ID = 4;
+
+    public static final int INTAKE_ID = 5;
+    public static final int CONVEYOR_ID = 6;
+
+    public static final int SHOOTER_FLYWHEEL_MASTER_ID = 7;
+    public static final int SHOOTER_FLYWHEEL_SLAVE_ID = 8;
+    public static final int SHOOTER_TURRET_ID = 9;
+
+    public static final int CLIMBER_ID = 10;
+
+    public static final int SPINNER_ID = 11;
+
+  }
+
+  public static class PneumaticIDs {
+
+    public static final int INTAKE_TOGGLE_ID = 0;
+    public static final int CONVEYOR_STOP_ID = 1;
+
+    public static final int CLIMBER_LOCK_ID = 2;
+    public static final int CLIMBER_TOGGLE_ID = 3;
+
+    public static final int SPINNER_TOGGLE_ID = 4;
+
+  }
 
   /**
    * The Joysticks class contains port mappings for the HID controllers.
@@ -48,6 +81,7 @@ public final class Constants {
      */
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
+    public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
 
     /*
     Add default mappings here, following the template
@@ -57,6 +91,7 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
+            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}}
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
