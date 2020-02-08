@@ -3,10 +3,8 @@ package frc.robot;
 import static frc.robot.OI.buttonMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -15,16 +13,13 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.auton.DriveStraight;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
 import frc.utils.WaltTimedRobot;
 
@@ -39,7 +34,6 @@ import java.util.Arrays;
 public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
-    public static Shooter shooter;
     public static Spinner spinner;
 
     public static WaltRobot currentRobot;
@@ -59,7 +53,6 @@ public class Robot extends WaltTimedRobot {
         buttonMap.sendToNetworkTable();
 
         drivetrain = new Drivetrain();
-        shooter = new Shooter();
         spinner = new Spinner();
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
