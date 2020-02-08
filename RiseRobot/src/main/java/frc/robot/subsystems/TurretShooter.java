@@ -1,73 +1,31 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_MASTER_ID;
+import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_SLAVE_ID;
+import static frc.robot.Constants.CANBusIDs.SHOOTER_TURRET_ID;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
-import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
-import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
-
 public class TurretShooter extends SubsystemBase {
-    TalonFX masterFlywheel;
-//    TalonFX slaveFlywheel;
-//    PIDController flywheel = new PIDController(0,0,0);
-//    TalonSRX HoodMotor = new TalonSRX(0);
-//    TalonSRX TurretMotor = new TalonSRX(0);
 
-    NetworkTableInstance nti;
-    NetworkTable pidTable;
-    NetworkTableEntry targetSpeed;
-    NetworkTableEntry encoderSpeed;
-    NetworkTableEntry flywheelOutput;
+    private final TalonFX flywheelMaster = new TalonFX(SHOOTER_FLYWHEEL_MASTER_ID);
+    private final TalonFX flywheelSlave = new TalonFX(SHOOTER_FLYWHEEL_SLAVE_ID);
+
+    private final TalonSRX turretMotor = new TalonSRX(SHOOTER_TURRET_ID);
+
+    private double targetSpeed = 0;
 
     public TurretShooter() {
-        nti = NetworkTableInstance.getDefault();
-        pidTable = nti.getTable("Flywheel PID");
-        encoderSpeed = pidTable.getEntry("Encoder Speed");
-        targetSpeed = pidTable.getEntry("Flywheel Speed");
-        flywheelOutput = pidTable.getEntry("Percent Output");
-        masterFlywheel = new TalonFX(9);
-        masterFlywheel.setInverted(true);
-        masterFlywheel.selectProfileSlot(0, 0);
-        sendToNT();
+        flywheelMaster.selectProfileSlot(0, 0);
+        flywheelMaster.setInverted(true);
 
-//        slaveFlywheel.follow(masterFlywheel);
+        flywheelSlave.follow(flywheelMaster);
     }
 
-    @Override
-    public void periodic() {
-        setVelocity();
-    }
-
-    private void setVelocity(){
-//        masterFlywheel.set(TalonFXControlMode.Current, flywheel.calculate(turretEncoder.getDistance()));
-//        slaveFlywheel.set(TalonFXControlMode.Current, flywheel.calculate(turretEncoder.getDistance()));
-        masterFlywheel.set(TalonFXControlMode.Velocity,
-                targetSpeed.getDouble(0));
-        encoderSpeed.setNumber(masterFlywheel.getSelectedSensorVelocity());
-        flywheelOutput.setNumber(masterFlywheel.getMotorOutputPercent());
-    }
-
-    private void sendToNT() {
-        NetworkTableEntry kF = pidTable.getEntry("Flywheel F");
-        NetworkTableEntry kP = pidTable.getEntry("Flywheel P");
-        NetworkTableEntry kI = pidTable.getEntry("Flywheel I");
-        NetworkTableEntry kD = pidTable.getEntry("Flywheel D");
-        NetworkTableEntry speed = pidTable.getEntry("Flywheel Speed");
-
-        kF.setDefaultNumber(0.06399989);
-        kP.setDefaultNumber(0.498689);
-        kI.setDefaultNumber(0);
-        kD.setDefaultNumber(0);
-        speed.setDefaultNumber(0);
-
-        kF.addListener(event -> masterFlywheel.config_kF(0, event.value.getDouble()), kNew | kUpdate);
-        kP.addListener(event -> masterFlywheel.config_kP(0, event.value.getDouble()), kNew | kUpdate);
-        kI.addListener(event -> masterFlywheel.config_kI(0, event.value.getDouble()), kNew | kUpdate);
-        kD.addListener(event -> masterFlywheel.config_kD(0, event.value.getDouble()), kNew | kUpdate);
+    public void setTargetSpeed(double targetSpeed) {
+        this.targetSpeed = targetSpeed;
     }
 }

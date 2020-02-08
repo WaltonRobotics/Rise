@@ -5,8 +5,6 @@ import static frc.robot.OI.buttonMap;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -23,7 +21,6 @@ import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Spinner;
-import frc.robot.subsystems.TurretShooter;
 import frc.utils.WaltTimedRobot;
 
 import java.util.Arrays;
@@ -41,8 +38,6 @@ public class Robot extends WaltTimedRobot {
 
     public static WaltRobot currentRobot;
 
-    public static TurretShooter turretShooter;
-
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -59,7 +54,6 @@ public class Robot extends WaltTimedRobot {
 
         drivetrain = new Drivetrain();
         spinner = new Spinner();
-        turretShooter = new TurretShooter();
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
     }
