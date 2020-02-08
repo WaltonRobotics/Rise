@@ -2,6 +2,7 @@ package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.utils.LimelightHelper;
 
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
@@ -61,6 +62,6 @@ public class TurnAtAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return atTargetCount >= 25;
+        return false;
     }
 }

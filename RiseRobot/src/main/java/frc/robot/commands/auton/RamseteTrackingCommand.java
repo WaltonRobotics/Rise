@@ -59,18 +59,6 @@ public class RamseteTrackingCommand extends CommandBase {
      * is left to the user, since it is not appropriate for paths with nonstationary endstates.
      *
      * @param trajectory      The trajectory to follow.
-     * @param pose            A function that supplies the robot pose - use one of
-     *                        the odometry classes to provide this.
-     * @param controller      The RAMSETE controller used to follow the trajectory.
-     * @param feedforward     The feedforward to use for the drive.
-     * @param kinematics      The kinematics for the robot drivetrain.
-     * @param wheelSpeeds     A function that supplies the speeds of the left and
-     *                        right sides of the robot drive.
-     * @param leftController  The PIDController for the left side of the robot drive.
-     * @param rightController The PIDController for the right side of the robot drive.
-     * @param outputVolts     A function that consumes the computed left and right
-     *                        outputs (in volts) for the robot drive.
-     * @param requirements    The subsystems to require.
      */
     @SuppressWarnings("PMD.ExcessiveParameterList")
     public RamseteTrackingCommand(Trajectory trajectory) {
@@ -143,14 +131,15 @@ public class RamseteTrackingCommand extends CommandBase {
 
         LiveDashboard.getInstance().setFollowingPath(true);
 
-        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
-        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
-        LiveDashboard.getInstance().setRobotHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
+        drivetrain.resetOdometry(m_trajectory.getInitialPose());
 
-        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getX()));
-        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.getStates().get(0).poseMeters.getTranslation().getY()));
-        LiveDashboard.getInstance().setPathHeading(m_trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
+        LiveDashboard.getInstance().setRobotX(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getX()));
+        LiveDashboard.getInstance().setRobotY(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getY()));
+        LiveDashboard.getInstance().setRobotHeading(m_trajectory.getInitialPose().getRotation().getDegrees());
 
+        LiveDashboard.getInstance().setPathX(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getX()));
+        LiveDashboard.getInstance().setPathY(Units.metersToFeet(m_trajectory.getInitialPose().getTranslation().getY()));
+        LiveDashboard.getInstance().setPathHeading(m_trajectory.getInitialPose().getRotation().getDegrees());
     }
 
     @Override

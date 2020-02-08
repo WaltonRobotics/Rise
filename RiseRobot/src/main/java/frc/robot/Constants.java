@@ -62,4 +62,19 @@ public final class Constants {
         }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
     }
 
+    public static class SmartDashboardKeys {
+
+        public static final String AUTON_SELECT_ID = "Auton Select Id";
+        public static final String IS_BLUE = "Is Blue";
+
+    }
+
+    public static class FieldConfiguration {
+
+        public static final double DISTANCE_BETWEEN_BASELINES = 9.779254;
+        public static final double DISTANCE_TO_RED_BASELINE = 3.046476;
+        public static final double REFLECTION_LINE_DISTANCE = DISTANCE_TO_RED_BASELINE + DISTANCE_BETWEEN_BASELINES / 2;
+
+    }
+
 }

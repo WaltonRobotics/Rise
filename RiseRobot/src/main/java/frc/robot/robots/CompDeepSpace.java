@@ -32,10 +32,10 @@ public class CompDeepSpace implements WaltRobot {
     public CompDeepSpace() {
         turnPIDController = new PIDController(0.015, 0.0075, 0);
         turnPIDController.enableContinuousInput(-180f, 180f);
-        turnPIDController.setTolerance(2.0);
+        turnPIDController.setTolerance(0.5, 0.5);
 
         distancePIDController = new PIDController(0.0001, 0, 0);
-        distancePIDController.setTolerance(0.5, 0.5);
+        distancePIDController.setTolerance(0.05);
 
         sendTurnToAngleToNT();
     }
@@ -121,6 +121,21 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public double getMaxAlignmentTime() {
         return 3.0;
+    }
+
+    @Override
+    public double getVisionAlignKp() {
+        return 0.0005;
+    }
+
+    @Override
+    public double getVisionAlignKs() {
+        return 0.1;
+    }
+
+    @Override
+    public double getVisionAlignTxTolerance() {
+        return 0.5;
     }
 
     private void sendTurnToAngleToNT() {

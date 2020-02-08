@@ -224,9 +224,9 @@ public abstract class WaltIterativeRobotBase extends RobotBase {
         m_watchdog.disable();
 
         // Warn on loop time overruns
-        if (m_watchdog.isExpired()) {
-            m_watchdog.printEpochs();
-        }
+//        if (m_watchdog.isExpired()) {
+//            m_watchdog.printEpochs();
+//        }
     }
 
     private void printLoopOverrunMessage() {

@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.teleop.FindTargetAngle;
+import frc.robot.commands.teleop.FindTargetAngleClosedLoop;
 import frc.utils.DynamicButtonMap;
 import frc.utils.EnhancedJoystickButton;
 import frc.utils.Gamepad;
@@ -34,7 +36,7 @@ public class OI {
             buttonMap.getButtonIndex(ALIGN_TARGET_BUTTON_KEY));
 
     static {
-        alignButton.whenPressed(new FindTargetAngle());
+        alignButton.whenPressed(new FindTargetAngleClosedLoop());
     }
 
 }

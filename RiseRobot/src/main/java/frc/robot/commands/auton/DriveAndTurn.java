@@ -6,7 +6,7 @@ public class DriveAndTurn extends SequentialCommandGroup {
 
     public DriveAndTurn() {
         addCommands(new ShiftUp(),
-                new DriveStraight(1, 1),
+                new DriveStraight(1),
                 new TurnAtAngle(45));
     }
 

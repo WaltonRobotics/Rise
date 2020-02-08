@@ -85,4 +85,19 @@ public class CompRise implements WaltRobot {
         return 0;
     }
 
+    @Override
+    public double getVisionAlignKp() {
+        return 0;
+    }
+
+    @Override
+    public double getVisionAlignKs() {
+        return 0;
+    }
+
+    @Override
+    public double getVisionAlignTxTolerance() {
+        return 0;
+    }
+
 }

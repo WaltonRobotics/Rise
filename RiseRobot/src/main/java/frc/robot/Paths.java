@@ -18,21 +18,52 @@ public class Paths {
 
     public static class TestTrajectories {
 
-        public static Pose2d testForwardStarting = new Pose2d(Units.feetToMeters(9.32), Units.feetToMeters(13.677), Rotation2d.fromDegrees(0.0));
-
         public static Trajectory generateTestForward() {
             TrajectoryConfig config = new TrajectoryConfig(
                     Units.feetToMeters(7), Units.feetToMeters(3));
-            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(13)));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(testForwardStarting,
+                    Arrays.asList(new Pose2d(Units.feetToMeters(9.32), Units.feetToMeters(13.677), Rotation2d.fromDegrees(0.0)),
                             new Pose2d(Units.feetToMeters(17.091), Units.feetToMeters(13.541), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }
+    }
+
+    public static class CrossBaseline {
+
+        public static Trajectory generateForwards() {
+            TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(4), Units.feetToMeters(3));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
+            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+            config.setKinematics(drivetrain.getDriveKinematics());
+
+            return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(10.808), Units.feetToMeters(13.0), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(14.0), Units.feetToMeters(13.0), Rotation2d.fromDegrees(0.0))),
+                    config
+            );
+        }
+
+        public static Trajectory generateBackwards() {
+            TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(4), Units.feetToMeters(3));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
+            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+            config.setKinematics(drivetrain.getDriveKinematics());
+            config.setReversed(true);
+
+            return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(14.0), Units.feetToMeters(13.0), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(10.808), Units.feetToMeters(13.0), Rotation2d.fromDegrees(0.0))),
+                    config
+            );
+        }
+
     }
 
     public static class ShootAndTrenchPickup {
@@ -44,7 +75,7 @@ public class Paths {
         public static Trajectory generateToTrenchPickup() {
             TrajectoryConfig config = new TrajectoryConfig(
                     Units.feetToMeters(13), Units.feetToMeters(7));
-            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(13)));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
 
@@ -57,7 +88,7 @@ public class Paths {
         public static Trajectory generateBackupToShoot() {
             TrajectoryConfig config = new TrajectoryConfig(
                     Units.feetToMeters(13), Units.feetToMeters(7));
-            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(13)));
+            config.addConstraint(new DifferentialDriveKinematicsConstraint(drivetrain.getDriveKinematics(), Units.feetToMeters(17)));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
             config.setReversed(true);

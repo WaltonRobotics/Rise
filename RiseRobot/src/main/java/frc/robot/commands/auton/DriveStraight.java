@@ -11,29 +11,31 @@ public class DriveStraight extends CommandBase {
     private double desiredDistance;
     private double power;
 
-    public DriveStraight(double desiredDistance, double power) {
+    public DriveStraight(double desiredDistance) {
         this.desiredDistance = desiredDistance;
-        this.power = power;
     }
 
     @Override
     public void initialize() {
-        drivetrain.reset();
+        drivetrain.zeroNeoEncoders();
     }
 
     @Override
-
     public void execute() {
-        double turnRate = -currentRobot.getDistancePIDController().calculate(drivetrain.getHeading().getDegrees(), 0);
+        double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees(), 0);
+        double driveCommand = currentRobot.getDistancePIDController().calculate(getAveragedDistance(), desiredDistance);
 
         SmartDashboard.putNumber("Turn rate", turnRate);
-        SmartDashboard.putNumber("Left meters", drivetrain.leftEncoderPulses());
-        SmartDashboard.putNumber("Right meters", drivetrain.rightEncoderPulses());
-        drivetrain.setArcadeSpeeds(power, turnRate);
+
+        drivetrain.setArcadeSpeeds(driveCommand, turnRate);
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs((drivetrain.leftEncoderPulses() + drivetrain.rightEncoderPulses()) / 2) >= desiredDistance;
+        return currentRobot.getDistancePIDController().atSetpoint();
+    }
+
+    private double getAveragedDistance() {
+        return Math.abs(drivetrain.getCANEncoderLeftMeters()) + Math.abs(drivetrain.getCANEncoderRightMeters()) / 2;
     }
 }

@@ -46,4 +46,10 @@ public interface WaltRobot {
 
     double getMaxAlignmentTime();
 
+    double getVisionAlignKp();
+
+    double getVisionAlignKs();
+
+    double getVisionAlignTxTolerance();
+
 }

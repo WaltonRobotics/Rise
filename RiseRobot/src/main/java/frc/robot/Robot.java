@@ -1,8 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.auton.LiveDashboard;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.auton.TurnAtAngle;
 import frc.robot.commands.teleop.Drive;
@@ -11,8 +17,15 @@ import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
+import frc.utils.AutonSelector;
 import frc.utils.WaltTimedRobot;
 
+import java.util.List;
+
+import static frc.robot.Constants.FieldConfiguration.DISTANCE_BETWEEN_BASELINES;
+import static frc.robot.Constants.FieldConfiguration.REFLECTION_LINE_DISTANCE;
+import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
+import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
 
 /**
@@ -28,6 +41,8 @@ public class Robot extends WaltTimedRobot {
     public static Spinner spinner;
 
     public static WaltRobot currentRobot;
+
+    public static boolean isBlue = true;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -48,6 +63,9 @@ public class Robot extends WaltTimedRobot {
         spinner = new Spinner();
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
+
+        SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
+        SmartDashboard.putBoolean(IS_BLUE, false);
     }
 
     /**
@@ -64,6 +82,12 @@ public class Robot extends WaltTimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+
+        if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
+            isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
+        } else {
+            isBlue = (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue);
+        }
     }
 
     /**
@@ -82,7 +106,8 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void autonomousInit() {
-        new SequentialCommandGroup(new ShiftUp(), new TurnAtAngle(90)).schedule();
+        drivetrain.resetHardware();
+        AutonSelector.findById((int)SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup().schedule();
     }
 
     /**
@@ -96,8 +121,6 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void teleopInit() {
         drivetrain.shiftUp();
-        drivetrain.reset();
-        drivetrain.zeroNeoEncoders();
     }
 
     /**
@@ -106,6 +129,16 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
+
+        if (isBlue) {
+            LiveDashboard.getInstance().setRobotX(Units.metersToFeet(REFLECTION_LINE_DISTANCE * 2 - drivetrain.getRobotPose().getTranslation().getX()));
+            LiveDashboard.getInstance().setRobotY(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getY()));
+            LiveDashboard.getInstance().setRobotHeading(drivetrain.getRobotPose().getRotation().plus(Rotation2d.fromDegrees(180)).getRadians());
+        } else {
+            LiveDashboard.getInstance().setRobotX(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getX()));
+            LiveDashboard.getInstance().setRobotY(Units.metersToFeet(drivetrain.getRobotPose().getTranslation().getY()));
+            LiveDashboard.getInstance().setRobotHeading(drivetrain.getRobotPose().getRotation().getRadians());
+        }
     }
 
     @Override

@@ -19,12 +19,6 @@ import static frc.robot.Robot.drivetrain;
 
 public class Drivetrain extends SubsystemBase {
 
-    private static final Encoder encoderRight = new Encoder(
-            new DigitalInput(0),
-            new DigitalInput(1));
-    private static final Encoder encoderLeft = new Encoder(
-            new DigitalInput(2),
-            new DigitalInput(3));
     private final AHRS ahrs = new AHRS(SPI.Port.kMXP);
     private CANSparkMax rightWheelsMaster = new CANSparkMax(1, CANSparkMax.MotorType.kBrushless);
     private CANSparkMax rightWheelsSlave = new CANSparkMax(2, CANSparkMax.MotorType.kBrushless);
@@ -40,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
 
     public Drivetrain() {
         motorSetUp();
-        zeroHeading();
+        resetHardware();
     }
 
     @Override
@@ -52,6 +46,7 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
         SmartDashboard.putNumber("Left neo encoder distance", drivetrain.getCANEncoderLeftMeters());
         SmartDashboard.putNumber("right neo encoder distance", drivetrain.getCANEncoderRightMeters());
+        System.out.println(driveOdometry.getPoseMeters());
     }
 
     public void motorSetUp() {
@@ -86,9 +81,6 @@ public class Drivetrain extends SubsystemBase {
         leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
         rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
 
-        encoderLeft.setDistancePerPulse(currentRobot.getDistancePerPulse());
-        encoderRight.setDistancePerPulse(currentRobot.getDistancePerPulse());
-        encoderRight.setReverseDirection(true);
     }
 
     public void setSpeeds(double leftPower, double rightPower) {
@@ -150,29 +142,16 @@ public class Drivetrain extends SubsystemBase {
         );
     }
 
-    public double leftEncoderPulses() {
-        return encoderLeft.get();
-    }
-
-    public double rightEncoderPulses() {
-        return encoderRight.get();
-    }
-
     private void updateRobotPose() {
         robotPose = driveOdometry.update(getHeading(), leftWheelsMaster.getEncoder().getPosition(), rightWheelsMaster.getEncoder().getPosition());
     }
 
-    public void reset() {
-        encoderLeft.reset();
-        encoderRight.reset();
-
-        zeroHeading();
+    public void resetHardware() {
         zeroNeoEncoders();
+        zeroHeading();
     }
 
-    public void reset(Pose2d startingPose) {
-        reset();
-
+    public void resetOdometry(Pose2d startingPose) {
         driveOdometry.resetPosition(startingPose, getHeading());
     }
 

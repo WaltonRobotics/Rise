@@ -14,7 +14,7 @@ public class ShootAndPickup extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> System.out.println("Shooting three balls!")),
                 new WaitCommand(2.0),
-                new InstantCommand(() -> drivetrain.reset(Paths.ShootAndTrenchPickup.shootingLine)),
+                new InstantCommand(() -> drivetrain.resetOdometry(Paths.ShootAndTrenchPickup.shootingLine)),
                 new RamseteTrackingCommand(Paths.ShootAndTrenchPickup.generateToTrenchPickup()),
                 new RamseteTrackingCommand(Paths.ShootAndTrenchPickup.generateBackupToShoot())
         );
