@@ -42,25 +42,44 @@ public class DelaunayInterpolatingMap {
 
   public final Map<Vector2D, Double> points;
   private DelaunayTriangulator triangulator;
+  public boolean isTriangulated;
 
 
   /**
    * @throws NotEnoughPointsException if the size of points is less than 3.
    */
-  public DelaunayInterpolatingMap(Map<Vector2d, Double> points) throws NotEnoughPointsException {
+  public DelaunayInterpolatingMap(Map<Vector2d, Double> points){
     this.points = points.entrySet().stream().collect(Collectors.toMap(n ->
         new Vector2D(n.getKey().x, n.getKey().y), n -> n.getValue()));
 
     List<Vector2D> vectors = points.keySet().stream().map(n -> new Vector2D(n.x, n.y)).collect(
         Collectors.toList());
     triangulator = new DelaunayTriangulator(vectors);
-    triangulator.triangulate();
+    triangulate();
   }
 
-  private Double put(Vector2D key, Double value) throws NotEnoughPointsException {
+  /**
+   * Will attempt to triangulate the data set. If there are less than 3 points, then it will not
+   * work.
+   * @return if the operation was successful.
+   */
+  public boolean triangulate() {
+    try {
+      triangulator.triangulate();
+      isTriangulated = true;
+      return true;
+    } catch(NotEnoughPointsException e) {
+      System.out.println("Not enough points to triangulate!");
+      e.printStackTrace();
+      isTriangulated = false;
+    }
+    return false;
+  }
+
+  private Double put(Vector2D key, Double value) {
     if (!points.containsKey(key)) {
       triangulator.getPointSet().add(key);
-      triangulator.triangulate();
+      triangulate();
     }
     return points.put(key, value);
   }
@@ -69,16 +88,16 @@ public class DelaunayInterpolatingMap {
    * Puts a new point into the map and updates the triangulation.
    *
    * @return the old value at key or null, if there wasn't a mapping for key.
-   * @throws NotEnoughPointsException if, after inserting the point, the map still doesn't have at
-   * least three points.
    */
-  public Double put(Vector2d key, Double value) throws NotEnoughPointsException {
+  public Double put(Vector2d key, Double value){
     return put(new Vector2D(key.x, key.y), value);
   }
 
-  private Double remove(Vector2D key) throws NotEnoughPointsException {
+  private Double remove(Vector2D key){
     triangulator.getPointSet().remove(key);
-    triangulator.triangulate();
+
+    triangulate();
+
     return points.remove(key);
   }
 
@@ -86,10 +105,8 @@ public class DelaunayInterpolatingMap {
    * Removes the point from the map and updates the triangulation.
    *
    * @return the value that had been at key or null, if there was not a value at key.
-   * @throws NotEnoughPointsException if, after removing the point, the map has less than three
-   * points.
    */
-  public Double remove(Vector2d key) throws NotEnoughPointsException {
+  public Double remove(Vector2d key) {
     return remove(new Vector2D(key.x, key.y));
   }
 
@@ -217,7 +234,7 @@ public class DelaunayInterpolatingMap {
    * @throws NumberFormatException if the file is not formatted properly.
    */
   public static DelaunayInterpolatingMap fromJson(File json)
-      throws IOException, NotEnoughPointsException, NumberFormatException {
+      throws IOException, NumberFormatException {
     Map<String, Double> deserializedMap = JsonParser.parseJsonToMap(json,
         new TypeReference<>() {
         });
