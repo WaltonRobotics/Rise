@@ -51,7 +51,7 @@ public class Robot extends WaltTimedRobot {
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
 
-        SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
+        SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
         SmartDashboard.putBoolean(IS_BLUE, false);
     }
 
