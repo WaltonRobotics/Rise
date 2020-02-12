@@ -5,13 +5,17 @@ import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_MASTER_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_SLAVE_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_TURRET_ID;
 import static frc.robot.Constants.PneumaticIDs.CONVEYOR_STOP_ID;
+import static frc.robot.Constants.Turret.*;
+import static frc.robot.Robot.drivetrain;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.DelaunayInterpolatingMap;
 import java.io.File;
@@ -22,6 +26,7 @@ public class TurretShooter extends SubsystemBase {
 
   private static final String JSON_FILE_LOCATION = "/home/lvuser/shooter_data.json";
   private static final String DEPLOY_FILE_LOCATION = "/home/lvuser/deploy/shooter_data.json";
+
   private static final Map<Vector2d, Double> DEFAULT_DATA_MAP = Map.of(
       new Vector2d(-1, -1), -1.0,
       new Vector2d(-2, -2), -2.0,
@@ -30,30 +35,51 @@ public class TurretShooter extends SubsystemBase {
 
   private final TalonFX flywheelMaster = new TalonFX(SHOOTER_FLYWHEEL_MASTER_ID);
   private final TalonFX flywheelSlave = new TalonFX(SHOOTER_FLYWHEEL_SLAVE_ID);
+
   private final TalonSRX turretMotor = new TalonSRX(SHOOTER_TURRET_ID);
+
   private final DelaunayInterpolatingMap knownDataMap;
 
   private final VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
   private final Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
-  
-  private double targetSpeed = 0;
+
+  private final Encoder turretEncoder = new Encoder(TURRET_ENCODER_PORT_1, TURRET_ENCODER_PORT_2);
 
   public TurretShooter() {
     knownDataMap = loadMap();
 
     flywheelMaster.selectProfileSlot(0, 0);
-    flywheelMaster.setInverted(true);
 
+    flywheelMaster.setInverted(true);
     flywheelSlave.follow(flywheelMaster);
+    flywheelSlave.setInverted(true);
+
   }
 
   @Override
   public void periodic() {
-    flywheelMaster.set(TalonFXControlMode.Velocity, targetSpeed);
+
   }
 
-  public void setTargetSpeed(double targetSpeed) {
-    this.targetSpeed = targetSpeed;
+  public void setFlywheelSpeed(double targetSpeed) {
+    flywheelMaster.set(ControlMode.Velocity, targetSpeed);
+  }
+
+  public void setTurretAngle(Rotation2d angle, boolean fieldOriented) {
+    if(fieldOriented) {
+      turretMotor.set(ControlMode.Position, angle.getRadians() - drivetrain.getHeading().getRadians() / (2 * Math.PI * TURRET_ROTATIONS_PER_TICK));
+    }
+    else {
+      turretMotor.set(ControlMode.Position, angle.getRadians() / (2 * Math.PI * TURRET_ROTATIONS_PER_TICK));
+    }
+  }
+
+  public Rotation2d getTurretAngle() {
+    return Rotation2d.fromDegrees(turretEncoder.get() / (2 * Math.PI * TURRET_ROTATIONS_PER_TICK));
+  }
+
+  public void setOpenLoopTurretSpeeds(double speed) {
+    turretMotor.set(ControlMode.PercentOutput, speed);
   }
 
   /**

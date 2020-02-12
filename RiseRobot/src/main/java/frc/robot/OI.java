@@ -34,6 +34,8 @@ public class OI {
       buttonMap.getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
   public static EnhancedJoystickButton alignButton = new EnhancedJoystickButton(
           buttonMap.getButtonIndex(ALIGN_TARGET_BUTTON_KEY));
+  public static EnhancedJoystickButton spinUpFlywheelButton = new EnhancedJoystickButton(
+          buttonMap.getButtonIndex(SPIN_UP_FLYWHEEL_KEY));
 
   static {
   }

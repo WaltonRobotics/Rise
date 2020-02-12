@@ -10,6 +10,7 @@ package frc.robot;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.robot.OI.gamepad;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,6 +83,7 @@ public final class Constants {
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
     public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
+    public static final String SPIN_UP_FLYWHEEL_KEY = "Spin Up Flywheel";
 
     /*
     Add default mappings here, following the template
@@ -91,9 +93,19 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
-            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}}
+            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}},
+            {SPIN_UP_FLYWHEEL_KEY, new int[]{GAMEPAD_PORT, 7}}
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
+  }
+
+  public static class Turret {
+
+    public static final int TURRET_ENCODER_PORT_1 = 1;
+    public static final int TURRET_ENCODER_PORT_2 = 2;
+
+    public static final int TURRET_ROTATIONS_PER_TICK = 1;
+
   }
 
 }
