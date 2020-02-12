@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
 import frc.robot.commands.teleop.Drive;
-import frc.robot.commands.teleop.IntakeCommand;
+import frc.robot.commands.teleop.IntakeConveyorCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeConveyor;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
 import frc.utils.WaltTimedRobot;
@@ -41,7 +41,7 @@ public class Robot extends WaltTimedRobot {
     public static Spinner spinner;
     public static TurretShooter shooter;
     public static Climber climber;
-    public static Intake intake;
+    public static IntakeConveyor intakeConveyor;
 
     public static WaltRobot currentRobot;
 
@@ -63,11 +63,11 @@ public class Robot extends WaltTimedRobot {
         spinner = new Spinner();
         shooter = new TurretShooter();
         climber = new Climber();
-        intake = new Intake();
+        intakeConveyor = new IntakeConveyor();
 
 
         CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
-        CommandScheduler.getInstance().setDefaultCommand(intake, new IntakeCommand());
+        CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
     }
 
     /**
