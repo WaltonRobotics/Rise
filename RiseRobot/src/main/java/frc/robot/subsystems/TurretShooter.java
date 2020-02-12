@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.CANBusIDs.CONVEYOR_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_MASTER_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_SLAVE_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_TURRET_ID;
-import static frc.robot.Constants.PneumaticIDs.CONVEYOR_STOP_ID;
 import static frc.robot.Constants.Turret.*;
 import static frc.robot.Robot.drivetrain;
 
@@ -12,9 +10,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.drive.Vector2d;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.DelaunayInterpolatingMap;
@@ -27,21 +22,12 @@ public class TurretShooter extends SubsystemBase {
   private static final String JSON_FILE_LOCATION = "/home/lvuser/shooter_data.json";
   private static final String DEPLOY_FILE_LOCATION = "/home/lvuser/deploy/shooter_data.json";
 
-  private static final Map<Vector2d, Double> DEFAULT_DATA_MAP = Map.of(
-      new Vector2d(-1, -1), -1.0,
-      new Vector2d(-2, -2), -2.0,
-      new Vector2d(-3, -3), -3.0
-  );
-
   private final TalonFX flywheelMaster = new TalonFX(SHOOTER_FLYWHEEL_MASTER_ID);
   private final TalonFX flywheelSlave = new TalonFX(SHOOTER_FLYWHEEL_SLAVE_ID);
 
   private final TalonSRX turretMotor = new TalonSRX(SHOOTER_TURRET_ID);
 
   private final DelaunayInterpolatingMap knownDataMap;
-
-  private final VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
-  private final Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
 
   private final Encoder turretEncoder = new Encoder(TURRET_ENCODER_PORT_1, TURRET_ENCODER_PORT_2);
 
