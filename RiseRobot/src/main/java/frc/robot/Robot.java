@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auton.RamseteTrackingCommand;
 import frc.robot.commands.auton.ShiftUp;
-import frc.robot.commands.teleop.Drive;
-import frc.robot.commands.teleop.IntakeConveyorCommand;
+import frc.robot.commands.teleop.DriveCommand;
+import frc.robot.commands.teleop.TurretShooterCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.IntakeConveyor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
 import frc.utils.WaltTimedRobot;
@@ -39,9 +39,9 @@ public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
     public static Spinner spinner;
-    public static TurretShooter shooter;
+    public static TurretShooter turretShooter;
     public static Climber climber;
-    public static IntakeConveyor intakeConveyor;
+    public static Intake intake;
 
     public static WaltRobot currentRobot;
 
@@ -61,13 +61,12 @@ public class Robot extends WaltTimedRobot {
 
         drivetrain = new Drivetrain();
         spinner = new Spinner();
-        shooter = new TurretShooter();
+        turretShooter = new TurretShooter();
         climber = new Climber();
-        intakeConveyor = new IntakeConveyor();
+        intake = new Intake();
 
-
-        CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
-        CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
+        CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
+        CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
     }
 
     /**

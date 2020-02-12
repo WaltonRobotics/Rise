@@ -109,4 +109,13 @@ public final class Constants {
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
 
+  public static class Turret {
+
+    public static final int TURRET_ENCODER_PORT_1 = 1;
+    public static final int TURRET_ENCODER_PORT_2 = 2;
+
+    public static final int TURRET_ROTATIONS_PER_TICK = 1;
+
+  }
+
 }

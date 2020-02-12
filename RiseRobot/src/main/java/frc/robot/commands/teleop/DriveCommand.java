@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.OI.*;
 import static frc.robot.Robot.drivetrain;
 
-public class Drive extends CommandBase {
+public class DriveCommand extends CommandBase {
 
     private double deadBand = 0.1;
 
-    public Drive() {
+    public DriveCommand() {
         addRequirements(drivetrain);
     }
 
