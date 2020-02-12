@@ -23,8 +23,8 @@ import org.ejml.simple.ops.SimpleOperations_DDRM;
 /**
  * <p>
  * A DelaunayInterpolatingMap will perform interpolation across two independent variables, given as
- * pairs of input {@code Double[]}s and output Doubles. In order to determine which three points to
- * use for interpolation, the map uses a modified version of
+ * pairs of input {@code Double[]}s ("Tuples") and output Doubles. In order to determine which three
+ * points to use for interpolation, the map uses a modified version of
  * <a href=https://github.com/jdiemke/delaunay-triangulator>Johannes Diemke's Java Delaunay
  * triangulation implementation</a>. It has been modified to include {@code equals()} and {@code
  * hashCode()} methods for his objects.
