@@ -9,24 +9,18 @@ import static frc.robot.Constants.PneumaticIDs.CONVEYOR_STOP_ID;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.drive.Vector2d;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.DelaunayInterpolatingMap;
+import frc.utils.ShootingParameters;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 public class TurretShooter extends SubsystemBase {
 
   private static final String JSON_FILE_LOCATION = "/home/lvuser/shooter_data.json";
   private static final String DEPLOY_FILE_LOCATION = "/home/lvuser/deploy/shooter_data.json";
-  private static final Map<Vector2d, Double> DEFAULT_DATA_MAP = Map.of(
-      new Vector2d(-1, -1), -1.0,
-      new Vector2d(-2, -2), -2.0,
-      new Vector2d(-3, -3), -3.0
-  );
 
   private final TalonFX flywheelMaster = new TalonFX(SHOOTER_FLYWHEEL_MASTER_ID);
   private final TalonFX flywheelSlave = new TalonFX(SHOOTER_FLYWHEEL_SLAVE_ID);
@@ -35,7 +29,7 @@ public class TurretShooter extends SubsystemBase {
 
   private final VictorSPX conveyorMotor = new VictorSPX(CONVEYOR_ID);
   private final Solenoid conveyorStop = new Solenoid(CONVEYOR_STOP_ID);
-  
+
   private double targetSpeed = 0;
 
   public TurretShooter() {
@@ -60,21 +54,8 @@ public class TurretShooter extends SubsystemBase {
    * @return the interpolated output value for the inputData or null if there is less than 3 points
    * in the data map or the inputData can't be interpolated for.
    */
-  public Double estimateTargetSpeed(Vector2d inputData) {
-    if (!knownDataMap.isTriangulated) {
-      if (!knownDataMap.triangulate()) {
-        return null;
-      }
-    }
-    return knownDataMap.get(inputData);
-  }
-
-  /**
-   * @return the interpolated output value for the inputData or null if there is less than 3 points
-   * in the data map or the inputData can't be interpolated for.
-   */
-  public Double estimateTargetSpeed(double inputOne, double inputTwo) {
-    return estimateTargetSpeed(new Vector2d(inputOne, inputTwo));
+  public Double estimateTargetSpeed(ShootingParameters inputData) {
+    return knownDataMap.get(inputData.asTuple());
   }
 
   private DelaunayInterpolatingMap loadMap() {
@@ -87,7 +68,7 @@ public class TurretShooter extends SubsystemBase {
         return DelaunayInterpolatingMap.fromJson(new File(DEPLOY_FILE_LOCATION));
       } catch (IOException e2) {
         System.out.println("Unable to load " + DEPLOY_FILE_LOCATION);
-        return new DelaunayInterpolatingMap(DEFAULT_DATA_MAP);
+        return new DelaunayInterpolatingMap();
       }
     }
   }

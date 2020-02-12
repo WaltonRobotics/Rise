@@ -19,4 +19,11 @@ public class ShootingParameters {
     public Rotation2d getAngle() {
         return angle;
     }
+
+    /**
+     * @return a length 2 {@code Double[]} ("Tuple") with the distance and the angle (in radians).
+     */
+    public Double[] asTuple() {
+        return new Double[] {distance, angle.getRadians()};
+    }
 }
