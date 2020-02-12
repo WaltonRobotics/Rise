@@ -70,4 +70,9 @@ public class PracticeRise implements WaltRobot {
         return 0;
     }
 
+    @Override
+    public int getMountingAngle() {
+        return 0;
+    }
+
 }

@@ -92,4 +92,9 @@ public class CompDeepSpace implements WaltRobot {
     public double getMinimumShiftingTime() {
         return 1.0;
     }
+
+    @Override
+    public int getMountingAngle() {
+        return 20;
+    }
 }
