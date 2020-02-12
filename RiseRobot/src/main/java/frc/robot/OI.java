@@ -34,6 +34,12 @@ public class OI {
       buttonMap.getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
   public static EnhancedJoystickButton alignButton = new EnhancedJoystickButton(
           buttonMap.getButtonIndex(ALIGN_TARGET_BUTTON_KEY));
+  public static EnhancedJoystickButton intakeUpButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(INTAKE_UP_KEY));
+  public static EnhancedJoystickButton intakeDownButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(INTAKE_DOWN_KEY));
+  public static EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(INTAKE_ON_KEY));
 
   static {
   }

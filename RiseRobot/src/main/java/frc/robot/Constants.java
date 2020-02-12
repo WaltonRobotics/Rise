@@ -10,6 +10,8 @@ package frc.robot;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.utils.EnhancedJoystickButton.POV_N;
+import static frc.utils.EnhancedJoystickButton.POV_S;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,6 +84,9 @@ public final class Constants {
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
     public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
+    public static final String INTAKE_UP_KEY = "Intake Up";
+    public static final String INTAKE_DOWN_KEY = "Intake Down";
+    public static final String INTAKE_ON_KEY = "Intake On";
 
     /*
     Add default mappings here, following the template
@@ -91,7 +96,10 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
-            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}}
+        {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}},
+        {INTAKE_UP_KEY, new int[]{GAMEPAD_PORT, POV_N}},
+        {INTAKE_DOWN_KEY, new int[]{GAMEPAD_PORT, POV_S}},
+        {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 8}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
