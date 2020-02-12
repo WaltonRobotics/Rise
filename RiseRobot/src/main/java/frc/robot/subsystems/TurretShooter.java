@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.DelaunayInterpolatingMap;
+import frc.utils.ShootingParameters;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 public class TurretShooter extends SubsystemBase {
 
@@ -86,21 +86,8 @@ public class TurretShooter extends SubsystemBase {
    * @return the interpolated output value for the inputData or null if there is less than 3 points
    * in the data map or the inputData can't be interpolated for.
    */
-  public Double estimateTargetSpeed(Vector2d inputData) {
-    if (!knownDataMap.isTriangulated) {
-      if (!knownDataMap.triangulate()) {
-        return null;
-      }
-    }
-    return knownDataMap.get(inputData);
-  }
-
-  /**
-   * @return the interpolated output value for the inputData or null if there is less than 3 points
-   * in the data map or the inputData can't be interpolated for.
-   */
-  public Double estimateTargetSpeed(double inputOne, double inputTwo) {
-    return estimateTargetSpeed(new Vector2d(inputOne, inputTwo));
+  public Double estimateTargetSpeed(ShootingParameters inputData) {
+    return knownDataMap.get(inputData.asTuple());
   }
 
   private DelaunayInterpolatingMap loadMap() {
@@ -113,7 +100,7 @@ public class TurretShooter extends SubsystemBase {
         return DelaunayInterpolatingMap.fromJson(new File(DEPLOY_FILE_LOCATION));
       } catch (IOException e2) {
         System.out.println("Unable to load " + DEPLOY_FILE_LOCATION);
-        return new DelaunayInterpolatingMap(DEFAULT_DATA_MAP);
+        return new DelaunayInterpolatingMap();
       }
     }
   }
