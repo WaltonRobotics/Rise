@@ -23,7 +23,7 @@ public class CompDeepSpace implements WaltRobot {
 
     private final Solenoid shifter = new Solenoid(shifterChannel);
 
-    private final double highGearRatio = 6.58905 * 1.051;
+    private final double highGearRatio = 1; //6.58905 * 1.051
     private final double wheelDiameter = Units.inchesToMeters(5);
 
     private PIDController turnPIDController;
@@ -90,12 +90,12 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public double getVelocityFactor() {
-        return 1 / highGearRatio * Math.PI * wheelDiameter / 60;
+        return 0.06038 / 60.;
     }
 
     @Override
     public double getPositionFactor() {
-        return 1 / highGearRatio * Math.PI * wheelDiameter;
+        return 0.06038;
     }
 
     @Override

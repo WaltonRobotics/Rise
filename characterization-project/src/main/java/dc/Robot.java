@@ -108,8 +108,7 @@ public class Robot extends TimedRobot {
     // return units and units/s
     //
 
-    double encoderConstant =
-        (1 / GEARING) * WHEEL_DIAMETER * Math.PI;
+    double encoderConstant = 0.06038;
 
     leftEncoderPosition = ()
         -> leftEncoder.getPosition() * encoderConstant;
