@@ -1,15 +1,11 @@
 package frc.utils;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Paths;
 import frc.robot.commands.auton.*;
 
-import java.nio.file.Path;
-
-import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
 public enum AutonSelector {
@@ -23,7 +19,7 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.CrossBaseline.backwards),
             new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
-    TWO_A(3, "2A", new TimeAuton(
+    TWO_A(3, "2A", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
@@ -38,7 +34,7 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot),
             new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
-    FOUR(4, "4", new TimeAuton(
+    FOUR(4, "4", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
@@ -46,7 +42,7 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Four.backupFromTrench),
             new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
-    FIVE(5, "5", new TimeAuton(
+    FIVE(5, "5", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
@@ -57,7 +53,7 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Five.trenchToGenerator),
             new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
-    TESTS(254, "Tests", new TimeAuton(
+    TESTS(254, "Tests", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.TestTrajectories.testForward.getInitialPose()),
