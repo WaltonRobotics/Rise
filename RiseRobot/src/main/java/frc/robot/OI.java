@@ -38,8 +38,6 @@ public class OI {
       buttonMap.getButtonIndex(CLIMBER_UP_BUTTON_KEY));
   public static EnhancedJoystickButton climberDownButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(CLIMBER_DOWN_BUTTON_KEY));
-  public static EnhancedJoystickButton climberLooseButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(CLIMBER_LOOSE_BUTTON_KEY));
   public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(CLIMBER_UNLOCK_BUTTON_KEY));
 

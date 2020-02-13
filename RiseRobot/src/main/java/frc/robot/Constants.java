@@ -54,10 +54,9 @@ public final class Constants {
     public static final int CONVEYOR_STOP_ID = 1;
 
     public static final int CLIMBER_LOCK_ID = 2;
-    public static final int CLIMBER_TOGGLE_FIRST_ID = 3;
-    public static final int CLIMBER_TOGGLE_SECOND_ID = 4;
+    public static final int CLIMBER_TOGGLE_ID = 3;
 
-    public static final int SPINNER_TOGGLE_ID = 5;
+    public static final int SPINNER_TOGGLE_ID = 4;
 
   }
 
@@ -88,7 +87,6 @@ public final class Constants {
     public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
     public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
     public static final String CLIMBER_DOWN_BUTTON_KEY = "Climber Down";
-    public static final String CLIMBER_LOOSE_BUTTON_KEY = "Climber Loose";
     public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
 
     /*
@@ -102,7 +100,6 @@ public final class Constants {
             {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}},
         {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_N}},
         {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_S}},
-        {CLIMBER_LOOSE_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_W}},
         {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));

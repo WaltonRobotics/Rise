@@ -2,13 +2,11 @@ package frc.robot.commands.teleop;
 
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.PercentOutput;
 import static frc.robot.OI.climberDownButton;
-import static frc.robot.OI.climberLooseButton;
 import static frc.robot.OI.climberUnlockButton;
 import static frc.robot.OI.climberUpButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.Robot.climber;
 import static frc.robot.commands.teleop.ClimbCommand.ToggleState.DOWN;
-import static frc.robot.commands.teleop.ClimbCommand.ToggleState.LOOSE;
 import static frc.robot.commands.teleop.ClimbCommand.ToggleState.UP;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -25,7 +23,6 @@ public class ClimbCommand extends CommandBase {
 
     climberUpButton.whenPressed(() -> toggleState = UP);
     climberDownButton.whenPressed(() -> toggleState = DOWN);
-    climberLooseButton.whenPressed(() -> toggleState = LOOSE);
   }
 
   @Override
@@ -60,20 +57,12 @@ public class ClimbCommand extends CommandBase {
     DOWN {
       @Override
       public void setSolenoidStates() {
-        climber.setClimberToggleFirst(false);
-        climber.setClimberToggleSecond(false);
+        climber.setClimberToggle(false);
       }
     }, UP {
       @Override
       public void setSolenoidStates() {
-        climber.setClimberToggleFirst(false);
-        climber.setClimberToggleSecond(false);
-      }
-    }, LOOSE {
-      @Override
-      public void setSolenoidStates() {
-        climber.setClimberToggleFirst(false);
-        climber.setClimberToggleSecond(false);
+        climber.setClimberToggle(true);
       }
     };
 
