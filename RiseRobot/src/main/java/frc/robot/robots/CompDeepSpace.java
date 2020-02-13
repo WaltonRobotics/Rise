@@ -16,8 +16,8 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.45, 0, 0);       //maybe 1.74?
-    private final PIDController rightPIDController = new PIDController(1.45, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.5, 0, 0);       //maybe 1.74?
+    private final PIDController rightPIDController = new PIDController(1.5, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.201, 2.12, 0.551);
 
