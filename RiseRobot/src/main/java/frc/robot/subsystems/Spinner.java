@@ -14,11 +14,9 @@ import static frc.robot.Constants.PneumaticIDs.SPINNER_TOGGLE_ID;
 public class Spinner extends SubsystemBase {
 
     private final TalonSRX spinnerMotor = new TalonSRX(SPINNER_ID);
-
     private final Solenoid spinnerToggle = new Solenoid(SPINNER_TOGGLE_ID);
 
     private final ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
-
     private final ColorSensorHelper colorSensorHelper = new ColorSensorHelper(colorSensor);
 
     public Spinner() {
