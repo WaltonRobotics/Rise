@@ -20,7 +20,8 @@ public enum AutonSelector {
     )),
     CROSS_BASELINE_BACKWARDS(2, "Cross Baseline Backwards", new SequentialCommandGroup(
             new ShiftUp(),
-            new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
+            new RamseteTrackingCommand(Paths.CrossBaseline.backwards),
+            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
     TWO_A(3, "2A", new TimeAuton(
             new ShiftUp(),
@@ -34,14 +35,16 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Two.intakeThreeBalls),
             new RamseteTrackingCommand(Paths.Two.trenchBackup),
             new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
-            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
+            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot),
+            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
     FOUR(4, "4", new TimeAuton(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
-            new RamseteTrackingCommand(Paths.Four.backupFromTrench)
+            new RamseteTrackingCommand(Paths.Four.backupFromTrench),
+            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
     FIVE(5, "5", new TimeAuton(
             new ShiftUp(),
@@ -51,21 +54,14 @@ public enum AutonSelector {
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
             new RamseteTrackingCommand(Paths.Five.threeBallTrench),
-            new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
+            new RamseteTrackingCommand(Paths.Five.trenchToGenerator),
+            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     )),
     TESTS(254, "Tests", new TimeAuton(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.TestTrajectories.testForward.getInitialPose()),
-            new RamseteCommand(Paths.TestTrajectories.testForward,
-                    drivetrain::getRobotPose,
-                    drivetrain.getRamseteController(),
-                    currentRobot.getDrivetrainFeedforward(),
-                    drivetrain.getDriveKinematics(),
-                    drivetrain::getSpeeds,
-                    currentRobot.getLeftPIDController(),
-                    currentRobot.getRightPIDController(),
-                    drivetrain::setVoltages),
+            new RamseteTrackingCommand(Paths.TestTrajectories.testForward),
             new InstantCommand(() -> drivetrain.setVoltages(0, 0))
     ));
 
