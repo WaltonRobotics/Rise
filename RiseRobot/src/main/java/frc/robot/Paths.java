@@ -187,6 +187,39 @@ public class Paths {
             );
         }
 
+        public static class Five {
+
+            public static Trajectory generatePickUpEnemyTrench() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                        Units.feetToMeters(10), Units.feetToMeters(6));
+                config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+                config.setKinematics(drivetrain.getDriveKinematics());
+
+                return TrajectoryGenerator.generateTrajectory(
+                        Arrays.asList(new Pose2d(Units.feetToMeters(10.9), Units.feetToMeters(2.291), Rotation2d.fromDegrees(0.0)),
+                                new Pose2d(Units.feetToMeters(20.07), Units.feetToMeters(2.291), Rotation2d.fromDegrees(0.0))),
+                        config
+                );
+            }
+
+            public static Trajectory generateBackupAndShootEnemyTrench() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                        Units.feetToMeters(10), Units.feetToMeters(6));
+                config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+                config.setKinematics(drivetrain.getDriveKinematics());
+
+                config.setReversed(true);
+
+                return TrajectoryGenerator.generateTrajectory(
+                        Arrays.asList(new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.488), Rotation2d.fromDegrees(0.0)),
+                                new Pose2d(Units.feetToMeters(16.819), Units.feetToMeters(9.454), Rotation2d.fromDegrees(-90)),
+                                new Pose2d(Units.feetToMeters(16.96), Units.feetToMeters(19.744), Rotation2d.fromDegrees(-125.0))),
+                        config
+                );
+            }
+
+
+        }
     }
 
 }
