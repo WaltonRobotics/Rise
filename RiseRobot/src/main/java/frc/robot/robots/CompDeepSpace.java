@@ -5,7 +5,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 
 import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
@@ -16,8 +18,8 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.5, 0, 0);       //maybe 1.74?
-    private final PIDController rightPIDController = new PIDController(1.5, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.7, 0, 0);       //maybe 1.74?
+    private final PIDController rightPIDController = new PIDController(1.7, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.201, 2.12, 0.551);
 
@@ -26,11 +28,12 @@ public class CompDeepSpace implements WaltRobot {
     private final double highGearRatio = 1; //6.58905 * 1.051
     private final double wheelDiameter = Units.inchesToMeters(5);
 
-    private PIDController turnPIDController;
+    private ProfiledPIDController turnPIDController;
     private PIDController distancePIDController;
 
     public CompDeepSpace() {
-        turnPIDController = new PIDController(0.009, 0, 0);
+        TrapezoidProfile.Constraints turnControllerConstraint = new TrapezoidProfile.Constraints(4, 3);
+        turnPIDController = new ProfiledPIDController(0.009, 0, 0, turnControllerConstraint);
         turnPIDController.enableContinuousInput(-180f, 180f);
         turnPIDController.setTolerance(0.5, 0.5);
 
@@ -69,7 +72,7 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public PIDController getTurnPIDController() {
+    public ProfiledPIDController getTurnPIDController() {
         return turnPIDController;
     }
 

@@ -2,11 +2,11 @@ package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 public interface WaltRobot {
 
-    // Ramsete constants
     double getTrackWidth();
 
     double getKBeta();
@@ -19,7 +19,7 @@ public interface WaltRobot {
     PIDController getRightPIDController();
 
     // Turn controller
-    PIDController getTurnPIDController();
+    ProfiledPIDController getTurnPIDController();
 
     // Distance controller
     PIDController getDistancePIDController();

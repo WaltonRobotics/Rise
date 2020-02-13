@@ -2,6 +2,7 @@ package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 public class PracticeRise implements WaltRobot {
@@ -31,7 +32,7 @@ public class PracticeRise implements WaltRobot {
     }
 
     @Override
-    public PIDController getTurnPIDController() {
+    public ProfiledPIDController getTurnPIDController() {
         return null;
     }
 
