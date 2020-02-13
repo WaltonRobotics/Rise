@@ -10,6 +10,9 @@ package frc.robot;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.utils.EnhancedJoystickButton.POV_N;
+import static frc.utils.EnhancedJoystickButton.POV_S;
+import static frc.utils.EnhancedJoystickButton.POV_W;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,9 +54,10 @@ public final class Constants {
     public static final int CONVEYOR_STOP_ID = 1;
 
     public static final int CLIMBER_LOCK_ID = 2;
-    public static final int CLIMBER_TOGGLE_ID = 3;
+    public static final int CLIMBER_TOGGLE_FIRST_ID = 3;
+    public static final int CLIMBER_TOGGLE_SECOND_ID = 4;
 
-    public static final int SPINNER_TOGGLE_ID = 4;
+    public static final int SPINNER_TOGGLE_ID = 5;
 
   }
 
@@ -82,6 +86,10 @@ public final class Constants {
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
     public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
+    public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
+    public static final String CLIMBER_DOWN_BUTTON_KEY = "Climber Down";
+    public static final String CLIMBER_LOOSE_BUTTON_KEY = "Climber Loose";
+    public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
 
     /*
     Add default mappings here, following the template
@@ -91,7 +99,11 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
-            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}}
+            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}},
+        {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_N}},
+        {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_S}},
+        {CLIMBER_LOOSE_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_W}},
+        {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
