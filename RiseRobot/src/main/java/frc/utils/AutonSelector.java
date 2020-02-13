@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Paths;
 import frc.robot.commands.auton.*;
 
+import java.nio.file.Path;
+
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
@@ -40,6 +42,16 @@ public enum AutonSelector {
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
             new RamseteTrackingCommand(Paths.Four.backupFromTrench)
+    )),
+    FIVE(5, "5", new TimeAuton(
+            new ShiftUp(),
+            new InstantCommand(() -> drivetrain.resetHardware()),
+            new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
+            new RamseteTrackingCommand(Paths.Five.backupFromTrench),
+            new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
+            new WaitCommand(2),
+            new RamseteTrackingCommand(Paths.Five.threeBallTrench),
+            new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
     )),
     TESTS(254, "Tests", new TimeAuton(
             new ShiftUp(),
