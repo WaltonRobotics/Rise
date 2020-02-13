@@ -173,16 +173,9 @@ public class Paths {
             config.setKinematics(drivetrain.getDriveKinematics());
             config.setReversed(true);
 
-            /*
             return TrajectoryGenerator.generateTrajectory(
                     Arrays.asList(new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.488), Rotation2d.fromDegrees(0.0)),
-                            new Pose2d(Units.feetToMeters(16.271), Units.feetToMeters(12.284), Rotation2d.fromDegrees(-90.0))),
-                    config
-            );
-             */
-            return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.488), Rotation2d.fromDegrees(0.0)),
-                            new Pose2d(Units.feetToMeters(17.047), Units.feetToMeters(11.433), Rotation2d.fromDegrees(151.0))),
+                            new Pose2d(Units.feetToMeters(17.047), Units.feetToMeters(13.224), Rotation2d.fromDegrees(150.0))),
                     config
             );
         }
