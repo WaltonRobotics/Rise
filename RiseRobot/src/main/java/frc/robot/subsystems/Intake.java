@@ -18,7 +18,7 @@ public class Intake extends SubsystemBase {
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
   // Will need another controller for centering motors
 
-  private final Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
+ // private final Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
 
   public Intake() {
 
