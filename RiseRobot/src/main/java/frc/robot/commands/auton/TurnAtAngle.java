@@ -1,6 +1,7 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Robot.currentRobot;
@@ -20,21 +21,21 @@ public class TurnAtAngle extends CommandBase {
     public void initialize() {
         System.out.println("turning to " + targetAngle);
 
-        currentRobot.getTurnPIDController().setSetpoint(targetAngle);
-
+        currentRobot.getTurnPIDController().reset(new TrapezoidProfile.State(0, 0));
         atTargetCount = 0;
 
         System.out.println("P CONSTANT: " + currentRobot.getTurnPIDController().getP());
         System.out.println("I CONSTANT: " + currentRobot.getTurnPIDController().getI());
 
-        SmartDashboard.putNumber("Turn Setpoint", currentRobot.getTurnPIDController().getSetpoint());
+        SmartDashboard.putNumber("Turn Setpoint", targetAngle);
     }
 
     @Override
     public void execute() {
-        double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees());
+        double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees(), targetAngle);
         SmartDashboard.putNumber("Velocity error", currentRobot.getTurnPIDController().getVelocityError());
         SmartDashboard.putNumber("Position error", currentRobot.getTurnPIDController().getPositionError());
+        System.out.println(currentRobot.getTurnPIDController().getPositionError());
         drivetrain.setSpeeds(turnRate, -turnRate);
 
         if (currentRobot.getTurnPIDController().atSetpoint()) {
@@ -61,6 +62,6 @@ public class TurnAtAngle extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return currentRobot.getTurnPIDController().atSetpoint();
+        return currentRobot.getTurnPIDController().atGoal();
     }
 }

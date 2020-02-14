@@ -12,18 +12,19 @@ public enum AutonSelector {
     DO_NOTHING(0, "Do Nothing", new SequentialCommandGroup()),
     CROSS_BASELINE_FORWARDS(1, "Cross Baseline Forwards", new SequentialCommandGroup(
             new ShiftUp(),
+            new ResetPose(Paths.CrossBaseline.forwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
     CROSS_BASELINE_BACKWARDS(2, "Cross Baseline Backwards", new SequentialCommandGroup(
             new ShiftUp(),
-            new RamseteTrackingCommand(Paths.CrossBaseline.backwards),
-            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
+            new ResetPose(Paths.CrossBaseline.backwards.getInitialPose()),
+            new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
     )),
     TWO_A(3, "2A", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
-            // new TurnAtAngle(180).withTimeout(2.5),
+            new TurnAtAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup),
@@ -31,34 +32,36 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Two.intakeThreeBalls),
             new RamseteTrackingCommand(Paths.Two.trenchBackup),
             new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
-            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot),
-            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
+            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
     )),
     FOUR(4, "4", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
-            new RamseteTrackingCommand(Paths.Four.backupFromTrench),
-            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
+            new RamseteTrackingCommand(Paths.Four.backupFromTrench)
     )),
     FIVE(5, "5", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
+            new RamseteTrackingCommand(Paths.Five.intakeTwo),
             new RamseteTrackingCommand(Paths.Five.backupFromTrench),
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
             new RamseteTrackingCommand(Paths.Five.threeBallTrench),
-            new RamseteTrackingCommand(Paths.Five.trenchToGenerator),
-            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
+            new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
     )),
     TESTS(254, "Tests", new TimeAuto(
             new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new ResetPose(Paths.TestTrajectories.testForward.getInitialPose()),
-            new RamseteTrackingCommand(Paths.TestTrajectories.testForward),
-            new InstantCommand(() -> drivetrain.setVoltages(0, 0))
+            new TurnAtAngle(180)
+    )),
+    SCREWING_AROUND(420, "Lol", new TimeAuto(
+            new ShiftUp(),
+            new InstantCommand(() -> drivetrain.resetHardware()),
+            new ResetPose(Paths.ScrewingAround.infiniteLoop.getInitialPose()),
+            new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop)
     ));
 
     int id;

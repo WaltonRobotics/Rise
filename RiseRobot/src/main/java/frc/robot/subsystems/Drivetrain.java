@@ -26,7 +26,7 @@ public class Drivetrain extends SubsystemBase {
     private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(currentRobot.getTrackWidth());
     private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
 
-    private RamseteController ramseteController = new RamseteController(currentRobot.getKBeta(), currentRobot.getKZeta());
+    private RamseteController ramseteController = new RamseteController();
 
     private Pose2d robotPose = new Pose2d();
     private boolean isHighGear = true;

@@ -18,8 +18,8 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.7, 0, 0);       //maybe 1.74?
-    private final PIDController rightPIDController = new PIDController(1.7, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.65, 0, 0);       //maybe 1.74?
+    private final PIDController rightPIDController = new PIDController(1.65, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.201, 2.12, 0.551);
 
@@ -32,10 +32,10 @@ public class CompDeepSpace implements WaltRobot {
     private PIDController distancePIDController;
 
     public CompDeepSpace() {
-        TrapezoidProfile.Constraints turnControllerConstraint = new TrapezoidProfile.Constraints(4, 3);
-        turnPIDController = new ProfiledPIDController(0.009, 0, 0, turnControllerConstraint);
+        TrapezoidProfile.Constraints turnControllerConstraint = new TrapezoidProfile.Constraints(360, 80); //FIXME
+        turnPIDController = new ProfiledPIDController(0.011, 0, 0, turnControllerConstraint); //0.009
         turnPIDController.enableContinuousInput(-180f, 180f);
-        turnPIDController.setTolerance(0.5, 0.5);
+        turnPIDController.setTolerance(1, 1);
 
         distancePIDController = new PIDController(0.0001, 0, 0);
         distancePIDController.setTolerance(0.05);

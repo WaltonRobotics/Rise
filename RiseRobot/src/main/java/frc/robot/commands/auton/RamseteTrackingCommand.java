@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.utils.LiveDashboardHelper;
 
@@ -185,6 +186,8 @@ public class RamseteTrackingCommand extends CommandBase {
         m_timer.stop();
 
         LiveDashboard.getInstance().setFollowingPath(false);
+
+        drivetrain.setVoltages(0, 0);
     }
 
     @Override

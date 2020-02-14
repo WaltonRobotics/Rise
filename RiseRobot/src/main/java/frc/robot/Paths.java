@@ -67,7 +67,6 @@ public class Paths {
                     config
             );
         }
-
     }
 
     public static class Two {
@@ -244,5 +243,28 @@ public class Paths {
             }
 
         }
+
+    public static class ScrewingAround {
+
+        public static Trajectory infiniteLoop = generateInfiniteLoop();
+
+        public static Trajectory generateInfiniteLoop() {
+            TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(10), Units.feetToMeters(6));
+            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+            config.setKinematics(drivetrain.getDriveKinematics());
+
+            return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(10.613), Units.feetToMeters(22.932), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(16.735), Units.feetToMeters(19.87), Rotation2d.fromDegrees(-58.0)),
+                            new Pose2d(Units.feetToMeters(15.172), Units.feetToMeters(13.032), Rotation2d.fromDegrees(-140)),
+                            new Pose2d(Units.feetToMeters(7.772), Units.feetToMeters(12.045), Rotation2d.fromDegrees(136)),
+                            new Pose2d(Units.feetToMeters(4.831), Units.feetToMeters(18.408), Rotation2d.fromDegrees(73)),
+                            new Pose2d(Units.feetToMeters(10.613), Units.feetToMeters(22.932), Rotation2d.fromDegrees(0.0))),
+                    config
+            );
+        }
+
+    }
 
 }
