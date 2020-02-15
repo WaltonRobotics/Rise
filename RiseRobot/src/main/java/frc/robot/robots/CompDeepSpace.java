@@ -18,10 +18,10 @@ public class CompDeepSpace implements WaltRobot {
     // Config constants
     private final int shifterChannel = 0;
 
-    private final PIDController leftPIDController = new PIDController(1.62, 0, 0);       //maybe 1.74?
-    private final PIDController rightPIDController = new PIDController(1.62, 0, 0);
+    private final PIDController leftPIDController = new PIDController(2, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
+    private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
 
-    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.201, 2.12, 0.551);
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
 
     private final Solenoid shifter = new Solenoid(shifterChannel);
 
@@ -48,7 +48,7 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public double getTrackWidth() {
-        return 0.797403467;
+        return 0.79872077;
     }
 
     @Override

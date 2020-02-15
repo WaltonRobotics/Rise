@@ -88,10 +88,10 @@ public class RamseteTrackingCommand extends CommandBase {
         m_follower = drivetrain.getRamseteController();
         m_kinematics = drivetrain.getDriveKinematics();
 
-        m_feedforward = null;
-        m_speeds = null;
-        m_leftController = null;
-        m_rightController = null;
+        m_feedforward = currentRobot.getDrivetrainFeedforward();
+        m_speeds = drivetrain::getSpeeds;
+        m_leftController = currentRobot.getLeftPIDController();
+        m_rightController = currentRobot.getRightPIDController();
 
         m_sparkMaxPIDSlot = sparkMaxPIDSlot;
 
