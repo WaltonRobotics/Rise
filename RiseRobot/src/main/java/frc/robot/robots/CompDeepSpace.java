@@ -1,17 +1,11 @@
 package frc.robot.robots;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
-
-import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
-import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
 
 public class CompDeepSpace implements WaltRobot {
 
@@ -117,5 +111,25 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public int getMountingAngle() {
         return 20;
+    }
+
+    @Override
+    public double getVisionAlignKp() {
+        return 0;
+    }
+
+    @Override
+    public double getVisionAlignKs() {
+        return 0;
+    }
+
+    @Override
+    public double getMaxAlignmentTime() {
+        return 0;
+    }
+
+    @Override
+    public double getVisionAlignTxTolerance() {
+        return 0;
     }
 }
