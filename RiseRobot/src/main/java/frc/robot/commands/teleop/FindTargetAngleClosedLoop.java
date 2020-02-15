@@ -24,12 +24,12 @@ public class FindTargetAngleClosedLoop extends CommandBase {
             steeringAdjust = currentRobot.getVisionAlignKp() * tx - currentRobot.getVisionAlignKs();
         }
 
-        drivetrain.setSpeeds(steeringAdjust, -steeringAdjust);
+        drivetrain.setDutyCycles(steeringAdjust, -steeringAdjust);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.setSpeeds(0, 0);
+        drivetrain.setDutyCycles(0, 0);
     }
 
     @Override

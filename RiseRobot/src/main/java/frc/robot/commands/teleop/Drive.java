@@ -30,7 +30,7 @@ public class Drive extends CommandBase {
     @Override
     public void execute() {
         // (Joysticks inverted because limelight is facing backwards)
-        drivetrain.setSpeeds(getLeftJoystickY(), getRightJoystickY());
+        drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
 
         if (shiftUpButton.get() && !drivetrain.isHighGear()) {
             drivetrain.shiftUp();

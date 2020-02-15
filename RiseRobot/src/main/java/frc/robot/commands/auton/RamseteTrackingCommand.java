@@ -10,11 +10,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.utils.LiveDashboardHelper;
 
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
@@ -37,7 +34,7 @@ import static frc.robot.Robot.drivetrain;
 @SuppressWarnings("PMD.TooManyFields")
 public class RamseteTrackingCommand extends CommandBase {
     private final Timer m_timer = new Timer();
-    private final boolean m_usePID;
+    private final boolean m_useSparkPID;
     private final Trajectory m_trajectory;
     private final Supplier<Pose2d> m_pose;
     private final RamseteController m_follower;
@@ -46,9 +43,9 @@ public class RamseteTrackingCommand extends CommandBase {
     private final Supplier<DifferentialDriveWheelSpeeds> m_speeds;
     private final PIDController m_leftController;
     private final PIDController m_rightController;
-    private final BiConsumer<Double, Double> m_output;
     private DifferentialDriveWheelSpeeds m_prevSpeeds;
     private double m_prevTime;
+    private final int m_sparkMaxPIDSlot;
 
     /**
      * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
@@ -71,9 +68,9 @@ public class RamseteTrackingCommand extends CommandBase {
         m_speeds = drivetrain::getSpeeds;
         m_leftController = currentRobot.getLeftPIDController();
         m_rightController = currentRobot.getRightPIDController();
-        m_output = drivetrain::setVoltages;
 
-        m_usePID = true;
+        m_useSparkPID = false;
+        m_sparkMaxPIDSlot = 0;
 
         addRequirements(drivetrain);
     }
@@ -81,37 +78,26 @@ public class RamseteTrackingCommand extends CommandBase {
     /**
      * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
      * Performs no PID control and calculates no feedforwards; outputs are the raw wheel speeds
-     * from the RAMSETE controller, and will need to be converted into a usable form by the user.
+     * in meters per second from the RAMSETE controller, and will need to be converted into a usable form by the user.
      *
      * @param trajectory            The trajectory to follow.
-     * @param pose                  A function that supplies the robot pose - use one of
-     *                              the odometry classes to provide this.
-     * @param follower              The RAMSETE follower used to follow the trajectory.
-     * @param kinematics            The kinematics for the robot drivetrain.
-     * @param outputMetersPerSecond A function that consumes the computed left and right
-     *                              wheel speeds.
-     * @param requirements          The subsystems to require.
      */
-    public RamseteTrackingCommand(Trajectory trajectory,
-                                  Supplier<Pose2d> pose,
-                                  RamseteController follower,
-                                  DifferentialDriveKinematics kinematics,
-                                  BiConsumer<Double, Double> outputMetersPerSecond,
-                                  Subsystem... requirements) {
+    public RamseteTrackingCommand(Trajectory trajectory, int sparkMaxPIDSlot) {
         m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
-        m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
-        m_follower = requireNonNullParam(follower, "follower", "RamseteCommand");
-        m_kinematics = requireNonNullParam(kinematics, "kinematics", "RamseteCommand");
-        m_output = requireNonNullParam(outputMetersPerSecond, "output", "RamseteCommand");
+        m_pose = drivetrain::getRobotPose;
+        m_follower = drivetrain.getRamseteController();
+        m_kinematics = drivetrain.getDriveKinematics();
 
         m_feedforward = null;
         m_speeds = null;
         m_leftController = null;
         m_rightController = null;
 
-        m_usePID = false;
+        m_sparkMaxPIDSlot = sparkMaxPIDSlot;
 
-        addRequirements(requirements);
+        m_useSparkPID = true;
+
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -125,7 +111,7 @@ public class RamseteTrackingCommand extends CommandBase {
                                 * initialState.velocityMetersPerSecond));
         m_timer.reset();
         m_timer.start();
-        if (m_usePID) {
+        if (m_useSparkPID) {
             m_leftController.reset();
             m_rightController.reset();
         }
@@ -151,7 +137,7 @@ public class RamseteTrackingCommand extends CommandBase {
         double leftOutput;
         double rightOutput;
 
-        if (m_usePID) {
+        if (!m_useSparkPID) {
             double leftFeedforward =
                     m_feedforward.calculate(leftSpeedSetpoint,
                             (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
@@ -167,12 +153,23 @@ public class RamseteTrackingCommand extends CommandBase {
             rightOutput = rightFeedforward
                     + m_rightController.calculate(m_speeds.get().rightMetersPerSecond,
                     rightSpeedSetpoint);
+
+            drivetrain.setVoltages(leftOutput, rightOutput);
+
         } else {
+            double leftFeedforward =
+                    m_feedforward.calculate(leftSpeedSetpoint,
+                            (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
+
+            double rightFeedforward =
+                    m_feedforward.calculate(rightSpeedSetpoint,
+                            (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
+
             leftOutput = leftSpeedSetpoint;
             rightOutput = rightSpeedSetpoint;
-        }
 
-        m_output.accept(leftOutput, rightOutput);
+            drivetrain.setVelocities(leftOutput, leftFeedforward, rightOutput, rightFeedforward, m_sparkMaxPIDSlot);
+        }
 
         m_prevTime = curTime;
         m_prevSpeeds = targetWheelSpeeds;

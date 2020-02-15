@@ -36,7 +36,7 @@ public class TurnAtAngle extends CommandBase {
         SmartDashboard.putNumber("Velocity error", currentRobot.getTurnPIDController().getVelocityError());
         SmartDashboard.putNumber("Position error", currentRobot.getTurnPIDController().getPositionError());
         System.out.println(currentRobot.getTurnPIDController().getPositionError());
-        drivetrain.setSpeeds(turnRate, -turnRate);
+        drivetrain.setDutyCycles(turnRate, -turnRate);
 
         if (currentRobot.getTurnPIDController().atSetpoint()) {
             atTargetCount++;
@@ -57,7 +57,7 @@ public class TurnAtAngle extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         System.out.println("AT TARGET COUNT: " + atTargetCount);
-        drivetrain.setSpeeds(0, 0);
+        drivetrain.setDutyCycles(0, 0);
     }
 
     @Override

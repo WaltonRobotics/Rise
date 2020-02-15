@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -81,14 +82,19 @@ public class Drivetrain extends SubsystemBase {
 
     }
 
-    public void setSpeeds(double leftPower, double rightPower) {
-        leftWheelsMaster.set(leftPower);
-        rightWheelsMaster.set(rightPower);
+    public void setDutyCycles(double leftDutyCycle, double rightDutyCycle) {
+        leftWheelsMaster.set(leftDutyCycle);
+        rightWheelsMaster.set(rightDutyCycle);
     }
 
     public void setVoltages(double leftVoltage, double rightVoltage) {
         leftWheelsMaster.setVoltage(leftVoltage);
         rightWheelsMaster.setVoltage(rightVoltage);
+    }
+
+    public void setVelocities(double leftVelocity, double leftFeedForward, double rightVelocity, double rightFeedForward, int sparkMaxPIDSlot) {
+        leftWheelsMaster.getPIDController().setReference(leftVelocity, ControlType.kVelocity, sparkMaxPIDSlot, leftFeedForward);
+        rightWheelsMaster.getPIDController().setReference(rightVelocity, ControlType.kVelocity, sparkMaxPIDSlot, rightFeedForward);
     }
 
     public void setArcadeSpeeds(double xSpeed, double zRotation) {
@@ -105,7 +111,7 @@ public class Drivetrain extends SubsystemBase {
         leftMotorOutput = xSpeed + zRotation;
         rightMotorOutput = xSpeed - zRotation;
 
-        setSpeeds(leftMotorOutput, rightMotorOutput);
+        setDutyCycles(leftMotorOutput, rightMotorOutput);
     }
 
     public void shiftUp() {

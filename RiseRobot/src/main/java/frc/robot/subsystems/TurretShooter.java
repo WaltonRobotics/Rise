@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.CANBusIDs.*;
 
 public class TurretShooter extends SubsystemBase {
 
