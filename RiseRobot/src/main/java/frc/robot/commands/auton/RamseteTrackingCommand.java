@@ -181,10 +181,7 @@ public class RamseteTrackingCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_timer.stop();
-
         LiveDashboard.getInstance().setFollowingPath(false);
-
-        drivetrain.setVoltages(0, 0);
     }
 
     @Override
