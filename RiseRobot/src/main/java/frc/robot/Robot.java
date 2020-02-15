@@ -40,9 +40,6 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
-
         currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(),
                 new DigitalInput(10).get()).getCurrentRobot();
 
@@ -70,10 +67,6 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
         if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
             isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
@@ -127,7 +120,6 @@ public class Robot extends WaltTimedRobot {
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 
