@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -14,8 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.CANBusIDs.*;
-import static frc.robot.Robot.currentRobot;
-import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.*;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -28,6 +28,8 @@ public class Drivetrain extends SubsystemBase {
     private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
 
     private RamseteController ramseteController = new RamseteController();
+    private Compressor compressor = new Compressor();
+
 
     private Pose2d robotPose = new Pose2d();
     private boolean isHighGear = true;
@@ -35,6 +37,7 @@ public class Drivetrain extends SubsystemBase {
     public Drivetrain() {
         motorSetUp();
         resetHardware();
+        compressor.stop();
     }
 
     @Override

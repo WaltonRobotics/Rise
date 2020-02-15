@@ -2,8 +2,12 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.routines.FurElise;
@@ -14,6 +18,10 @@ import frc.robot.subsystems.*;
 import frc.utils.AutonSelector;
 import frc.utils.LiveDashboardHelper;
 import frc.utils.WaltTimedRobot;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
@@ -40,6 +48,14 @@ public class Robot extends WaltTimedRobot {
     private FurElise _music = new FurElise();
     private TalonFX _talonFX = new TalonFX(8);
 
+    private Orchestra orchestra = new Orchestra(Collections.singletonList(_talonFX));
+
+    private int musicSelection = 0;
+
+    private SendableChooser<String> songChoice = new SendableChooser<>();
+
+    int _songSelection = 0;
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -62,6 +78,14 @@ public class Robot extends WaltTimedRobot {
 
         SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
         SmartDashboard.putBoolean(IS_BLUE, false);
+//        SmartDashboard.putNumber("Music", 0);
+
+        String[] songs = Arrays.stream(Filesystem.getDeployDirectory().listFiles()).map(File::getName).
+                filter(n -> n.endsWith(".chrp")).toArray(String[]::new);
+        for(String song : songs) {
+            songChoice.addOption(song.substring(0, song.indexOf(".")), song);
+        }
+        SmartDashboard.putData(songChoice);
     }
 
     /**
@@ -73,6 +97,7 @@ public class Robot extends WaltTimedRobot {
      */
     @Override
     public void robotPeriodic() {
+
         CommandScheduler.getInstance().run();
         if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
             isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
@@ -90,6 +115,8 @@ public class Robot extends WaltTimedRobot {
 
     @Override
     public void disabledPeriodic() {
+
+        musicSelection = (int) SmartDashboard.getNumber("Music", 0);
     }
 
     /**
@@ -98,8 +125,7 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void autonomousInit() {
         drivetrain.resetHardware();
-//        AutonSelector.findById((int)SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup().schedule();
-
+        AutonSelector.findById((int)SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup().schedule();
     }
 
     /**
@@ -112,13 +138,15 @@ public class Robot extends WaltTimedRobot {
 
         /* what note to play during this 20ms slice? */
         double freq = _music.GetMusicFrequency(dt);
-        
+
         /* update the FX. If the freq is 0, no-note is played */
         _talonFX.set(TalonFXControlMode.MusicTone, freq);
     }
 
     @Override
     public void teleopInit() {
+//        orchestra.loadMusic(songs[musicSelection]);
+        orchestra.loadMusic(songChoice.getSelected());
         drivetrain.shiftUp();
     }
 
@@ -130,6 +158,7 @@ public class Robot extends WaltTimedRobot {
         CommandScheduler.getInstance().run();
 
         LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
+        orchestra.play();
     }
 
     @Override
