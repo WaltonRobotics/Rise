@@ -1,4 +1,4 @@
-package frc.utils.treemap;
+package frc.utils.map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import frc.utils.JsonParser;
@@ -9,12 +9,15 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolable<V>>
-        extends TreeMap<K, V> {
+    implements JsonableInterpolatingMap<InterpolatingTreeMap<K, V>, K, V> {
     private static final long serialVersionUID = 8347275262778054124L;
+
+    public final TreeMap<K, V> points;
 
     int max_;
 
     public InterpolatingTreeMap(int maximumSize) {
+        points = new TreeMap<>();
         max_ = maximumSize;
     }
 
@@ -22,37 +25,29 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
         this(0);
     }
 
-    /**
-     * Inserts a key value pair, and trims the tree if a max size is specified
-     *
-     * @param key   Key for inserted data
-     * @param value Value for inserted data
-     * @return the value
-     */
     @Override
     public V put(K key, V value) {
-        if (max_ > 0 && max_ <= size()) {
+        if (max_ > 0 && max_ <= points.size()) {
             // "Prune" the tree if it is oversize
-            K first = firstKey();
+            K first = points.firstKey();
             remove(first);
         }
 
-        super.put(key, value);
-
-        return value;
+        return points.put(key, value);
     }
 
-    /**
-     * @param key Lookup for a value (does not have to exist)
-     * @return V or null; V if it is Interpolable or exists, null if it is at a
-     * bound and cannot average
-     */
-    public V getInterpolated(K key) {
-        V gotval = get(key);
+    @Override
+    public V remove(K key) {
+        return points.remove(key);
+    }
+
+    @Override
+    public V get(K key) {
+        V gotval = points.get(key);
         if (gotval == null) {
             /** Get surrounding keys for interpolation */
-            K topBound = ceilingKey(key);
-            K bottomBound = floorKey(key);
+            K topBound = points.ceilingKey(key);
+            K bottomBound = points.floorKey(key);
 
             /**
              * If attempting interpolation at ends of tree, return the nearest
@@ -61,36 +56,36 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
             if (topBound == null && bottomBound == null) {
                 return null;
             } else if (topBound == null) {
-                return get(bottomBound);
+                return points.get(bottomBound);
             } else if (bottomBound == null) {
-                return get(topBound);
+                return points.get(topBound);
             }
 
             /** Get surrounding values for interpolation */
-            V topElem = get(topBound);
-            V bottomElem = get(bottomBound);
+            V topElem = points.get(topBound);
+            V bottomElem = points.get(bottomBound);
             return bottomElem.interpolate(topElem, bottomBound.inverseInterpolate(topBound, key));
         } else {
             return gotval;
         }
     }
 
-    /**
-     * Send this {@code InterpolatingTreeMap} to a Json file that can then be loaded with {@code fromJson()}.
-     * @see InterpolatingTreeMap#fromJson(File)
-     */
+
+    @Override
     public void toJson(File json) throws IOException {
-        List<SerializablePair> pairs = entrySet().stream().map(n ->
+        List<SerializablePair> pairs = points.entrySet().stream().map(n ->
             new SerializablePair<>(n.getKey(), n.getValue())).collect(Collectors.toList());
         JsonParser.sendObjectToJson(json, pairs);
     }
 
-    /**
-     * Load an {@code InterpolatingTreeMap} from a Json File that has been created from {@code toJson()}.
-     * @see InterpolatingTreeMap#toJson(File)
-     */
+    @Override
+    public InterpolatingTreeMap<K, V> fromJson(File json)
+        throws IOException, NumberFormatException {
+        return _fromJson(json);
+    }
+
     public static <Q extends InverseInterpolable<Q> & Comparable<Q>, R extends Interpolable<R>>
-    InterpolatingTreeMap<Q, R> fromJson(File json) throws IOException {
+    InterpolatingTreeMap<Q, R> _fromJson(File json) throws IOException {
         List<SerializablePair<Q, R>> pairs = JsonParser.parseJsonToList(json,
             new TypeReference<>(){});
         InterpolatingTreeMap<Q, R> map = new InterpolatingTreeMap<>();

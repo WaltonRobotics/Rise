@@ -1,9 +1,10 @@
-package frc.utils;
+package frc.utils.map;
 
 
 import static java.lang.Math.signum;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import frc.utils.JsonParser;
 import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
 import io.github.jdiemke.triangulation.Triangle2D;
@@ -22,7 +23,7 @@ import org.ejml.simple.ops.SimpleOperations_DDRM;
 
 /**
  * <p>
- * A DelaunayInterpolatingMap will perform interpolation across two independent variables, given as
+ * A InterpolatingDelaunayMap will perform interpolation across two independent variables, given as
  * pairs of input {@code Double[]}s ("Tuples") and output Doubles. In order to determine which three
  * points to use for interpolation, the map uses a modified version of
  * <a href=https://github.com/jdiemke/delaunay-triangulator>Johannes Diemke's Java Delaunay
@@ -33,9 +34,10 @@ import org.ejml.simple.ops.SimpleOperations_DDRM;
  * <a href=http://www.cs.rpi.edu/~flaherje/pdf/fea4.pdf>this paper</a>.
  *
  * @author Russell Newton, Walton Robotics
- * @see frc.utils.treemap.InterpolatingTreeMap
+ * @see frc.utils.map.InterpolatingTreeMap
  **/
-public class DelaunayInterpolatingMap {
+public class InterpolatingDelaunayMap implements
+    JsonableInterpolatingMap<InterpolatingDelaunayMap, Double[], Double> {
 
 
   public final Map<Vector2D, Double> points;
@@ -47,7 +49,7 @@ public class DelaunayInterpolatingMap {
    * @param points a map of 2D independent variables points with their corresponding dependent
    * variable value
    */
-  public DelaunayInterpolatingMap(Map<Double[], Double> points) {
+  public InterpolatingDelaunayMap(Map<Double[], Double> points) {
     this.points = points.entrySet().stream().collect(Collectors.toMap(n ->
         new Vector2D(n.getKey()[0], n.getKey()[1]), n -> n.getValue()));
 
@@ -57,25 +59,25 @@ public class DelaunayInterpolatingMap {
     triangulate();
   }
 
-  public DelaunayInterpolatingMap() {
+  public InterpolatingDelaunayMap() {
     this(Map.of());
     System.out.println(
-        "You are using the default DelaunayInterpolatingMap constructor! You need to add points "
+        "You are using the default InterpolatingDelaunayMap constructor! You need to add points "
             + "before you can interpolate!");
   }
 
   /**
-   * Load a {@code DelaunayInterpolatingMap} from a Json file.
+   * Load a {@code InterpolatingDelaunayMap} from a Json file.
    *
    * @throws IOException if there is a problem loading the file.
    * @throws NumberFormatException if the file is not formatted properly.
    */
-  public static DelaunayInterpolatingMap fromJson(File json)
+  public static InterpolatingDelaunayMap _fromJson(File json)
       throws IOException, NumberFormatException {
     Map<String, Double> deserializedMap = JsonParser.parseJsonToMap(json,
         new TypeReference<>() {
         });
-    return new DelaunayInterpolatingMap(
+    return new InterpolatingDelaunayMap(
         deserializedMap.entrySet().stream().map(n -> new Entry<Double[], Double>() {
           @Override
           public Double[] getKey() {
@@ -96,6 +98,11 @@ public class DelaunayInterpolatingMap {
             return null;
           }
         }).collect(Collectors.toMap(n -> n.getKey(), n -> n.getValue())));
+  }
+
+  @Override
+  public InterpolatingDelaunayMap fromJson(File json) throws IOException, NumberFormatException {
+    return _fromJson(json);
   }
 
   /**
@@ -125,13 +132,9 @@ public class DelaunayInterpolatingMap {
     return points.put(key, value);
   }
 
-  /**
-   * Puts a new point into the map and updates the triangulation.
-   *
-   * @return the old value at key or null, if there wasn't a mapping for key.
-   */
+  @Override
   public Double put(Double[] key, Double value) {
-    return put(new Vector2D(key[0], key[1]), value);
+    return put(new Vector2D(key[0], key[1]), value.doubleValue());
   }
 
   private Double remove(Vector2D key) {
@@ -142,11 +145,7 @@ public class DelaunayInterpolatingMap {
     return points.remove(key);
   }
 
-  /**
-   * Removes the point from the map and updates the triangulation.
-   *
-   * @return the value that had been at key or null, if there was not a value at key.
-   */
+  @Override
   public Double remove(Double[] key) {
     return remove(new Vector2D(key[0], key[1]));
   }
@@ -158,7 +157,7 @@ public class DelaunayInterpolatingMap {
    * @return the interpolated value at key or null, if key cannot fit in the map or if the map is
    * not triangulated.
    */
-  public Double get(Double[] key) {
+  private Double get(Double[] key) {
     if (!isTriangulated) {
       return null;
     }
@@ -181,6 +180,11 @@ public class DelaunayInterpolatingMap {
 
     return IntStream.range(0, 3).mapToDouble(j -> shapeFunctions[j] * points.get(corners[j])).sum();
 
+  }
+
+  @Override
+  public Double get(Double[] key) {
+    return get(key);
   }
 
   /**
@@ -249,6 +253,7 @@ public class DelaunayInterpolatingMap {
    * </pre>
    * If you plan on adding to it manually, preserve the format.
    */
+  @Override
   public void toJson(File json) throws IOException {
     Map<List<Double>, Double> serializableMap = points.entrySet().stream().map(n ->
         new Entry<List<Double>, Double>() {
@@ -272,7 +277,7 @@ public class DelaunayInterpolatingMap {
 
   @Override
   public String toString() {
-    return "DelaunayInterpolatingMap:\n" + points.toString();
+    return "InterpolatingDelaunayMap:\n" + points.toString();
   }
 
 }
