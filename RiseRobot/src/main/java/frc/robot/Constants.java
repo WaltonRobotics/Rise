@@ -90,6 +90,9 @@ public final class Constants {
     public static final String INTAKE_ON_KEY = "Intake";
     public static final String SHOOT_KEY = "Shoot";
     public static final String BARF_KEY = "Slow outtake";
+    public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
+    public static final String CLIMBER_DOWN_BUTTON_KEY = "Climber Down";
+    public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
 
     /*
     Add default mappings here, following the template
@@ -104,6 +107,9 @@ public final class Constants {
         {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 8}},
         {SHOOT_KEY, new int[]{GAMEPAD_PORT, 6}},
         {BARF_KEY, new int[]{GAMEPAD_PORT, 5}},
+        {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_N}},
+        {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_S}},
+        {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }

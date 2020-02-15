@@ -1,6 +1,9 @@
 package frc.robot;
 
 import static frc.robot.Constants.ButtonMapDefaults.BARF_KEY;
+import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_DOWN_BUTTON_KEY;
+import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_UNLOCK_BUTTON_KEY;
+import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_UP_BUTTON_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_DOWN_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_ON_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_UP_KEY;
@@ -49,5 +52,11 @@ public class OI {
       buttonMap.getButtonIndex(SHOOT_KEY));
   public static EnhancedJoystickButton barfButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(BARF_KEY));
+  public static EnhancedJoystickButton climberUpButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(CLIMBER_UP_BUTTON_KEY));
+  public static EnhancedJoystickButton climberDownButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(CLIMBER_DOWN_BUTTON_KEY));
+  public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(CLIMBER_UNLOCK_BUTTON_KEY));
 
 }
