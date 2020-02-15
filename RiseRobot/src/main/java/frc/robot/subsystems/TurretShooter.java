@@ -10,6 +10,7 @@ import static frc.robot.Robot.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
@@ -39,6 +40,8 @@ public class TurretShooter extends SubsystemBase {
 
   private final Encoder turretEncoder = new Encoder(TURRET_ENCODER_PORT_1, TURRET_ENCODER_PORT_2);
 
+  public boolean isReadyToShoot = false;
+
   public TurretShooter() {
     knownDataMap = loadMap();
 
@@ -55,8 +58,12 @@ public class TurretShooter extends SubsystemBase {
 
   }
 
-  public void setFlywheelSpeed(double targetSpeed) {
-    flywheelMaster.set(ControlMode.Velocity, targetSpeed);
+  public void setFlywheelOutput(TalonFXControlMode controlMode, double output) {
+    flywheelMaster.set(controlMode, output);
+  }
+
+  public double getFlywheelSpeed() {
+    return flywheelMaster.getSensorCollection().getIntegratedSensorVelocity();
   }
 
   public void setTurretAngle(Rotation2d angle, boolean fieldOriented) {
