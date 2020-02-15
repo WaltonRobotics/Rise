@@ -1,9 +1,12 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auton.routines.FurElise;
 import frc.robot.commands.teleop.Drive;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
@@ -33,6 +36,9 @@ public class Robot extends WaltTimedRobot {
     public static WaltRobot currentRobot;
 
     public static boolean isBlue = true;
+
+    FurElise _music = new FurElise();
+    TalonFX _talonFX = new TalonFX(1);
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -92,7 +98,8 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void autonomousInit() {
         drivetrain.resetHardware();
-        AutonSelector.findById((int)SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup().schedule();
+//        AutonSelector.findById((int)SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup().schedule();
+
     }
 
     /**
@@ -101,6 +108,13 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void autonomousPeriodic() {
         CommandScheduler.getInstance().run();
+        int dt = 20; // 20ms per loop
+
+        /* what note to play during this 20ms slice? */
+        double freq = _music.GetMusicFrequency(dt);
+
+        /* update the FX. If the freq is 0, no-note is played */
+        _talonFX.set(TalonFXControlMode.MusicTone, freq);
     }
 
     @Override
