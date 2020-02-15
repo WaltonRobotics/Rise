@@ -77,27 +77,7 @@ public class CompRise implements WaltRobot {
     }
 
     @Override
-    public double getTrajectoryTimeAdditive() {
-        return 5.0;
-    }
-
-    @Override
-    public double getMaxAlignmentTime() {
-        return 0;
-    }
-
-    @Override
-    public double getVisionAlignKp() {
-        return 0;
-    }
-
-    @Override
-    public double getVisionAlignKs() {
-        return 0;
-    }
-
-    @Override
-    public double getVisionAlignTxTolerance() {
+    public int getMountingAngle() {
         return 0;
     }
 

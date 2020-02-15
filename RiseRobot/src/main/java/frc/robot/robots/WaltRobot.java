@@ -42,14 +42,6 @@ public interface WaltRobot {
 
     double getMinimumShiftingTime();
 
-    double getTrajectoryTimeAdditive();
-
-    double getMaxAlignmentTime();
-
-    double getVisionAlignKp();
-
-    double getVisionAlignKs();
-
-    double getVisionAlignTxTolerance();
+    int getMountingAngle();
 
 }

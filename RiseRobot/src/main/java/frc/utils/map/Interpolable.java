@@ -1,4 +1,4 @@
-package frc.utils.treemap;
+package frc.utils.map;
 
 public interface Interpolable<T> {
 

@@ -8,12 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Units;
+import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
+import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.utils.EnhancedJoystickButton.POV_N;
+import static frc.utils.EnhancedJoystickButton.POV_S;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -33,15 +35,17 @@ public final class Constants {
     public static final int DRIVE_LEFT_SLAVE_ID = 4;
 
     public static final int INTAKE_ID = 5;
-    public static final int CONVEYOR_ID = 6;
+    public static final int CENTERING_ID = 6;
+    public static final int CONVEYOR_FRONT_ID = 7;
+    public static final int CONVEYOR_BACK_ID = 8;
 
-    public static final int SHOOTER_FLYWHEEL_MASTER_ID = 7;
-    public static final int SHOOTER_FLYWHEEL_SLAVE_ID = 8;
-    public static final int SHOOTER_TURRET_ID = 9;
+    public static final int SHOOTER_FLYWHEEL_MASTER_ID = 9;
+    public static final int SHOOTER_FLYWHEEL_SLAVE_ID = 10;
+    public static final int SHOOTER_TURRET_ID = 11;
 
-    public static final int CLIMBER_ID = 10;
+    public static final int CLIMBER_ID = 12;
 
-    public static final int SPINNER_ID = 11;
+    public static final int SPINNER_ID = 13;
 
   }
 
@@ -81,7 +85,11 @@ public final class Constants {
      */
     public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
     public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
-    public static final String ALIGN_TARGET_BUTTON_KEY = "Align Target";
+    public static final String INTAKE_UP_KEY = "Intake Up";
+    public static final String INTAKE_DOWN_KEY = "Intake Down";
+    public static final String INTAKE_ON_KEY = "Intake";
+    public static final String SHOOT_KEY = "Shoot";
+    public static final String BARF_KEY = "Slow outtake";
 
     /*
     Add default mappings here, following the template
@@ -91,7 +99,11 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
         {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
         {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
-            {ALIGN_TARGET_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 4}}
+        {INTAKE_UP_KEY, new int[]{GAMEPAD_PORT, POV_N}},
+        {INTAKE_DOWN_KEY, new int[]{GAMEPAD_PORT, POV_S}},
+        {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 8}},
+        {SHOOT_KEY, new int[]{GAMEPAD_PORT, 6}},
+        {BARF_KEY, new int[]{GAMEPAD_PORT, 5}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
@@ -109,5 +121,13 @@ public final class Constants {
         public static final double LIVE_DASHBOARD_FIELD_HEIGHT = Units.feetToMeters(27);
 
     }
+  public static class Turret {
+
+    public static final int TURRET_ENCODER_PORT_1 = 1;
+    public static final int TURRET_ENCODER_PORT_2 = 2;
+
+    public static final int TURRET_ROTATIONS_PER_TICK = 1;
+
+  }
 
 }

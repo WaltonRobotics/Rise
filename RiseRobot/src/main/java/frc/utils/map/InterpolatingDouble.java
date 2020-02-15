@@ -1,4 +1,4 @@
-package frc.utils.treemap;
+package frc.utils.map;
 
 public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
         Comparable<InterpolatingDouble> {

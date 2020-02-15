@@ -39,8 +39,6 @@ public class CompDeepSpace implements WaltRobot {
 
         distancePIDController = new PIDController(0.0001, 0, 0);
         distancePIDController.setTolerance(0.05);
-
-        sendTurnToAngleToNT();
     }
 
     // 32 l
@@ -117,44 +115,7 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public double getTrajectoryTimeAdditive() {
-        return 0.0;
+    public int getMountingAngle() {
+        return 20;
     }
-
-    @Override
-    public double getMaxAlignmentTime() {
-        return 3.0;
-    }
-
-    @Override
-    public double getVisionAlignKp() {
-        return 0.0005;
-    }
-
-    @Override
-    public double getVisionAlignKs() {
-        return 0.1;
-    }
-
-    @Override
-    public double getVisionAlignTxTolerance() {
-        return 0.5;
-    }
-
-    private void sendTurnToAngleToNT() {
-        NetworkTableInstance nti = NetworkTableInstance.getDefault();
-        NetworkTable turnToPID = nti.getTable("Turn To Angle PID");
-        NetworkTableEntry ttP = turnToPID.getEntry("P");
-        NetworkTableEntry ttI = turnToPID.getEntry("I");
-        NetworkTableEntry ttD = turnToPID.getEntry("D");
-
-        ttP.setDefaultNumber(0.008);
-        ttI.setDefaultNumber(0);
-        ttD.setDefaultNumber(0);
-
-        ttP.addListener(notification -> turnPIDController.setP(notification.value.getDouble()), kNew | kUpdate);
-        ttI.addListener(notification -> turnPIDController.setI(notification.value.getDouble()), kNew | kUpdate);
-        ttD.addListener(notification -> turnPIDController.setD(notification.value.getDouble()), kNew | kUpdate);
-    }
-
 }

@@ -4,7 +4,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.teleop.Drive;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.auton.RamseteTrackingCommand;
+import frc.robot.commands.auton.ShiftUp;
+import frc.robot.commands.teleop.DriveCommand;
+import frc.robot.commands.teleop.IntakeConveyorCommand;
+import frc.robot.commands.teleop.TurretShooterCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.*;
@@ -26,9 +31,9 @@ public class Robot extends WaltTimedRobot {
 
     public static Drivetrain drivetrain;
     public static Spinner spinner;
-    public static TurretShooter shooter;
+    public static TurretShooter turretShooter;
     public static Climber climber;
-    public static Intake intake;
+    public static IntakeConveyor intakeConveyor;
 
     public static WaltRobot currentRobot;
 
@@ -47,15 +52,16 @@ public class Robot extends WaltTimedRobot {
 
         drivetrain = new Drivetrain();
         spinner = new Spinner();
-        shooter = new TurretShooter();
+        turretShooter = new TurretShooter();
         climber = new Climber();
-        intake = new Intake();
+        intakeConveyor = new IntakeConveyor();
 
-
-        CommandScheduler.getInstance().setDefaultCommand(drivetrain, new Drive());
 
         SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
         SmartDashboard.putBoolean(IS_BLUE, false);
+        CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
+        CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
+        CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
     }
 
     /**
