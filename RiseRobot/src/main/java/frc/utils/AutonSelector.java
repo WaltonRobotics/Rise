@@ -27,12 +27,12 @@ public enum AutonSelector {
             new TurnAtAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
-            new RamseteTrackingCommand(Paths.Two.trenchPickup),
+            new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),
             new DropIntake(),
-            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls),
-            new RamseteTrackingCommand(Paths.Two.trenchBackup),
-            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
-            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
+            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0),
+            new RamseteTrackingCommand(Paths.Two.trenchBackup, 0),
+            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls, 0),
+            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot, 0)
     )),
     FOUR(4, "4", new TimeAuto(
             new ShiftUp(),

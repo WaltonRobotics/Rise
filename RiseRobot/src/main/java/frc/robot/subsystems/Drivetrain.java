@@ -80,6 +80,14 @@ public class Drivetrain extends SubsystemBase {
         leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
         rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
 
+        leftWheelsMaster.getPIDController().setP(currentRobot.getLeftPIDController().getP(), 0);
+        leftWheelsMaster.getPIDController().setI(currentRobot.getLeftPIDController().getI(), 0);
+        leftWheelsMaster.getPIDController().setD(currentRobot.getLeftPIDController().getD(), 0);
+
+        rightWheelsMaster.getPIDController().setP(currentRobot.getRightPIDController().getP(), 0);
+        rightWheelsMaster.getPIDController().setI(currentRobot.getRightPIDController().getI(), 0);
+        rightWheelsMaster.getPIDController().setD(currentRobot.getRightPIDController().getD(), 0);
+
     }
 
     public void setDutyCycles(double leftDutyCycle, double rightDutyCycle) {
