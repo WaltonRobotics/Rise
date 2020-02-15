@@ -158,7 +158,8 @@ public class InterpolatingDelaunayMap implements
    * @return the interpolated value at key or null, if key cannot fit in the map or if the map is
    * not triangulated.
    */
-  private Double get(Double[] key) {
+  @Override
+  public Double get(Double[] key) {
     if (!isTriangulated) {
       return null;
     }
@@ -181,11 +182,6 @@ public class InterpolatingDelaunayMap implements
 
     return IntStream.range(0, 3).mapToDouble(j -> shapeFunctions[j] * points.get(corners[j])).sum();
 
-  }
-
-  @Override
-  public Double get(Double[] key) {
-    return get(key);
   }
 
   /**

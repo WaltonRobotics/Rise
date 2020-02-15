@@ -20,7 +20,7 @@ public class DoRotation extends CommandBase {
         } else {
             spinner.setSpeed(1);
             transitionCount = 0;
-            expectedColor = spinner.getExpectedColor();
+//            expectedColor = spinner.getExpectedColor();
         }
     }
 
@@ -31,7 +31,7 @@ public class DoRotation extends CommandBase {
         }
         if(spinner.getColor().equals(expectedColor)){
             transitionCount++;
-            expectedColor = spinner.getExpectedColor();
+//            expectedColor = spinner.getExpectedColor();
         }
     }
 
