@@ -44,4 +44,11 @@ public interface WaltRobot {
 
     int getMountingAngle();
 
+    double getVisionAlignKp();
+
+    double getVisionAlignKs();
+
+    double getMaxAlignmentTime();
+
+    double getVisionAlignTxTolerance();
 }
