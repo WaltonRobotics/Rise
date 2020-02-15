@@ -37,8 +37,8 @@ public class Robot extends WaltTimedRobot {
 
     public static boolean isBlue = true;
 
-    FurElise _music = new FurElise();
-    TalonFX _talonFX = new TalonFX(1);
+    private FurElise _music = new FurElise();
+    private TalonFX _talonFX = new TalonFX(8);
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -112,7 +112,7 @@ public class Robot extends WaltTimedRobot {
 
         /* what note to play during this 20ms slice? */
         double freq = _music.GetMusicFrequency(dt);
-
+        
         /* update the FX. If the freq is 0, no-note is played */
         _talonFX.set(TalonFXControlMode.MusicTone, freq);
     }
