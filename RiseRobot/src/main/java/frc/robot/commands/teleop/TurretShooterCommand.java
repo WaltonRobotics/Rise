@@ -16,6 +16,7 @@ public class TurretShooterCommand extends CommandBase {
   private static final double JOYSTICK_DEADBAND = 0.125;
   private static final double SPEED_ERROR = 50;
   private static final double BARF_SPEED = 500;
+  protected static double targetSpeed = 0;
   private FlywheelState currentFlywheelState, previousFlywheelState;
   private TurretState currentTurretState;
 
@@ -32,16 +33,17 @@ public class TurretShooterCommand extends CommandBase {
     double distanceToTarget = LimelightHelper.getDistanceMeters();
 
     if (previousFlywheelState != currentFlywheelState) {
-      double speedArg;
       if(shootButton.get()) {
-        speedArg = turretShooter.<InterpolatingDouble, InterpolatingDouble>
+        // TODO change as necessary
+        targetSpeed = turretShooter.<InterpolatingDouble, InterpolatingDouble>
             estimateTargetSpeed(new InterpolatingDouble(distanceToTarget)).value;
       } else if(barfButton.get()) {
-        speedArg = BARF_SPEED;
+        targetSpeed = BARF_SPEED;
       } else {
-        speedArg = 0;
+        targetSpeed = 0;
       }
-      currentFlywheelState.initialize(speedArg);
+      currentFlywheelState.initialize();
+      previousFlywheelState = currentFlywheelState;
     }
 
     currentFlywheelState = currentFlywheelState.execute();
@@ -68,6 +70,7 @@ public class TurretShooterCommand extends CommandBase {
     TRACKING {
       @Override
       public TurretState execute() {
+        // TODO adjust minus/plus to match
         Rotation2d targetAngle =
             Rotation2d.fromDegrees(LimelightHelper.getTX()).minus(turretShooter.getTurretAngle());
         turretShooter.setTurretAngle(targetAngle, false);
@@ -87,34 +90,31 @@ public class TurretShooterCommand extends CommandBase {
   private enum FlywheelState {
     OFF {
       @Override
-      public void initialize(Object... args) {
+      public void initialize() {
       }
 
       @Override
       public FlywheelState execute() {
+        if(shootButton.get() || barfButton.get()) {
+          return SPINNING_UP;
+        }
         return this;
       }
     },
     SPINNING_UP {
-      double flywheelSpeed;
-
-      /**
-       * @param args the first arg should be the target flywheel speed
-       */
       @Override
-      public void initialize(Object... args) {
-        flywheelSpeed = (Double) args[0];
+      public void initialize() {
         turretShooter.isReadyToShoot = false;
       }
 
       @Override
       public FlywheelState execute() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, flywheelSpeed);
+        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
 
-        if(!shootButton.get() && !barfButton.get()) {
+        if(!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-        if (Math.abs(turretShooter.getFlywheelSpeed()) < SPEED_ERROR) {
+        if (Math.abs(turretShooter.getFlywheelSpeed() - targetSpeed) < SPEED_ERROR) {
           return SHOOTING;
         }
         return this;
@@ -122,16 +122,18 @@ public class TurretShooterCommand extends CommandBase {
     },
     SHOOTING {
       @Override
-      public void initialize(Object... args) {
+      public void initialize() {
         turretShooter.isReadyToShoot = true;
       }
 
       @Override
       public FlywheelState execute() {
-        if(!shootButton.get() && !barfButton.get()) {
+        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
+
+        if(!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-        if (Math.abs(turretShooter.getFlywheelSpeed()) < SPEED_ERROR) {
+        if (Math.abs(turretShooter.getFlywheelSpeed() - targetSpeed) > SPEED_ERROR) {
           return SPINNING_UP;
         }
         return this;
@@ -139,14 +141,16 @@ public class TurretShooterCommand extends CommandBase {
     },
     SPINNING_DOWN {
       @Override
-      public void initialize(Object... args) {
+      public void initialize() {
         turretShooter.isReadyToShoot = false;
       }
 
       @Override
       public FlywheelState execute() {
         turretShooter.setFlywheelOutput(TalonFXControlMode.PercentOutput, 0);
-
+        if(shootButton.get() || barfButton.get()) {
+          return SPINNING_UP;
+        }
         if (Math.abs(turretShooter.getFlywheelSpeed()) < SPEED_ERROR) {
           return OFF;
         }
@@ -154,7 +158,7 @@ public class TurretShooterCommand extends CommandBase {
       }
     };
 
-    public abstract void initialize(Object... args);
+    public abstract void initialize();
 
     public abstract FlywheelState execute();
   }
