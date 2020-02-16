@@ -1,15 +1,14 @@
 package frc.utils.map;
 
 
+import static java.lang.Math.signum;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import frc.utils.JsonParser;
 import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
 import io.github.jdiemke.triangulation.Triangle2D;
 import io.github.jdiemke.triangulation.Vector2D;
-import org.ejml.data.DMatrixRMaj;
-import org.ejml.simple.ops.SimpleOperations_DDRM;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,8 +18,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static java.lang.Math.signum;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.simple.ops.SimpleOperations_DDRM;
 
 /**
  * <p>
@@ -268,6 +267,11 @@ public class InterpolatingDelaunayMap implements
           }
         }).collect(Collectors.toMap(n -> (List<Double>) n.getKey(), n -> (Double) n.getValue()));
     JsonParser.sendObjectToJson(json, serializableMap);
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return points.size() < 3;
   }
 
   @Override

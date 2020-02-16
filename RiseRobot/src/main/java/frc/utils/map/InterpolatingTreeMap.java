@@ -71,6 +71,10 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
         }
     }
 
+    @Override
+    public boolean isEmpty() {
+        return points.isEmpty();
+    }
 
     @Override
     public void toJson(File json) throws IOException {

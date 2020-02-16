@@ -47,4 +47,6 @@ public interface JsonableInterpolatingMap<T, K, V> {
    * @return the value that had been at key or null, if there was not a value at key.
    */
   public V remove(K key);
+
+  public boolean isEmpty();
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_MASTER_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_FLYWHEEL_SLAVE_ID;
 import static frc.robot.Constants.CANBusIDs.SHOOTER_TURRET_ID;
@@ -8,14 +9,15 @@ import static frc.robot.Constants.Turret.TURRET_ENCODER_PORT_2;
 import static frc.robot.Constants.Turret.TURRET_ROTATIONS_PER_TICK;
 import static frc.robot.Robot.drivetrain;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.ShootingParameters;
 import frc.utils.map.Interpolable;
 import frc.utils.map.InterpolatingDelaunayMap;
@@ -25,9 +27,11 @@ import frc.utils.map.InverseInterpolable;
 import frc.utils.map.JsonableInterpolatingMap;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.function.Supplier;
 
 
-public class TurretShooter extends SubsystemBase {
+public class TurretShooter extends WaltSubsystem {
 
   public static final boolean IS_DELAUNAY_MAP = false;
   private static final String JSON_FILE_LOCATION = "/home/lvuser/shooter_data.json";
@@ -50,11 +54,6 @@ public class TurretShooter extends SubsystemBase {
     flywheelMaster.setInverted(true);
     flywheelSlave.setInverted(InvertType.OpposeMaster);
     flywheelSlave.follow(flywheelMaster);
-
-  }
-
-  @Override
-  public void periodic() {
 
   }
 
@@ -158,5 +157,40 @@ public class TurretShooter extends SubsystemBase {
       System.out.println("Unable to save to file " + JSON_FILE_LOCATION);
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public Supplier<ArrayList<String>> getPitCheckFunction() {
+    return () -> {
+      ArrayList<String> failures = new ArrayList<>();
+
+      if (flywheelMaster.getLastError() != ErrorCode.OK) {
+        failures.add("Flywheel Master Controller");
+      }
+      if (flywheelSlave.getLastError() != ErrorCode.OK) {
+        failures.add("Flywheel Slave Controller");
+      }
+      if (turretMotor.getLastError() != ErrorCode.OK) {
+        failures.add("Turret Motor Controller");
+      } else {
+        double previousEncoderReading = turretEncoder.getDistance();
+        double startTime = getFPGATimestamp();
+        turretMotor.set(TalonSRXControlMode.PercentOutput, 0.2);
+        while(getFPGATimestamp() - startTime < 0.2);
+        if (turretEncoder.getDistance() == previousEncoderReading) {
+          failures.add("Turret Encoder");
+        }
+      }
+      if (knownDataMap.isEmpty()) {
+        failures.add("Shooter Map Loading");
+      }
+
+      return failures;
+    };
+  }
+
+  @Override
+  public void sendToNT() {
+
   }
 }

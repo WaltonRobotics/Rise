@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.PitCheck;
 import frc.robot.commands.teleop.ClimbCommand;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
@@ -88,6 +89,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void disabledInit() {
+    SmartDashboard.delete("Run Pit Check");
   }
 
   @Override
@@ -114,7 +116,6 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void teleopInit() {
-    drivetrain.shiftUp();
   }
 
   /**
@@ -130,6 +131,9 @@ public class Robot extends WaltTimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+
+    SmartDashboard.putData("Run Pit Check",
+        new PitCheck(drivetrain, spinner, turretShooter, climber, intakeConveyor));
   }
 
   /**
@@ -137,6 +141,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void testPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
 }

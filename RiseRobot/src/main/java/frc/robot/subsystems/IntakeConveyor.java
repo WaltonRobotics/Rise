@@ -8,13 +8,15 @@ import static frc.robot.Constants.DioIDs.BOTTOM_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.DioIDs.TOP_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.PneumaticIDs.INTAKE_TOGGLE_ID;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.ArrayList;
+import java.util.function.Supplier;
 
-public class IntakeConveyor extends SubsystemBase {
+public class IntakeConveyor extends WaltSubsystem {
 
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
@@ -56,4 +58,29 @@ public class IntakeConveyor extends SubsystemBase {
     return bottomConveyorSensor.get() && !bottomConveyorSensor.get();
   }
 
+  @Override
+  public Supplier<ArrayList<String>> getPitCheckFunction() {
+    return () -> {
+      ArrayList<String> failures = new ArrayList<>();
+
+      if (intakeMotor.getLastError() != ErrorCode.OK) {
+        failures.add("Intake Motor Controller");
+      }
+      if (centeringMotors.getLastError() != ErrorCode.OK) {
+        failures.add("Centering Motors Controller");
+      }
+      if (conveyorFrontMotor.getLastError() != ErrorCode.OK) {
+        failures.add("Conveyor Front Motor Controller");
+      }
+      if (conveyorBackMotor.getLastError() != ErrorCode.OK) {
+        failures.add("Conveyor Back Motor Controller");
+      }
+
+      return failures;
+    };
+  }
+
+  @Override
+  public void sendToNT() {
+  }
 }

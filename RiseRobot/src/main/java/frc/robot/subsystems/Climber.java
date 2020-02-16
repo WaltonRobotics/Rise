@@ -4,16 +4,14 @@ import static frc.robot.Constants.CANBusIDs.CLIMBER_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_LOCK_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_TOGGLE_ID;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.ArrayList;
+import java.util.function.Supplier;
 
-import static frc.robot.Constants.CANBusIDs.CLIMBER_ID;
-import static frc.robot.Constants.PneumaticIDs.CLIMBER_LOCK_ID;
-import static frc.robot.Constants.PneumaticIDs.CLIMBER_TOGGLE_ID;
-
-public class Climber extends SubsystemBase {
+public class Climber extends WaltSubsystem {
 
   private final TalonFX climberMotor = new TalonFX(CLIMBER_ID);
 
@@ -41,4 +39,21 @@ public class Climber extends SubsystemBase {
     climberMotor.set(controlMode, value);
   }
 
+  @Override
+  public Supplier<ArrayList<String>> getPitCheckFunction() {
+    return () -> {
+      ArrayList<String> failures = new ArrayList<>();
+
+      if(climberMotor.getLastError() != ErrorCode.OK) {
+        failures.add("Climber motor");
+      }
+
+      return failures;
+    };
+  }
+
+  @Override
+  public void sendToNT() {
+
+  }
 }
