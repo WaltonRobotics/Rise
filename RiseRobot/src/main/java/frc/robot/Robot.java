@@ -53,7 +53,7 @@ public class Robot extends WaltTimedRobot {
     buttonMap.sendToNetworkTable();
 
     drivetrain = new Drivetrain();
-    spinner = new Spinner();
+//    spinner = new Spinner();
     turretShooter = new TurretShooter();
     climber = new Climber();
     intakeConveyor = new IntakeConveyor();
