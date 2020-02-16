@@ -161,6 +161,7 @@ public class InterpolatingDelaunayMap implements
   @Override
   public Double get(Double[] key) {
     if (!isTriangulated) {
+      System.out.println("You need to triangulate the map before interpolating!");
       return null;
     }
     Vector2D translatedVector = new Vector2D(key[0], key[1]);
