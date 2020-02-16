@@ -61,6 +61,13 @@ public final class Constants {
 
   }
 
+  public static class DioIDs {
+
+    public static final int BOTTOM_CONVEYOR_SENSOR_ID = 0;
+    public static final int TOP_CONVEYOR_SENSOR_ID = 1;
+
+  }
+
   /**
    * The Joysticks class contains port mappings for the HID controllers.
    */

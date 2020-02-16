@@ -4,12 +4,13 @@ import static frc.robot.Constants.CANBusIDs.CENTERING_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_BACK_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_FRONT_ID;
 import static frc.robot.Constants.CANBusIDs.INTAKE_ID;
+import static frc.robot.Constants.DioIDs.BOTTOM_CONVEYOR_SENSOR_ID;
+import static frc.robot.Constants.DioIDs.TOP_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.PneumaticIDs.INTAKE_TOGGLE_ID;
-import static frc.robot.OI.intakeDownButton;
-import static frc.robot.OI.intakeUpButton;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,6 +23,9 @@ public class IntakeConveyor extends SubsystemBase {
   private final VictorSPX conveyorBackMotor = new VictorSPX(CONVEYOR_BACK_ID);
 
   private final Solenoid intakeToggle = new Solenoid(INTAKE_TOGGLE_ID);
+
+  private final DigitalInput bottomConveyorSensor = new DigitalInput(BOTTOM_CONVEYOR_SENSOR_ID);
+  private final DigitalInput topConveyorSensor = new DigitalInput(TOP_CONVEYOR_SENSOR_ID);
 
 
   public IntakeConveyor() {
@@ -46,6 +50,10 @@ public class IntakeConveyor extends SubsystemBase {
 
   public void setConveyorBackMotorOutput(double output) {
     conveyorBackMotor.set(ControlMode.PercentOutput, output);
+  }
+
+  public boolean canPulse() {
+    return bottomConveyorSensor.get() && !bottomConveyorSensor.get();
   }
 
 }

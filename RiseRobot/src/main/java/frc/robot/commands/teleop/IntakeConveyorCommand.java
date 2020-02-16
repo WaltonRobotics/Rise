@@ -1,5 +1,6 @@
 package frc.robot.commands.teleop;
 
+import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.intakeButton;
 import static frc.robot.OI.intakeDownButton;
 import static frc.robot.OI.intakeUpButton;
@@ -12,13 +13,16 @@ public class IntakeConveyorCommand extends CommandBase {
 
   private static final double INTAKE_POWER = 0.75;
   private static final double CENTERING_POWER = 0.75;
-  private static final double CONVEYOR_FRONT_POWER = 0.75;
-  private static final double CONVEYOR_BACK_POWER = 0.9;    // must be > CONVEYOR_FRONT_POWER
+  private static final double CONVEYOR_POWER = 0.75;
+  private static final double PULSE_POWER = 0.5;  // TODO adjust
+  private static final double PULSE_TIME = 0.5; // seconds  TODO adjust
+  private static double pulseStart;
   private State currentState;
 
   public IntakeConveyorCommand() {
     addRequirements(intakeConveyor);
     currentState = State.OFF;
+    pulseStart = -1;
 
     intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
     intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
@@ -26,53 +30,106 @@ public class IntakeConveyorCommand extends CommandBase {
 
   @Override
   public void execute() {
-    currentState.execute();
+    currentState = currentState.execute();
+  }
 
-    if (intakeButton.get() && turretShooter.isReadyToShoot) {
-      currentState = State.IN_AND_OUT;
-    } else if (intakeButton.get()) {
-      currentState = State.INTAKING;
-    } else if (turretShooter.isReadyToShoot) {
-      currentState = State.OUTTAKING;
-    } else {
-      currentState = State.OFF;
-    }
-
-
+  private static boolean shouldPulse() {
+    return (pulseStart != -1 && getFPGATimestamp() - pulseStart < PULSE_TIME) ||
+        intakeConveyor.canPulse();
   }
 
   private enum State {
     OFF {
       @Override
-      public void execute() {
+      public State execute() {
+        pulseStart = -1;
         intakeConveyor.setIntakeMotorOutput(0);
         intakeConveyor.setCenteringMotorsOutput(0);
         intakeConveyor.setConveyorFrontMotorOutput(0);
         intakeConveyor.setConveyorBackMotorOutput(0);
+
+        return determineState();
       }
     }, INTAKING {
       @Override
-      public void execute() {
+      public State execute() {
+        pulseStart = -1;
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_FRONT_POWER);
+        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_POWER);
+
+        return determineState();
       }
     }, OUTTAKING {
       @Override
-      public void execute() {
-        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_FRONT_POWER);
-        intakeConveyor.setConveyorBackMotorOutput(CONVEYOR_BACK_POWER);
+      public State execute() {
+        pulseStart = -1;
+        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setConveyorBackMotorOutput(CONVEYOR_POWER);
+
+        return determineState();
       }
     }, IN_AND_OUT {
       @Override
-      public void execute() {
+      public State execute() {
+        pulseStart = -1;
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_FRONT_POWER);
-        intakeConveyor.setConveyorBackMotorOutput(CONVEYOR_BACK_POWER);
+        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setConveyorBackMotorOutput(CONVEYOR_POWER);
+
+        return determineState();
+      }
+    }, PULSING {
+      @Override
+      public State execute() {
+        // Start timer, if necessary
+        if (pulseStart == -1) {
+          pulseStart = getFPGATimestamp();
+        }
+
+        // Pulse
+        intakeConveyor.setConveyorBackMotorOutput(PULSE_POWER);
+
+        return determineState();
+      }
+    }, IN_AND_PULSING {
+      @Override
+      public State execute() {
+        // Start timer, if necessary
+        if (pulseStart == -1) {
+          pulseStart = getFPGATimestamp();
+        }
+
+        // Pulse
+        intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
+        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
+        intakeConveyor.setConveyorFrontMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setConveyorBackMotorOutput(PULSE_POWER);
+
+        return determineState();
       }
     };
 
-    public abstract void execute();
+    protected State determineState() {
+      if (intakeButton.get() && turretShooter.isReadyToShoot) {
+        return IN_AND_OUT;
+      }
+      if (intakeButton.get()) {
+        if (shouldPulse()) {
+          return IN_AND_PULSING;
+        }
+        return INTAKING;
+      }
+      if (turretShooter.isReadyToShoot) {
+        return OUTTAKING;
+      }
+      if (shouldPulse()) {
+        return PULSING;
+      }
+      return OFF;
+    }
+
+    public abstract State execute();
   }
 }
