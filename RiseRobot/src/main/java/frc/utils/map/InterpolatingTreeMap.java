@@ -88,6 +88,8 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
     /**
      * @param <Q> The key type of the map (must have a default constructor).
      * @param <R> The value type of the map (must have a default constructor).
+     *
+     * @see InterpolatingTreeMap#fromJson(File)
      */
     public static <Q extends InverseInterpolable<Q> & Comparable<Q>, R extends Interpolable<R>>
     InterpolatingTreeMap<Q, R> _fromJson(File json) throws IOException {

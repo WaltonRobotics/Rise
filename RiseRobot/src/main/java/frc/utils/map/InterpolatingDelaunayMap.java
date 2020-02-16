@@ -68,10 +68,7 @@ public class InterpolatingDelaunayMap implements
   }
 
   /**
-   * Load a {@code InterpolatingDelaunayMap} from a Json file.
-   *
-   * @throws IOException if there is a problem loading the file.
-   * @throws NumberFormatException if the file is not formatted properly.
+   * @see InterpolatingDelaunayMap#fromJson(File)
    */
   public static InterpolatingDelaunayMap _fromJson(File json)
       throws IOException, NumberFormatException {
