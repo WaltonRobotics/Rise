@@ -86,8 +86,8 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
     }
 
     /**
-     * @param <Q> Must have a default constructor.
-     * @param <R> Must have a default constructor.
+     * @param <Q> The key type of the map (must have a default constructor).
+     * @param <R> The value type of the map (must have a default constructor).
      */
     public static <Q extends InverseInterpolable<Q> & Comparable<Q>, R extends Interpolable<R>>
     InterpolatingTreeMap<Q, R> _fromJson(File json) throws IOException {
@@ -98,6 +98,12 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
         return map;
     }
 
+    /**
+     * A {@code SerializablePair} is a key/value pair that can be serialized to and deserialized
+     * from a Json file.
+     * @param <Q> The key type (must have a default constructor).
+     * @param <R> The value type (must have a default constructor).
+     */
     public static class SerializablePair<Q, R> {
         Q key;
         R value;

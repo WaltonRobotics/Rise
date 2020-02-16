@@ -4,6 +4,16 @@ package frc.utils.map;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A {@code JsonableInterpolatingMap} is a map of data points that can be interpolated between and
+ * that can be serialized to and deserialized from Json files.
+ *
+ * @param <T> The class implementing this {@code interface}. This is used for deserialization.
+ * @param <K> The type of key for the map (must have a default constructor, or else it can't be
+ * deserialized).
+ * @param <V> The type of value for the map (must have a default constructor, or else it can't be
+ * deserialized).
+ */
 public interface JsonableInterpolatingMap<T, K, V> {
 
   /**
@@ -14,7 +24,7 @@ public interface JsonableInterpolatingMap<T, K, V> {
 
   /**
    * Load an {@code JsonableInterpolatingMap} from a Json File that has been created from {@code
-   * toJson()}.
+   * toJson()}. You'll probably want a static version of this method.
    */
   public T fromJson(File json) throws IOException, NumberFormatException;
 

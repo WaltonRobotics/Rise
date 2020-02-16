@@ -34,8 +34,10 @@ public class TurretShooterCommand extends CommandBase {
 
     double distanceToTarget = LimelightHelper.getDistanceMeters();
 
+    // If the flywheel state has changed, run the new state's initialize method
     if (previousFlywheelState != currentFlywheelState) {
       if(shootButton.get()) {
+        // If shooting, estimate the target speed
         if(IS_DELAUNAY_MAP) {
           // TODO fix the shooting parameters, if we go with it
           targetSpeed = turretShooter.estimateTargetSpeed(new ShootingParameters(distanceToTarget,
@@ -49,10 +51,13 @@ public class TurretShooterCommand extends CommandBase {
       } else {
         targetSpeed = 0;
       }
+
+      // Run the initialize method and update previousFlywheelState
       currentFlywheelState.initialize();
       previousFlywheelState = currentFlywheelState;
     }
 
+    // Run the states' execute methods, and update the pointers, as necessary.
     currentFlywheelState = currentFlywheelState.execute();
     currentTurretState = currentTurretState.execute();
 
@@ -67,6 +72,8 @@ public class TurretShooterCommand extends CommandBase {
         if (Math.abs(rotateCommand) > JOYSTICK_DEADBAND) {
           turretShooter.setOpenLoopTurretOutput(rotateCommand);
         }
+
+        // If it has found a single target, switch
         if (LimelightHelper.getTV() == 1) {
           turretShooter.setOpenLoopTurretOutput(0);
           return TRACKING;
@@ -82,6 +89,7 @@ public class TurretShooterCommand extends CommandBase {
             Rotation2d.fromDegrees(LimelightHelper.getTX()).minus(turretShooter.getTurretAngle());
         turretShooter.setTurretAngle(targetAngle, false);
 
+        // If it has no targets or more than one, switch
         if (LimelightHelper.getTV() != 1) {
           turretShooter.setOpenLoopTurretOutput(0);
           return MANUAL;

@@ -86,8 +86,8 @@ public class TurretShooter extends SubsystemBase {
   }
 
   /**
-   * @return the interpolated output value for the input or null if there is less than 3 points in
-   * the data map or the input can't be interpolated for or if knownDataMap is not an {@code
+   * @return the interpolated output value for the input or null if there are less than 3 points in
+   * the data map, if the input can't be interpolated for, or if knownDataMap is not an {@code
    * InterpolatingDelaunayMap}.
    */
   public Double estimateTargetSpeed(ShootingParameters input) {
@@ -97,6 +97,12 @@ public class TurretShooter extends SubsystemBase {
     return null;
   }
 
+  /**
+   * @param <K> the key type of knownDataMap.
+   * @param <V> the value type of knownDataMap.
+   * @return the interpolated output value for the input or null if the input can't be interpolated
+   * for or if knownDataMap is not an {@code InterpolatingTreeMap}.
+   */
   public <K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolable<V>> V
   estimateTargetSpeed(K input) {
     if (knownDataMap instanceof InterpolatingTreeMap) {
