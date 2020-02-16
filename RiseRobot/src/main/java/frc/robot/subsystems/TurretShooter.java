@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.ShootingParameters;
 import frc.utils.map.Interpolable;
 import frc.utils.map.InterpolatingDelaunayMap;
+import frc.utils.map.InterpolatingDouble;
 import frc.utils.map.InterpolatingTreeMap;
 import frc.utils.map.InverseInterpolable;
 import frc.utils.map.JsonableInterpolatingMap;
@@ -28,19 +29,18 @@ import java.io.IOException;
 
 public class TurretShooter extends SubsystemBase {
 
+  public static final boolean IS_DELAUNAY_MAP = false;
   private static final String JSON_FILE_LOCATION = "/home/lvuser/shooter_data.json";
   private static final String DEPLOY_FILE_LOCATION = "/home/lvuser/deploy/shooter_data.json";
 
   private final TalonFX flywheelMaster = new TalonFX(SHOOTER_FLYWHEEL_MASTER_ID);
   private final TalonFX flywheelSlave = new TalonFX(SHOOTER_FLYWHEEL_SLAVE_ID);
-
   private final TalonSRX turretMotor = new TalonSRX(SHOOTER_TURRET_ID);
-
   private final JsonableInterpolatingMap knownDataMap;
-
   private final Encoder turretEncoder = new Encoder(TURRET_ENCODER_PORT_1, TURRET_ENCODER_PORT_2);
 
   public boolean isReadyToShoot = false;
+
 
   public TurretShooter() {
     knownDataMap = loadMap();
@@ -105,17 +105,35 @@ public class TurretShooter extends SubsystemBase {
     return null;
   }
 
+  /**
+   * Attempts to return a {@code JsonableInterpolatingMap} deserialized from {@code
+   * JSON_FILE_LOCATION} or {@code DEPLOY_FILE_LOCATION}. Returns at empty map if the file cannot be
+   * loaded.
+   *
+   * The type of map is dependent on {@code IS_DELAUNAY_MAP}.
+   */
   private JsonableInterpolatingMap loadMap() {
     try {
-      return InterpolatingDelaunayMap._fromJson(new File(JSON_FILE_LOCATION));
+      if (IS_DELAUNAY_MAP) {
+        return InterpolatingDelaunayMap._fromJson(new File(JSON_FILE_LOCATION));
+      }
+      return InterpolatingTreeMap.<InterpolatingDouble, InterpolatingDouble>
+          _fromJson(new File(JSON_FILE_LOCATION));
     } catch (IOException e) {
       System.out.println("Unable to load " + JSON_FILE_LOCATION);
       e.printStackTrace();
       try {
-        return InterpolatingDelaunayMap._fromJson(new File(DEPLOY_FILE_LOCATION));
+        if (IS_DELAUNAY_MAP) {
+          return InterpolatingDelaunayMap._fromJson(new File(DEPLOY_FILE_LOCATION));
+        }
+        return InterpolatingTreeMap.<InterpolatingDouble, InterpolatingDouble>
+            _fromJson(new File(DEPLOY_FILE_LOCATION));
       } catch (IOException e2) {
         System.out.println("Unable to load " + DEPLOY_FILE_LOCATION);
-        return new InterpolatingDelaunayMap();
+        if (IS_DELAUNAY_MAP) {
+          return new InterpolatingDelaunayMap();
+        }
+        return new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
       }
     }
   }

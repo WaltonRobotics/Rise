@@ -85,6 +85,10 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
         return _fromJson(json);
     }
 
+    /**
+     * @param <Q> Must have a default constructor.
+     * @param <R> Must have a default constructor.
+     */
     public static <Q extends InverseInterpolable<Q> & Comparable<Q>, R extends Interpolable<R>>
     InterpolatingTreeMap<Q, R> _fromJson(File json) throws IOException {
         List<SerializablePair<Q, R>> pairs = JsonParser.parseJsonToList(json,
