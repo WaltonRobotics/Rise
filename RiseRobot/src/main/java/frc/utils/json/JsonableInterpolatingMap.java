@@ -1,4 +1,4 @@
-package frc.utils.map;
+package frc.utils.json;
 
 
 import java.io.File;
@@ -9,10 +9,8 @@ import java.io.IOException;
  * that can be serialized to and deserialized from Json files.
  *
  * @param <T> The class implementing this {@code interface}. This is used for deserialization.
- * @param <K> The type of key for the map (must have a default constructor, or else it can't be
- * deserialized).
- * @param <V> The type of value for the map (must have a default constructor, or else it can't be
- * deserialized).
+ * @param <K> The type of key for the map.
+ * @param <V> The type of value for the map.
  */
 public interface JsonableInterpolatingMap<T, K, V> {
 

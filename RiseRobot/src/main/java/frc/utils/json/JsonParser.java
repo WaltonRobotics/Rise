@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.utils.json;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +22,11 @@ public final class JsonParser {
 
     public static <R> R parseJsonToObject(File jsonFile, Class<R> contentClass) throws IOException {
         return mapper.readValue(jsonFile, contentClass);
+    }
+
+    public static <R> R parseJsonToObject(File jsonFile, TypeReference<R> objectReference)
+        throws IOException {
+        return mapper.readValue(jsonFile, objectReference);
     }
 
     /**

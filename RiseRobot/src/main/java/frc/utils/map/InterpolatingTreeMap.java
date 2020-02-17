@@ -1,123 +1,100 @@
 package frc.utils.map;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import frc.utils.JsonParser;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import frc.utils.json.InterpolatingTreeMapSerializer;
+import frc.utils.json.JsonParser;
+import frc.utils.json.JsonableInterpolatingMap;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
-public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolable<V>>
+/**
+ * An {@code InterpolatingTreeMap} will perform interpolation across one independent variable, given
+ * known pairs of keys and values.<br>
+ *
+ * It makes use of the {@code InterpolatingTreeMapSerializer} to serialize the map to a Json file.
+ * Any subclass should have a custom deserializer.
+ *
+ * @see InterpolatingTreeMapSerializer
+ */
+@JsonSerialize(using = InterpolatingTreeMapSerializer.class)
+public abstract class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<K>,
+    V extends Interpolable<V>>
     implements JsonableInterpolatingMap<InterpolatingTreeMap<K, V>, K, V> {
-    private static final long serialVersionUID = 8347275262778054124L;
 
-    public final TreeMap<K, V> points;
+  private static final long serialVersionUID = 8347275262778054124L;
 
-    int max_;
+  public final TreeMap<K, V> points;
 
-    public InterpolatingTreeMap(int maximumSize) {
-        points = new TreeMap<>();
-        max_ = maximumSize;
+  int max_;
+
+  public InterpolatingTreeMap(int maximumSize) {
+    points = new TreeMap<>();
+    max_ = maximumSize;
+  }
+
+  public InterpolatingTreeMap() {
+    this(0);
+  }
+
+  @Override
+  public V put(K key, V value) {
+    if (max_ > 0 && max_ <= points.size()) {
+      // "Prune" the tree if it is oversize
+      K first = points.firstKey();
+      remove(first);
     }
 
-    public InterpolatingTreeMap() {
-        this(0);
+    return points.put(key, value);
+  }
+
+  /**
+   * This is used by the {@code InterpolatingTreeMapDeserializer} in order to properly
+   * deserialize an {@code InterpolatingTreeMap}.
+   */
+  public abstract V put(String keyFromJson, String valFromJson);
+
+  @Override
+  public V remove(K key) {
+    return points.remove(key);
+  }
+
+  @Override
+  public V get(K key) {
+    V gotval = points.get(key);
+    if (gotval == null) {
+      /* Get surrounding keys for interpolation */
+      K topBound = points.ceilingKey(key);
+      K bottomBound = points.floorKey(key);
+
+      /*
+       * If attempting interpolation at ends of tree, return the nearest
+       * data point
+       */
+      if (topBound == null && bottomBound == null) {
+        return null;
+      } else if (topBound == null) {
+        return points.get(bottomBound);
+      } else if (bottomBound == null) {
+        return points.get(topBound);
+      }
+
+      /* Get surrounding values for interpolation */
+      V topElem = points.get(topBound);
+      V bottomElem = points.get(bottomBound);
+      return bottomElem.interpolate(topElem, bottomBound.inverseInterpolate(topBound, key));
+    } else {
+      return gotval;
     }
+  }
 
-    @Override
-    public V put(K key, V value) {
-        if (max_ > 0 && max_ <= points.size()) {
-            // "Prune" the tree if it is oversize
-            K first = points.firstKey();
-            remove(first);
-        }
+  @Override
+  public void toJson(File json) throws IOException {
+    JsonParser.sendObjectToJson(json, this);
+  }
 
-        return points.put(key, value);
-    }
-
-    @Override
-    public V remove(K key) {
-        return points.remove(key);
-    }
-
-    @Override
-    public V get(K key) {
-        V gotval = points.get(key);
-        if (gotval == null) {
-            /** Get surrounding keys for interpolation */
-            K topBound = points.ceilingKey(key);
-            K bottomBound = points.floorKey(key);
-
-            /**
-             * If attempting interpolation at ends of tree, return the nearest
-             * data point
-             */
-            if (topBound == null && bottomBound == null) {
-                return null;
-            } else if (topBound == null) {
-                return points.get(bottomBound);
-            } else if (bottomBound == null) {
-                return points.get(topBound);
-            }
-
-            /** Get surrounding values for interpolation */
-            V topElem = points.get(topBound);
-            V bottomElem = points.get(bottomBound);
-            return bottomElem.interpolate(topElem, bottomBound.inverseInterpolate(topBound, key));
-        } else {
-            return gotval;
-        }
-    }
-
-
-    @Override
-    public void toJson(File json) throws IOException {
-        List<SerializablePair> pairs = points.entrySet().stream().map(n ->
-            new SerializablePair<>(n.getKey(), n.getValue())).collect(Collectors.toList());
-        JsonParser.sendObjectToJson(json, pairs);
-    }
-
-    @Override
-    public InterpolatingTreeMap<K, V> fromJson(File json)
-        throws IOException, NumberFormatException {
-        return _fromJson(json);
-    }
-
-    /**
-     * @param <Q> The key type of the map (must have a default constructor).
-     * @param <R> The value type of the map (must have a default constructor).
-     *
-     * @see InterpolatingTreeMap#fromJson(File)
-     */
-    public static <Q extends InverseInterpolable<Q> & Comparable<Q>, R extends Interpolable<R>>
-    InterpolatingTreeMap<Q, R> _fromJson(File json) throws IOException {
-        List<SerializablePair<Q, R>> pairs = JsonParser.parseJsonToList(json,
-            new TypeReference<>(){});
-        InterpolatingTreeMap<Q, R> map = new InterpolatingTreeMap<>();
-        pairs.forEach(n -> map.put(n.key, n.value));
-        return map;
-    }
-
-    /**
-     * A {@code SerializablePair} is a key/value pair that can be serialized to and deserialized
-     * from a Json file.
-     * @param <Q> The key type (must have a default constructor).
-     * @param <R> The value type (must have a default constructor).
-     */
-    public static class SerializablePair<Q, R> {
-        Q key;
-        R value;
-
-        public SerializablePair(Q key, R value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public SerializablePair() {
-            this(null, null);
-        }
-    }
-
+  @Override
+  public String toString() {
+    return "InterpolatingTreeMap:\n" + points.toString();
+  }
 }

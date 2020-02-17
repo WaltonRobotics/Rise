@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.ShootingParameters;
 import frc.utils.map.Interpolable;
 import frc.utils.map.InterpolatingDelaunayMap;
-import frc.utils.map.InterpolatingDouble;
+import frc.utils.map.InterpolatingDoubleTreeMap;
 import frc.utils.map.InterpolatingTreeMap;
 import frc.utils.map.InverseInterpolable;
-import frc.utils.map.JsonableInterpolatingMap;
+import frc.utils.json.JsonableInterpolatingMap;
 import java.io.File;
 import java.io.IOException;
 
@@ -103,7 +103,8 @@ public class TurretShooter extends SubsystemBase {
    * @return the interpolated output value for the input or null if the input can't be interpolated
    * for or if knownDataMap is not an {@code InterpolatingTreeMap}.
    */
-  public <K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolable<V>> V
+  public <K extends InverseInterpolable<K> & Comparable<K>,
+      V extends Interpolable<V>> V
   estimateTargetSpeed(K input) {
     if (knownDataMap instanceof InterpolatingTreeMap) {
       return ((InterpolatingTreeMap<K, V>) knownDataMap).get(input);
@@ -123,8 +124,7 @@ public class TurretShooter extends SubsystemBase {
       if (IS_DELAUNAY_MAP) {
         return InterpolatingDelaunayMap._fromJson(new File(JSON_FILE_LOCATION));
       }
-      return InterpolatingTreeMap.<InterpolatingDouble, InterpolatingDouble>
-          _fromJson(new File(JSON_FILE_LOCATION));
+      return InterpolatingDoubleTreeMap._fromJson(new File(JSON_FILE_LOCATION));
     } catch (IOException e) {
       System.out.println("Unable to load " + JSON_FILE_LOCATION);
       e.printStackTrace();
@@ -132,14 +132,13 @@ public class TurretShooter extends SubsystemBase {
         if (IS_DELAUNAY_MAP) {
           return InterpolatingDelaunayMap._fromJson(new File(DEPLOY_FILE_LOCATION));
         }
-        return InterpolatingTreeMap.<InterpolatingDouble, InterpolatingDouble>
-            _fromJson(new File(DEPLOY_FILE_LOCATION));
+        return InterpolatingDoubleTreeMap._fromJson(new File(DEPLOY_FILE_LOCATION));
       } catch (IOException e2) {
         System.out.println("Unable to load " + DEPLOY_FILE_LOCATION);
         if (IS_DELAUNAY_MAP) {
           return new InterpolatingDelaunayMap();
         }
-        return new InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble>();
+        return new InterpolatingDoubleTreeMap();
       }
     }
   }

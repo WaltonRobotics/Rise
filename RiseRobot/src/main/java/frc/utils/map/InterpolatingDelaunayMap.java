@@ -2,7 +2,8 @@ package frc.utils.map;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import frc.utils.JsonParser;
+import frc.utils.json.JsonParser;
+import frc.utils.json.JsonableInterpolatingMap;
 import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
 import io.github.jdiemke.triangulation.Triangle2D;

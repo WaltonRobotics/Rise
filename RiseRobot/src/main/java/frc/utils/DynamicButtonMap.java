@@ -20,8 +20,8 @@ import java.util.TreeMap;
 
 import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
 import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
-import static frc.utils.JsonParser.parseJsonToMap;
-import static frc.utils.JsonParser.sendObjectToJson;
+import static frc.utils.json.JsonParser.parseJsonToMap;
+import static frc.utils.json.JsonParser.sendObjectToJson;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
