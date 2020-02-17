@@ -8,6 +8,10 @@ import frc.utils.map.InterpolatingDoubleTreeMap;
 import java.io.IOException;
 
 /**
+ * Performs deserialization for an {@code InterpolatingDoubleTreeMap}.
+ *
+ * @see InterpolatingDoubleTreeMap
+ * @see InterpolatingTreeMapSerializer
  **/
 public class InterpolatingDoubleTreeMapDeserializer extends
     InterpolatingTreeMapDeserializer<InterpolatingDoubleTreeMap> {

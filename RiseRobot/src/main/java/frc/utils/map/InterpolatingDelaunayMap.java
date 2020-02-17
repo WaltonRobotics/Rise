@@ -2,7 +2,7 @@ package frc.utils.map;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import frc.utils.json.JsonParser;
+import frc.utils.json.JsonHandler;
 import frc.utils.json.JsonableInterpolatingMap;
 import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
@@ -73,7 +73,7 @@ public class InterpolatingDelaunayMap implements
    */
   public static InterpolatingDelaunayMap _fromJson(File json)
       throws IOException, NumberFormatException {
-    Map<String, Double> deserializedMap = JsonParser.parseJsonToMap(json,
+    Map<String, Double> deserializedMap = JsonHandler.parseJsonToMap(json,
         new TypeReference<>() {
         });
     return new InterpolatingDelaunayMap(
@@ -268,7 +268,7 @@ public class InterpolatingDelaunayMap implements
             return null;
           }
         }).collect(Collectors.toMap(n -> (List<Double>) n.getKey(), n -> (Double) n.getValue()));
-    JsonParser.sendObjectToJson(json, serializableMap);
+    JsonHandler.sendObjectToJson(json, serializableMap);
   }
 
   @Override

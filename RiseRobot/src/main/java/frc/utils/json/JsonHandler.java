@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * JsonParser is a utility class with generic methods for converting Json files into objects, lists,
+ * JsonHandler is a utility class with generic methods for converting Json files into objects, lists,
  * and maps.
  *
  * @author Russell Newton, Walton Robotics
  **/
-public final class JsonParser {
+public final class JsonHandler {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 

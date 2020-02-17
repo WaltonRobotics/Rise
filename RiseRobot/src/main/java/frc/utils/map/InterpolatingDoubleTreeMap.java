@@ -2,7 +2,7 @@ package frc.utils.map;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import frc.utils.json.InterpolatingDoubleTreeMapDeserializer;
-import frc.utils.json.JsonParser;
+import frc.utils.json.JsonHandler;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ public class InterpolatingDoubleTreeMap extends
     InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> {
 
   public static InterpolatingDoubleTreeMap _fromJson(File json) throws IOException {
-    return JsonParser.parseJsonToObject(json, InterpolatingDoubleTreeMap.class);
+    return JsonHandler.parseJsonToObject(json, InterpolatingDoubleTreeMap.class);
   }
 
   @Override

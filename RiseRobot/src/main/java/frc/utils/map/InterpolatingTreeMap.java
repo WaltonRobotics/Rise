@@ -2,7 +2,7 @@ package frc.utils.map;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import frc.utils.json.InterpolatingTreeMapSerializer;
-import frc.utils.json.JsonParser;
+import frc.utils.json.JsonHandler;
 import frc.utils.json.JsonableInterpolatingMap;
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public abstract class InterpolatingTreeMap<K extends InverseInterpolable<K> & Co
 
   @Override
   public void toJson(File json) throws IOException {
-    JsonParser.sendObjectToJson(json, this);
+    JsonHandler.sendObjectToJson(json, this);
   }
 
   @Override
