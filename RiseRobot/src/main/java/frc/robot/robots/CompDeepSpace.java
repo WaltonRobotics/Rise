@@ -1,38 +1,31 @@
 package frc.robot.robots;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.util.Units;
+import frc.utils.interpolatingMap.InterpolatingDouble;
+import frc.utils.interpolatingMap.InterpolatingTreeMap;
 
 public class CompDeepSpace implements WaltRobot {
 
     // Config constants
-    private final int shifterChannel = 0;
 
     private final PIDController leftPIDController = new PIDController(2, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
     private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
 
-    private final Solenoid shifter = new Solenoid(shifterChannel);
+    private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
+            new TrapezoidProfile.Constraints(360, 80)); //0.009
 
-    private final double highGearRatio = 1; //6.58905 * 1.051
-    private final double wheelDiameter = Units.inchesToMeters(5);
-
-    private ProfiledPIDController turnPIDController;
-    private PIDController distancePIDController;
+    private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterAutoAimMap = new InterpolatingTreeMap<>();
 
     public CompDeepSpace() {
-        TrapezoidProfile.Constraints turnControllerConstraint = new TrapezoidProfile.Constraints(360, 80); //FIXME
-        turnPIDController = new ProfiledPIDController(0.011, 0, 0, turnControllerConstraint); //0.009
         turnPIDController.enableContinuousInput(-180f, 180f);
         turnPIDController.setTolerance(1, 1);
 
-        distancePIDController = new PIDController(0.0001, 0, 0);
-        distancePIDController.setTolerance(0.05);
+        populateShooterLUT();
     }
 
     // 32 l
@@ -69,11 +62,6 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public PIDController getDistancePIDController() {
-        return distancePIDController;
-    }
-
-    @Override
     public SimpleMotorFeedforward getFlywheelFeedforward() {
         return null;
     }
@@ -96,11 +84,6 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public double getDistancePerPulse() {
         return 0.0005706796580;
-    }
-
-    @Override
-    public Solenoid getShifter() {
-        return shifter;
     }
 
     @Override
@@ -131,6 +114,18 @@ public class CompDeepSpace implements WaltRobot {
     @Override
     public double getVisionAlignTxTolerance() {
         return 0;
+    }
+
+    @Override
+    public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterAutoAimMap() {
+        return null;
+    }
+
+    @Override
+    public void populateShooterLUT() {
+        shooterAutoAimMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(0.0));
+        shooterAutoAimMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
+        shooterAutoAimMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(2.0));
     }
 
     @Override

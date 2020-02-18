@@ -4,8 +4,29 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import frc.utils.interpolatingMap.InterpolatingDouble;
+import frc.utils.interpolatingMap.InterpolatingTreeMap;
+
 
 public class CompRise implements WaltRobot {
+
+    private final PIDController leftPIDController = new PIDController(2, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
+    private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
+
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
+
+    private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
+            new TrapezoidProfile.Constraints(360, 80)); //0.009
+
+    private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterAutoAimMap = new InterpolatingTreeMap<>();
+
+    public CompRise() {
+        turnPIDController.enableContinuousInput(-180f, 180f);
+        turnPIDController.setTolerance(1, 1);
+
+        populateShooterLUT();
+    }
     @Override
     public double getTrackWidth() {
         return 0;
@@ -37,11 +58,6 @@ public class CompRise implements WaltRobot {
     }
 
     @Override
-    public PIDController getDistancePIDController() {
-        return null;
-    }
-
-    @Override
     public SimpleMotorFeedforward getFlywheelFeedforward() {
         return null;
     }
@@ -64,11 +80,6 @@ public class CompRise implements WaltRobot {
     @Override
     public double getDistancePerPulse() {
         return 0;
-    }
-
-    @Override
-    public Solenoid getShifter() {
-        return null;
     }
 
     @Override
@@ -99,6 +110,18 @@ public class CompRise implements WaltRobot {
     @Override
     public double getVisionAlignTxTolerance() {
         return 0;
+    }
+
+    @Override
+    public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterAutoAimMap() {
+        return null;
+    }
+
+    @Override
+    public void populateShooterLUT() {
+        shooterAutoAimMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(0.0));
+        shooterAutoAimMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
+        shooterAutoAimMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(2.0));
     }
 
     @Override

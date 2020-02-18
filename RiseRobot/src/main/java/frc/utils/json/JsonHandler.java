@@ -1,6 +1,5 @@
 package frc.utils.json;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,8 +12,6 @@ import java.util.Map;
 /**
  * JsonHandler is a utility class with generic methods for converting Json files into objects, lists,
  * and maps.
- *
- * @author Russell Newton, Walton Robotics
  **/
 public final class JsonHandler {
 
@@ -25,7 +22,7 @@ public final class JsonHandler {
     }
 
     public static <R> R parseJsonToObject(File jsonFile, TypeReference<R> objectReference)
-        throws IOException {
+            throws IOException {
         return mapper.readValue(jsonFile, objectReference);
     }
 

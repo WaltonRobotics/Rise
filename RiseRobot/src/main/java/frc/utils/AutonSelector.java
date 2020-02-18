@@ -11,17 +11,14 @@ import static frc.robot.Robot.drivetrain;
 public enum AutonSelector {
     DO_NOTHING(0, "Do Nothing", new SequentialCommandGroup()),
     CROSS_BASELINE_FORWARDS(1, "Cross Baseline Forwards", new SequentialCommandGroup(
-            new ShiftUp(),
             new ResetPose(Paths.CrossBaseline.forwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
     CROSS_BASELINE_BACKWARDS(2, "Cross Baseline Backwards", new SequentialCommandGroup(
-            new ShiftUp(),
             new ResetPose(Paths.CrossBaseline.backwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
     )),
     TWO_A(3, "2A", new TimeAuto(
-            new ShiftUp(),
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
             new TurnAtAngle(180).withTimeout(2.5),
@@ -35,14 +32,12 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot, 0)
     )),
     FOUR(4, "4", new TimeAuto(
-            new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
             new RamseteTrackingCommand(Paths.Four.backupFromTrench)
     )),
     FIVE(5, "5", new TimeAuto(
-            new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Five.intakeTwo),
@@ -53,12 +48,10 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
     )),
     TESTS(254, "Tests", new TimeAuto(
-            new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new TurnAtAngle(180)
     )),
     SCREWING_AROUND(420, "Lol", new TimeAuto(
-            new ShiftUp(),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.ScrewingAround.infiniteLoop.getInitialPose()),
             new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop)

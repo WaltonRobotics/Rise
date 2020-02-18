@@ -24,7 +24,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("Config turn rate", 0.25);
+
     }
 
     @Override
@@ -32,11 +32,6 @@ public class DriveCommand extends CommandBase {
         // (Joysticks inverted because limelight is facing backwards)
         drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
 
-        if (shiftUpButton.get() && !drivetrain.isHighGear()) {
-            drivetrain.shiftUp();
-        } else if (shiftDownButton.get() && drivetrain.isHighGear()) {
-            drivetrain.shiftDown();
-        }
     }
 
     @Override

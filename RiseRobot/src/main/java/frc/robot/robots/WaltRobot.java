@@ -1,9 +1,10 @@
 package frc.robot.robots;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.utils.interpolatingMap.InterpolatingDouble;
+import frc.utils.interpolatingMap.InterpolatingTreeMap;
 
 public interface WaltRobot {
 
@@ -21,9 +22,6 @@ public interface WaltRobot {
     // Turn controller
     ProfiledPIDController getTurnPIDController();
 
-    // Distance controller
-    PIDController getDistancePIDController();
-
     // Shooter feedforward
     SimpleMotorFeedforward getFlywheelFeedforward();
 
@@ -38,8 +36,6 @@ public interface WaltRobot {
 
     double getDistancePerPulse();
 
-    Solenoid getShifter();
-
     double getMinimumShiftingTime();
 
     int getMountingAngle();
@@ -51,4 +47,8 @@ public interface WaltRobot {
     double getMaxAlignmentTime();
 
     double getVisionAlignTxTolerance();
+
+    InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterAutoAimMap();
+
+    void populateShooterLUT();
 }

@@ -1,16 +1,16 @@
-package frc.utils.map;
+package frc.utils.interpolatingMap;
 
+/**
+ * A Double that can be interpolated using the InterpolatingTreeMap.
+ *
+ * @see InterpolatingTreeMap
+ */
 public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
         Comparable<InterpolatingDouble> {
-
-    public Double value;
+    public Double value = 0.0;
 
     public InterpolatingDouble(Double val) {
         value = val;
-    }
-
-    public InterpolatingDouble() {
-        this(0.0);
     }
 
     @Override
@@ -44,8 +44,4 @@ public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, I
         }
     }
 
-    @Override
-    public String toString() {
-        return value + "";
-    }
 }

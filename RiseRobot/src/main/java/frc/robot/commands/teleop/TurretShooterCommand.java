@@ -4,14 +4,11 @@ import static frc.robot.OI.barfButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.shootButton;
 import static frc.robot.Robot.turretShooter;
-import static frc.robot.subsystems.TurretShooter.IS_DELAUNAY_MAP;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.utils.LimelightHelper;
-import frc.utils.ShootingParameters;
-import frc.utils.map.InterpolatingDouble;
 
 public class TurretShooterCommand extends CommandBase {
 
@@ -38,23 +35,19 @@ public class TurretShooterCommand extends CommandBase {
     if (previousFlywheelState != currentFlywheelState) {
       if(shootButton.get()) {
         // If shooting, estimate the target speed
-        if(IS_DELAUNAY_MAP) {
-          // TODO fix the shooting parameters, if we go with it
-          targetSpeed = turretShooter.estimateTargetSpeed(new ShootingParameters(distanceToTarget,
-              Rotation2d.fromDegrees(0)));
-        } else {
-          targetSpeed = turretShooter.<InterpolatingDouble, InterpolatingDouble>
-              estimateTargetSpeed(new InterpolatingDouble(distanceToTarget)).value;
+          targetSpeed = turretShooter.estimateTargetSpeed(distanceToTarget);
         }
-      } else if(barfButton.get()) {
-        targetSpeed = BARF_SPEED;
-      } else {
-        targetSpeed = 0;
       }
 
-      // Run the initialize method and update previousFlywheelState
-      currentFlywheelState.initialize();
-      previousFlywheelState = currentFlywheelState;
+      else if(barfButton.get()) {
+        targetSpeed = BARF_SPEED;
+      }
+
+      else {
+        targetSpeed = 0;
+        // Run the initialize method and update previousFlywheelState
+        currentFlywheelState.initialize();
+        previousFlywheelState = currentFlywheelState;
     }
 
     // Run the states' execute methods, and update the pointers, as necessary.

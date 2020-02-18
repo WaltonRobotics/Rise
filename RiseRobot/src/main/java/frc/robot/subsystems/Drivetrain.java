@@ -30,7 +30,6 @@ public class Drivetrain extends SubsystemBase {
     private RamseteController ramseteController = new RamseteController();
 
     private Pose2d robotPose = new Pose2d();
-    private boolean isHighGear = true;
 
     public Drivetrain() {
         motorSetUp();
@@ -40,7 +39,6 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         updateRobotPose();
-        isHighGear = currentRobot.getShifter().get();
         SmartDashboard.putNumber("Angle", getHeading().getDegrees());
         SmartDashboard.putNumber("Left neo encoder velocity", drivetrain.getCANEncoderLeftVelocity());
         SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
@@ -122,19 +120,6 @@ public class Drivetrain extends SubsystemBase {
         setDutyCycles(leftMotorOutput, rightMotorOutput);
     }
 
-    public void shiftUp() {
-        if (!currentRobot.getShifter().get()) {
-            System.out.println("Shifted Up");
-            currentRobot.getShifter().set(true);
-        }
-    }
-
-    public void shiftDown() {
-        if (currentRobot.getShifter().get()) {
-            System.out.println("Shifted Down");
-            currentRobot.getShifter().set(false);
-        }
-    }
 
     public Rotation2d getHeading() {
         return Rotation2d.fromDegrees(-ahrs.getAngle());  // counter clock wise positive
@@ -165,10 +150,6 @@ public class Drivetrain extends SubsystemBase {
 
     public void resetOdometry(Pose2d startingPose) {
         driveOdometry.resetPosition(startingPose, getHeading());
-    }
-
-    public boolean isHighGear() {
-        return isHighGear;
     }
 
     public RamseteController getRamseteController() {
