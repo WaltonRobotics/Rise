@@ -50,6 +50,8 @@ public class Robot extends WaltTimedRobot {
     currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(),
         new DigitalInput(10).get()).getCurrentRobot();
 
+    System.out.println("Starting robot code. Current Robot is " + currentRobot.toString());
+
     buttonMap.sendToNetworkTable();
 
     drivetrain = new Drivetrain();
@@ -92,6 +94,7 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void disabledPeriodic() {
+
   }
 
   /**
