@@ -19,6 +19,7 @@ public class ClimbCommand extends CommandBase {
   private static final double MAX_EXTEND_POWER = 0.4;
 
   public ClimbCommand() {
+    addRequirements(climber);
     toggleState = previousToggleState = DOWN;
 
     climberUpButton.whenPressed(() -> toggleState = UP);
