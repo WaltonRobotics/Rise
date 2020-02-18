@@ -79,7 +79,7 @@ public class TurretShooter extends SubsystemBase {
    * @return RPMs to set the flywheel
    */
   public double estimateTargetSpeed(double distance) {
-    InterpolatingDouble result = currentRobot.getShooterAutoAimMap().get(new InterpolatingDouble(distance));
+    InterpolatingDouble result = currentRobot.getShooterCalibrationMap().get(new InterpolatingDouble(distance));
     if (result != null) {
       return result.value;
     } else {
@@ -88,6 +88,6 @@ public class TurretShooter extends SubsystemBase {
   }
 
   public InterpolatingTreeMap getKnownDataMap() {
-    return currentRobot.getShooterAutoAimMap();
+    return currentRobot.getShooterCalibrationMap();
   }
 }

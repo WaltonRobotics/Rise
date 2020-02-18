@@ -48,7 +48,7 @@ public interface WaltRobot {
 
     double getVisionAlignTxTolerance();
 
-    InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterAutoAimMap();
+    InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterCalibrationMap();
 
     void populateShooterLUT();
 }

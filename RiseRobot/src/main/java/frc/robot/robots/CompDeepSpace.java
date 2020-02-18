@@ -19,7 +19,7 @@ public class CompDeepSpace implements WaltRobot {
     private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
             new TrapezoidProfile.Constraints(360, 80)); //0.009
 
-    private InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterAutoAimMap = new InterpolatingTreeMap<>();
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
 
     public CompDeepSpace() {
         turnPIDController.enableContinuousInput(-180f, 180f);
@@ -117,15 +117,15 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterAutoAimMap() {
-        return null;
+    public InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> getShooterCalibrationMap() {
+        return shooterCalibrationMap;
     }
 
     @Override
     public void populateShooterLUT() {
-        shooterAutoAimMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(0.0));
-        shooterAutoAimMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
-        shooterAutoAimMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(2.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(0.0), new InterpolatingDouble(0.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(2.0));
     }
 
     @Override
