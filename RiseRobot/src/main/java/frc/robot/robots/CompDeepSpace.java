@@ -132,4 +132,9 @@ public class CompDeepSpace implements WaltRobot {
     public double getVisionAlignTxTolerance() {
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "Competition Deep Space";
+    }
 }

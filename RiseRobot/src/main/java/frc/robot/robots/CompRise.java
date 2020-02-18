@@ -101,4 +101,8 @@ public class CompRise implements WaltRobot {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return "Competition Rise";
+    }
 }

@@ -101,4 +101,9 @@ public class PracticeRise implements WaltRobot {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return "Practice Rise";
+    }
+
 }

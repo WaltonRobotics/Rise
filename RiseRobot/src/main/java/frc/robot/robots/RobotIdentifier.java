@@ -31,9 +31,4 @@ public enum RobotIdentifier {
     public WaltRobot getCurrentRobot() {
         return currentRobot;
     }
-
-    @Override
-    public String toString() {
-        return "Current robot is " + currentRobot;
-    }
 }
