@@ -54,14 +54,14 @@ public class Robot extends WaltTimedRobot {
 
     drivetrain = new Drivetrain();
 //    spinner = new Spinner();
-    turretShooter = new TurretShooter();
+//    turretShooter = new TurretShooter();
     climber = new Climber();
     intakeConveyor = new IntakeConveyor();
 
     SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
-    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
+//    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
     CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
     CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
   }
