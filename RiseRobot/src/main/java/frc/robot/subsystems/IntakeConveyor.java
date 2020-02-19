@@ -9,7 +9,9 @@ import static frc.robot.Constants.DioIDs.BACK_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.DioIDs.FRONT_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.PneumaticIDs.INTAKE_TOGGLE_ID;
 import static frc.robot.OI.overrideBackConveyorButton;
+import static frc.robot.OI.overrideCenteringButton;
 import static frc.robot.OI.overrideFrontConveyorButton;
+import static frc.robot.OI.overrideIntakeButton;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -46,6 +48,8 @@ public class IntakeConveyor extends SubsystemBase {
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(CONVEYOR_POWER));
+    overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
+    overrideCenteringButton.whenPressed(() -> setBackConveyorMotorOutput(CENTERING_POWER));
   }
 
   @Override
