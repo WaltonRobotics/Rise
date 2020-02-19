@@ -88,12 +88,12 @@ public class CompRise implements WaltRobot {
 
     @Override
     public double getLimelightMountingAngle() {
-        return 0;
+        return 35;
     }
 
     @Override
     public double getLimelightMountingHeight() {
-        return 0;
+        return 22.865;
     }
 
     @Override
