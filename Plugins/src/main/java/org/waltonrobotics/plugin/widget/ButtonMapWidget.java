@@ -28,6 +28,8 @@ import org.waltonrobotics.plugin.data.ButtonMapType;
 import org.waltonrobotics.plugin.data.ButtonMapping;
 
 /**
+ * A widget for displaying a Dynamic Button Map.
+ *
  * @author Russell Newton, Walton Robotics
  **/
 @Description(name = "Button Map", dataTypes = ButtonMapType.class)

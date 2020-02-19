@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class ButtonMappingType extends ComplexDataType<ButtonMapping> {
 
   private static final String NAME = "ButtonMapping";
-  public static final ButtonMappingType Instance = new ButtonMappingType();
+  public static final ButtonMappingType INSTANCE = new ButtonMappingType();
 
   public ButtonMappingType() {
     super(NAME, ButtonMapping.class);

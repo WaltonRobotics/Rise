@@ -52,7 +52,7 @@ import java.util.stream.Stream;
  **/
 public class ButtonMapType extends ComplexDataType<ButtonMap> {
 
-  public static final ButtonMapType Instance = new ButtonMapType();
+  public static final ButtonMapType INSTANCE = new ButtonMapType();
   private static final String NAME = "ButtonMap";
 
   public ButtonMapType() {

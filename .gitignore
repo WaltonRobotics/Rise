@@ -26,3 +26,5 @@ hs_err_pid*
 !/.gitignore
 
 __pycache__/
+Plugins/build/
+Plugins/out/
