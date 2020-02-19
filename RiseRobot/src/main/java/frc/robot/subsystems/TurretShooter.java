@@ -18,7 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.utils.interpolatingMap.*;
+import frc.utils.interpolatingmap.*;
 
 
 public class TurretShooter extends SubsystemBase {

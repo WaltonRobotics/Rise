@@ -1,4 +1,4 @@
-package frc.utils.interpolatingMap;
+package frc.utils.interpolatingmap;
 
 /**
  * Interpolable is an interface used by an Interpolating Tree as the Value type.

@@ -4,8 +4,10 @@ import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.teleop.ClimbCommand;
@@ -94,7 +96,6 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void disabledPeriodic() {
-
   }
 
   /**
