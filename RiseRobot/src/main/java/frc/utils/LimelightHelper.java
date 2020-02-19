@@ -17,9 +17,9 @@ public class LimelightHelper {
     private static NetworkTableEntry ta = table.getEntry("ta");
     private static NetworkTableEntry tv = table.getEntry("tv");
 
-    private static double limelightAngle = 10;
-    private static double limelightHeight = 10;
     private static double targetHeight = 10;
+
+    private static MovingAverage linearFilter = new MovingAverage(5, 0);
 
     /**
      * @return tx The x angle from target in degrees
@@ -32,7 +32,8 @@ public class LimelightHelper {
      * @return ty The y angle from target in degrees
      */
     public static double getTY() {
-        return ty.getDouble(0);
+        linearFilter.update(ty.getDouble(0));
+        return linearFilter.getDoubleOutput();
     }
 
     /**
@@ -53,6 +54,6 @@ public class LimelightHelper {
      * @return distance The distance to the target in meters
      */
     public static double getDistanceMeters() {
-        return Units.inchesToMeters(targetHeight - limelightHeight / Math.tan(Units.degreesToRadians(currentRobot.getMountingAngle() + getTY())));
+        return Units.inchesToMeters(targetHeight - currentRobot.getLimelightMountingHeight() / Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())));
     }
 }

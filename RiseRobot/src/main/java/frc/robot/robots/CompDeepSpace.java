@@ -92,8 +92,13 @@ public class CompDeepSpace implements WaltRobot {
     }
 
     @Override
-    public int getMountingAngle() {
+    public double getLimelightMountingAngle() {
         return 20;
+    }
+
+    @Override
+    public double getLimelightMountingHeight() {
+        return 10;
     }
 
     @Override

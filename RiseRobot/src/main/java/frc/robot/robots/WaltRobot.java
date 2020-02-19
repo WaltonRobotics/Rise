@@ -38,7 +38,9 @@ public interface WaltRobot {
 
     double getMinimumShiftingTime();
 
-    int getMountingAngle();
+    double getLimelightMountingAngle();
+
+    double getLimelightMountingHeight();
 
     double getVisionAlignKp();
 
