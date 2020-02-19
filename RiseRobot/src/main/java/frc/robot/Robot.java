@@ -23,6 +23,7 @@ import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
 import frc.utils.AutonSelector;
 import frc.utils.LiveDashboardHelper;
+import frc.utils.ShuffleboardTimer;
 import frc.utils.WaltTimedRobot;
 
 /**
@@ -40,6 +41,8 @@ public class Robot extends WaltTimedRobot {
   public static IntakeConveyor intakeConveyor;
 
   public static WaltRobot currentRobot;
+
+  private static ShuffleboardTimer matchTimer;
 
   public static boolean isBlue = true;
 
@@ -61,6 +64,9 @@ public class Robot extends WaltTimedRobot {
     turretShooter = new TurretShooter();
     climber = new Climber();
     intakeConveyor = new IntakeConveyor();
+
+    matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 1,
+        "0x0024D6", "0x000b40");
 
     SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
     SmartDashboard.putBoolean(IS_BLUE, false);
@@ -85,6 +91,7 @@ public class Robot extends WaltTimedRobot {
     } else {
       isBlue = (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue);
     }
+    matchTimer.sendToShuffleboard();
   }
 
   /**
