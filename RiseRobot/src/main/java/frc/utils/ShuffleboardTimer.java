@@ -50,9 +50,13 @@ public class ShuffleboardTimer {
     table.getEntry("Precision").setNumber(precision);
     if(onColor != null) {
       table.getEntry("On Color").setString(onColor);
+    } else {
+      table.delete("On Color");
     }
     if(offColor != null) {
       table.getEntry("Off Color").setString(offColor);
+    } else {
+      table.delete("Off Color");
     }
   }
 }
