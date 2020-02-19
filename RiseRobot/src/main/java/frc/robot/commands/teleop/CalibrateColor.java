@@ -1,7 +1,6 @@
-package frc.robot.command.teleop;
+package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.command.teleop.routines.PositionControl;
 
 import static frc.robot.Robot.spinner;
 

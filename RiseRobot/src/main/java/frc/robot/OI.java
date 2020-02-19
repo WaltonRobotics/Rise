@@ -7,8 +7,8 @@ import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_UP_BUTTON_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_DOWN_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_ON_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.INTAKE_UP_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.SHIFT_DOWN_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.SHIFT_UP_BUTTON_KEY;
+import static frc.robot.Constants.ButtonMapDefaults.OVERRIDE_BACK_CONVEYOR_ON;
+import static frc.robot.Constants.ButtonMapDefaults.OVERRIDE_FRONT_CONVEYOR_ON;
 import static frc.robot.Constants.ButtonMapDefaults.SHOOT_KEY;
 import static frc.robot.Constants.ButtonMapDefaults.defaultMappings;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
@@ -38,10 +38,6 @@ public class OI {
 
   Using an EnhancedJoystickButton lets us have dynamic button mapping.
    */
-  public static EnhancedJoystickButton shiftUpButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(SHIFT_UP_BUTTON_KEY));
-  public static EnhancedJoystickButton shiftDownButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(SHIFT_DOWN_BUTTON_KEY));
   public static EnhancedJoystickButton intakeUpButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(INTAKE_UP_KEY));
   public static EnhancedJoystickButton intakeDownButton = new EnhancedJoystickButton(
@@ -58,5 +54,9 @@ public class OI {
       buttonMap.getButtonIndex(CLIMBER_DOWN_BUTTON_KEY));
   public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(CLIMBER_UNLOCK_BUTTON_KEY));
+  public static EnhancedJoystickButton overrideFrontConveyorButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON));
+  public static EnhancedJoystickButton overrideBackConveyorButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(OVERRIDE_BACK_CONVEYOR_ON));
 
 }

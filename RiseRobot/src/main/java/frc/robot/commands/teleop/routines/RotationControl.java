@@ -1,9 +1,7 @@
-package frc.robot.command.teleop.routines;
+package frc.robot.commands.teleop.routines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.command.teleop.DoRotation;
-import frc.robot.command.teleop.StopSpinning;
-import frc.robot.command.teleop.WaitForTrenchLight;
+import frc.robot.commands.teleop.DoRotation;
 
 public class RotationControl extends SequentialCommandGroup {
 

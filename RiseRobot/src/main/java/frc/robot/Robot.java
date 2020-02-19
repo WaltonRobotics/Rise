@@ -65,7 +65,7 @@ public class Robot extends WaltTimedRobot {
     climber = new Climber();
     intakeConveyor = new IntakeConveyor();
 
-    matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 1,
+    matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
         "0x0024D6", "0x000b40");
 
     SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
@@ -92,8 +92,8 @@ public class Robot extends WaltTimedRobot {
       isBlue = (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue);
     }
     matchTimer.sendToShuffleboard();
-    if(matchTimer.timeSupplier.get() < 30 && matchTimer.precision == 1) {
-      matchTimer.precision = 2;
+    if(matchTimer.timeSupplier.get() < 30 && matchTimer.precision == 0) {
+      matchTimer.precision = 1;
       // Default red-orange colors
       matchTimer.onColor = null;
       matchTimer.offColor = null;

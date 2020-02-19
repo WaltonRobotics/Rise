@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.util.Units;
 
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
+import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.utils.EnhancedJoystickButton.POV_N;
 import static frc.utils.EnhancedJoystickButton.POV_S;
+import static frc.utils.EnhancedJoystickButton.UNBOUND;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,8 +66,8 @@ public final class Constants {
 
     public static class DioIDs {
 
-        public static final int BOTTOM_CONVEYOR_SENSOR_ID = 4;
-        public static final int TOP_CONVEYOR_SENSOR_ID = 5;
+        public static final int FRONT_CONVEYOR_SENSOR_ID = 4;
+        public static final int BACK_CONVEYOR_SENSOR_ID = 5;
 
     }
 
@@ -91,8 +93,6 @@ public final class Constants {
         Add button keys here. When you add new ones, be sure to add their default mappings below.
         Default indexes can be negative.
          */
-        public static final String SHIFT_UP_BUTTON_KEY = "Shift Up";
-        public static final String SHIFT_DOWN_BUTTON_KEY = "Shift Down";
         public static final String INTAKE_UP_KEY = "Intake Up";
         public static final String INTAKE_DOWN_KEY = "Intake Down";
         public static final String INTAKE_ON_KEY = "Intake";
@@ -101,6 +101,8 @@ public final class Constants {
         public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
         public static final String CLIMBER_DOWN_BUTTON_KEY = "Climber Down";
         public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
+        public static final String OVERRIDE_FRONT_CONVEYOR_ON = "Override Front Conveyor On";
+        public static final String OVERRIDE_BACK_CONVEYOR_ON = "Override Back Conveyor On";
 
         /*
         Add default mappings here, following the template
@@ -108,8 +110,6 @@ public final class Constants {
         public static final Map<String, int[]> defaultMappings = Stream.of(new Object[][]{
 
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
-                {SHIFT_UP_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 3}},
-                {SHIFT_DOWN_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
                 {INTAKE_UP_KEY, new int[]{GAMEPAD_PORT, POV_N}},
                 {INTAKE_DOWN_KEY, new int[]{GAMEPAD_PORT, POV_S}},
                 {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 8}},
@@ -118,6 +118,8 @@ public final class Constants {
                 {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_N}},
                 {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_S}},
                 {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
+                {OVERRIDE_FRONT_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
+                {OVERRIDE_BACK_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
 
         }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
     }

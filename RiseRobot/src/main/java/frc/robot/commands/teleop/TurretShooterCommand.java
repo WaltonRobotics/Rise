@@ -3,6 +3,7 @@ package frc.robot.commands.teleop;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.shootButton;
+import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -132,6 +133,7 @@ public class TurretShooterCommand extends CommandBase {
       @Override
       public void initialize() {
         turretShooter.isReadyToShoot = true;
+        intakeConveyor.resetBallCount();
       }
 
       @Override

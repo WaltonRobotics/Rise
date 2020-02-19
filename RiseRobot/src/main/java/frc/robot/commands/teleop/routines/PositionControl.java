@@ -1,8 +1,8 @@
-package frc.robot.command.teleop.routines;
+package frc.robot.commands.teleop.routines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.command.teleop.CalibrateColor;
-import frc.robot.command.teleop.ToColor;
+import frc.robot.commands.teleop.CalibrateColor;
+import frc.robot.commands.teleop.ToColor;
 
 public class PositionControl extends SequentialCommandGroup {
     private int stepsPerSegment;
