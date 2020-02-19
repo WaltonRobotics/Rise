@@ -92,6 +92,12 @@ public class Robot extends WaltTimedRobot {
       isBlue = (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue);
     }
     matchTimer.sendToShuffleboard();
+    if(matchTimer.timeSupplier.get() < 30 && matchTimer.precision == 1) {
+      matchTimer.precision = 2;
+      // Default red-orange colors
+      matchTimer.onColor = null;
+      matchTimer.offColor = null;
+    }
   }
 
   /**

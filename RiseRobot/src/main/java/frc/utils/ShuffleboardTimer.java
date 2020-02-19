@@ -13,10 +13,10 @@ import java.util.function.Supplier;
 public class ShuffleboardTimer {
 
   private final NetworkTable table;
-  private final Supplier<Double> timeSupplier;
-  private final int precision;
-  private final String onColor;
-  private final String offColor;
+  public final Supplier<Double> timeSupplier;
+  public int precision;
+  public String onColor;
+  public String offColor;
 
   /**
    * @param precision how many points after the decimal to keep track of.
