@@ -3,15 +3,11 @@ package org.waltonrobotics.plugin.widget;
 import edu.wpi.first.shuffleboard.api.widget.Description;
 import edu.wpi.first.shuffleboard.api.widget.ParametrizedController;
 import edu.wpi.first.shuffleboard.api.widget.SimpleAnnotatedWidget;
-import java.util.concurrent.TimeUnit;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -33,9 +29,9 @@ public class TimerWidget extends SimpleAnnotatedWidget<Timer> {
 
   public static final Color DEFAULT_ON_COLOR = Color.ORANGERED;
   public static final Color DEFAULT_OFF_COLOR = Color.rgb(50, 50, 50);
-  private static final double DEFAULT_WIDTH = 300;
+  private static final double DEFAULT_WIDTH = 400;
   private static final double DEFAULT_HEIGHT = 200;
-  private static final double DEFAULT_SPACING = 20;
+  private static final double DEFAULT_SPACING = 12;
   private static double percentGrowX = 1;
   private static double percentGrowY = 1;
 
@@ -59,7 +55,7 @@ public class TimerWidget extends SimpleAnnotatedWidget<Timer> {
   private void updateDisplay(Timer newTimer) {
     clock.getChildren().clear();
 
-    if(Double.isNaN(newTimer.getCurrentTime())) {
+    if (Double.isNaN(newTimer.getCurrentTime())) {
       clock.getChildren().add(new Digit());
     } else {
 
@@ -111,7 +107,7 @@ public class TimerWidget extends SimpleAnnotatedWidget<Timer> {
 
       // Add partial seconds
       if (newTimer.getPrecision() > 0) {
-        clock.getChildren().add(getDecimal(newTimer.getOnColor()));
+        clock.getChildren().add(getColon(newTimer.getOnColor()));
         for (int i = 0; i < newTimer.getPrecision(); i++) {
           clock.getChildren().add(
               new Digit(((int) (newTimer.getCurrentTime() * Math.pow(10, i + 1))) % 10,
@@ -129,21 +125,19 @@ public class TimerWidget extends SimpleAnnotatedWidget<Timer> {
 
   private Group getColon(Color color) {
     Group colon = new Group(
-        new Circle(12, 44, 6, color),
-        new Circle(12, 64, 6, color)
+        new Circle(12, 46, 6, color),
+        new Circle(12, 80, 6, color)
     );
-    colon.maxWidth(6);
     colon.getTransforms().add(new Shear(-0.1, 0));
-    colon.getTransforms().add(new Scale(percentGrowX, percentGrowY));
+    colon.getTransforms().add(new Scale(percentGrowX * 0.6, percentGrowY));
 
     return colon;
   }
 
-  private Circle getDecimal(Color color) {
-    Circle decimal = new Circle(12, 100, 6, color);
-    decimal.maxWidth(6);
+  private Group getDecimal(Color color) {
+    Group decimal = new Group(new Circle(0, 94, 6, color));
     decimal.getTransforms().add(new Shear(-0.1, 0));
-    decimal.getTransforms().add(new Scale(percentGrowX, percentGrowY));
+    decimal.getTransforms().add(new Scale(percentGrowX * 0.6, percentGrowY));
 
     return decimal;
   }
