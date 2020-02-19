@@ -103,6 +103,7 @@ public final class Constants {
         public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
         public static final String OVERRIDE_FRONT_CONVEYOR_ON = "Override Front Conveyor On";
         public static final String OVERRIDE_BACK_CONVEYOR_ON = "Override Back Conveyor On";
+        public static final String TURN_TO_TARGET = "Turn To Target";
 
         /*
         Add default mappings here, following the template
@@ -120,6 +121,7 @@ public final class Constants {
                 {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
                 {OVERRIDE_FRONT_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
                 {OVERRIDE_BACK_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
+                {TURN_TO_TARGET, new int[]{RIGHT_JOYSTICK_PORT, 1}}
 
         }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
     }

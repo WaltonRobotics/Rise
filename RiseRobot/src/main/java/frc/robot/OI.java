@@ -1,16 +1,6 @@
 package frc.robot;
 
-import static frc.robot.Constants.ButtonMapDefaults.BARF_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_DOWN_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_UNLOCK_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.CLIMBER_UP_BUTTON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.INTAKE_DOWN_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.INTAKE_ON_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.INTAKE_UP_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.OVERRIDE_BACK_CONVEYOR_ON;
-import static frc.robot.Constants.ButtonMapDefaults.OVERRIDE_FRONT_CONVEYOR_ON;
-import static frc.robot.Constants.ButtonMapDefaults.SHOOT_KEY;
-import static frc.robot.Constants.ButtonMapDefaults.defaultMappings;
+import static frc.robot.Constants.ButtonMapDefaults.*;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
@@ -58,5 +48,6 @@ public class OI {
       buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON));
   public static EnhancedJoystickButton overrideBackConveyorButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(OVERRIDE_BACK_CONVEYOR_ON));
-
+  public static EnhancedJoystickButton turnToTargetButton = new EnhancedJoystickButton(
+          buttonMap.getButtonIndex(TURN_TO_TARGET));
 }

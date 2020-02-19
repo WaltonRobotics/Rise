@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.auton.TurnToAngle;
+import frc.utils.LimelightHelper;
 
 import static frc.robot.Constants.CANBusIDs.*;
+import static frc.robot.OI.turnToTargetButton;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
@@ -34,6 +37,8 @@ public class Drivetrain extends SubsystemBase {
     public Drivetrain() {
         motorSetUp();
         resetHardware();
+
+        turnToTargetButton.whenPressed(new TurnToAngle(LimelightHelper.getTX()).withTimeout(2.5));
     }
 
     @Override

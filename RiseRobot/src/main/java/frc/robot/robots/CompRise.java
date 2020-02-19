@@ -108,7 +108,7 @@ public class CompRise implements WaltRobot {
 
     @Override
     public double getMaxAlignmentTime() {
-        return 0;
+        return 2.5;
     }
 
     @Override
