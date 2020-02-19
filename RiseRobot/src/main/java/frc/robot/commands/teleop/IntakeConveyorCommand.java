@@ -12,6 +12,7 @@ import static frc.robot.subsystems.IntakeConveyor.INTAKE_POWER;
 import static frc.robot.subsystems.IntakeConveyor.PULSE_POWER;
 import static frc.robot.subsystems.IntakeConveyor.PULSE_TIME;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeConveyorCommand extends CommandBase {
@@ -31,6 +32,7 @@ public class IntakeConveyorCommand extends CommandBase {
   @Override
   public void execute() {
     currentState = currentState.execute();
+    SmartDashboard.putString("Intake Conveyor State", currentState.name());
   }
 
   private static boolean shouldPulse() {

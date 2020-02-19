@@ -8,6 +8,7 @@ import static frc.robot.Robot.turretShooter;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.utils.LimelightHelper;
 
@@ -54,6 +55,9 @@ public class TurretShooterCommand extends CommandBase {
     // Run the states' execute methods, and update the pointers, as necessary.
     currentFlywheelState = currentFlywheelState.execute();
     currentTurretState = currentTurretState.execute();
+
+    SmartDashboard.putString("Flywheel State", currentFlywheelState.name());
+    SmartDashboard.putString("Turret State", currentTurretState.name());
 
   }
 
