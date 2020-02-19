@@ -52,8 +52,8 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void robotInit() {
-    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(9).get(),
-        new DigitalInput(10).get()).getCurrentRobot();
+    currentRobot = RobotIdentifier.findByInputs(new DigitalInput(8).get(),
+        new DigitalInput(9).get()).getCurrentRobot();
 
     System.out.println("Starting robot code. Current Robot is " + currentRobot.toString());
 
