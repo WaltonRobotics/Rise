@@ -21,7 +21,7 @@ public enum AutonSelector {
     TWO_A(3, "2A", new TimeAuto(
             new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
             new WaitCommand(2),
-            new TurnAtAngle(180).withTimeout(2.5),
+            new TurnToAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),
@@ -49,7 +49,7 @@ public enum AutonSelector {
     )),
     TESTS(254, "Tests", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new TurnAtAngle(180)
+            new TurnToAngle(180)
     )),
     SCREWING_AROUND(420, "Lol", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),

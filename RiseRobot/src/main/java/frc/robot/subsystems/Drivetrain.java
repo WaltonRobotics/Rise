@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.auton.TurnToAngle;
+import frc.robot.commands.auton.TurnAtAngle;
 import frc.utils.LimelightHelper;
 
 import static frc.robot.Constants.CANBusIDs.*;
@@ -38,12 +38,14 @@ public class Drivetrain extends SubsystemBase {
         motorSetUp();
         resetHardware();
 
-        turnToTargetButton.whenPressed(new TurnToAngle(LimelightHelper.getTX()).withTimeout(2.5));
+        turnToTargetButton.whenPressed(new TurnAtAngle(LimelightHelper.getTX()).withTimeout(2.5));
     }
 
     @Override
     public void periodic() {
         updateRobotPose();
+
+        SmartDashboard.putNumber("Angular Rate", getAngularVelocity());
         SmartDashboard.putNumber("Angle", getHeading().getDegrees());
         SmartDashboard.putNumber("Left neo encoder velocity", drivetrain.getCANEncoderLeftVelocity());
         SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
@@ -130,6 +132,9 @@ public class Drivetrain extends SubsystemBase {
         return Rotation2d.fromDegrees(-ahrs.getAngle());  // counter clock wise positive
     }
 
+    public double getAngularVelocity() {
+        return -ahrs.getRate();
+    }
     /**
      * Zeroes the heading of the robot.
      */
