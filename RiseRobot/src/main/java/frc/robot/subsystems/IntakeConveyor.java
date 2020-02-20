@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
-import static frc.robot.Constants.CANBusIDs.CENTERING_ID;
+//import static frc.robot.Constants.CANBusIDs.CENTERING_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_BACK_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_FRONT_ID;
 import static frc.robot.Constants.CANBusIDs.INTAKE_ID;
@@ -29,7 +28,7 @@ public class IntakeConveyor extends SubsystemBase {
   public static final double PULSE_TIME = 0.2; // seconds  TODO adjust
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
-  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
+//  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
   private final VictorSPX frontConveyorMotor = new VictorSPX(CONVEYOR_FRONT_ID);
   private final VictorSPX backConveyorMotor = new VictorSPX(CONVEYOR_BACK_ID);
 
@@ -43,7 +42,7 @@ public class IntakeConveyor extends SubsystemBase {
 
   public IntakeConveyor() {
     intakeMotor.setInverted(false);
-    centeringMotors.setInverted(true);
+//    centeringMotors.setInverted(true);
     frontConveyorMotor.setInverted(true);
     ballCount = 0;
     frontSensorGet = new EnhancedBoolean();
@@ -76,9 +75,9 @@ public class IntakeConveyor extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, output);
   }
 
-  public void setCenteringMotorsOutput(double output) {
-    centeringMotors.set(ControlMode.PercentOutput, output);
-  }
+//  public void setCenteringMotorsOutput(double output) {
+//    centeringMotors.set(ControlMode.PercentOutput, output);
+//  }
 
   public void setFrontConveyorMotorOutput(double output) {
     frontConveyorMotor.set(ControlMode.PercentOutput, output);

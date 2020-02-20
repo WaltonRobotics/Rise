@@ -38,7 +38,7 @@ public final class Constants {
         public static final int DRIVE_LEFT_SLAVE_ID = 4;
 
         public static final int INTAKE_ID = 5;
-        public static final int CENTERING_ID = 6;
+//        public static final int CENTERING_ID = 6;
         public static final int CONVEYOR_FRONT_ID = 7;
         public static final int CONVEYOR_BACK_ID = 8;
 
