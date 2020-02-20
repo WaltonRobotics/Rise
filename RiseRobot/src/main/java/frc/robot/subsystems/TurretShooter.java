@@ -65,6 +65,10 @@ public class TurretShooter extends SubsystemBase {
     return flywheelMaster.getSensorCollection().getIntegratedSensorVelocity();
   }
 
+  public int getClosedLoopFlywheelError() {
+    return flywheelMaster.getClosedLoopError();
+  }
+
   public void setTurretAngle(Rotation2d angle, boolean fieldOriented) {
     if (fieldOriented) {
       turretMotor.set(ControlMode.Position,

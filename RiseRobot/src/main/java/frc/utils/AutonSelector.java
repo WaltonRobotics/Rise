@@ -18,8 +18,11 @@ public enum AutonSelector {
             new ResetPose(Paths.CrossBaseline.backwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
     )),
+    /**
+     * shoot 3, pick up 3 in trench, pick up 2 in generator, align
+     */
     TWO_A(3, "2A", new TimeAuto(
-            new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
+            new ShootAllBalls(3),
             new WaitCommand(2),
             new TurnToAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
@@ -31,18 +34,24 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls, 0),
             new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot, 0)
     )),
+    /**
+     * Pick up 2 enemy trench, shoot 5
+     */
     FOUR(4, "4", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
             new RamseteTrackingCommand(Paths.Four.backupFromTrench)
     )),
+    /**
+     * Pick up 2 enemy trench, shoot 5, pick up 3 from our trench, pick up 2 from generator, shoot all
+     */
     FIVE(5, "5", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Five.intakeTwo),
             new RamseteTrackingCommand(Paths.Five.backupFromTrench),
-            new InstantCommand(() -> System.out.println("Shooting 3 balls!")),
+            new ShootAllBalls(3),
             new WaitCommand(2),
             new RamseteTrackingCommand(Paths.Five.threeBallTrench),
             new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
