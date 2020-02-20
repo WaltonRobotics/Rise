@@ -6,11 +6,7 @@ import static frc.robot.OI.intakeDownButton;
 import static frc.robot.OI.intakeUpButton;
 import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
-import static frc.robot.subsystems.IntakeConveyor.CENTERING_POWER;
-import static frc.robot.subsystems.IntakeConveyor.CONVEYOR_POWER;
-import static frc.robot.subsystems.IntakeConveyor.INTAKE_POWER;
-import static frc.robot.subsystems.IntakeConveyor.PULSE_POWER;
-import static frc.robot.subsystems.IntakeConveyor.PULSE_TIME;
+import static frc.robot.subsystems.IntakeConveyor.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -58,7 +54,7 @@ public class IntakeConveyorCommand extends CommandBase {
         pulseStart = -1;
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setFrontConveyorMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
         return determineState();
       }
@@ -66,8 +62,8 @@ public class IntakeConveyorCommand extends CommandBase {
       @Override
       public State execute() {
         pulseStart = -1;
-        intakeConveyor.setFrontConveyorMotorOutput(CONVEYOR_POWER);
-        intakeConveyor.setBackConveyorMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
         return determineState();
       }
@@ -77,8 +73,8 @@ public class IntakeConveyorCommand extends CommandBase {
         pulseStart = -1;
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setFrontConveyorMotorOutput(CONVEYOR_POWER);
-        intakeConveyor.setBackConveyorMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
         return determineState();
       }
@@ -106,7 +102,7 @@ public class IntakeConveyorCommand extends CommandBase {
         // Pulse
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setFrontConveyorMotorOutput(CONVEYOR_POWER);
+        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
         intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
 
         return determineState();

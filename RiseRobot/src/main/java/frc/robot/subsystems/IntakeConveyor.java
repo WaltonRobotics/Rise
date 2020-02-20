@@ -23,8 +23,9 @@ public class IntakeConveyor extends SubsystemBase {
 
   public static final double INTAKE_POWER = 0.75;
   public static final double CENTERING_POWER = 0.75;
-  public static final double CONVEYOR_POWER = 0.75;
-  public static final double PULSE_POWER = 0.5;  // TODO adjust
+  public static final double FRONT_CONVEYOR_POWER = 1;
+  public static final double BACK_CONVEYOR_POWER = 0.75;
+  public static final double PULSE_POWER = 0.75;  // TODO adjust
   public static final double PULSE_TIME = 0.5; // seconds  TODO adjust
   private static final double BALL_MOVE_TIME = 0.2; // TODO adjust
 
@@ -43,11 +44,13 @@ public class IntakeConveyor extends SubsystemBase {
 
   public IntakeConveyor() {
     intakeMotor.setInverted(false);
+    centeringMotors.setInverted(true);
+    frontConveyorMotor.setInverted(true);
     ballCount = 0;
     ballStartTimeFront = 0;
 
-    overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(CONVEYOR_POWER));
-    overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(CONVEYOR_POWER));
+    overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
+    overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
     overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
     overrideCenteringButton.whenPressed(() -> setBackConveyorMotorOutput(CENTERING_POWER));
   }
