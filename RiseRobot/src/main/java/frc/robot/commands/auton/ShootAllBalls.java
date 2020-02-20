@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.utils.LimelightHelper;
 
+import static frc.robot.Constants.Shooter.shooterTolerance;
 import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
 import static frc.robot.subsystems.IntakeConveyor.BACK_CONVEYOR_POWER;
@@ -40,9 +41,13 @@ public class ShootAllBalls extends CommandBase {
 
     @Override
     public void execute() {
-        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
-        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, rpm);
+
+        if(turretShooter.getClosedLoopFlywheelError() < shooterTolerance) {
+            intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+            intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+        }
     }
 
     @Override
