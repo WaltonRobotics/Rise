@@ -22,13 +22,13 @@ public enum AutonSelector {
      * shoot 3, pick up 3 in trench, pick up 2 in generator, align
      */
     TWO_A(3, "2A", new TimeAuto(
+            new SetIntakeCommand(true),
             new ShootAllBalls(3),
             new WaitCommand(2),
             new TurnToAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),
-            new DropIntake(),
             new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0),
             new RamseteTrackingCommand(Paths.Two.trenchBackup, 0),
             new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls, 0),
@@ -38,6 +38,7 @@ public enum AutonSelector {
      * Pick up 2 enemy trench, shoot 5
      */
     FOUR(4, "4", new TimeAuto(
+            new SetIntakeCommand(true),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
@@ -47,6 +48,7 @@ public enum AutonSelector {
      * Pick up 2 enemy trench, shoot 5, pick up 3 from our trench, pick up 2 from generator, shoot all
      */
     FIVE(5, "5", new TimeAuto(
+            new SetIntakeCommand(true),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Five.intakeTwo),

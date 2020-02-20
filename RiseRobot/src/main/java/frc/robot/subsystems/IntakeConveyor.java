@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.Constants.CANBusIDs.CENTERING_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_BACK_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_FRONT_ID;
