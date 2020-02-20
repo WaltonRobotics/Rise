@@ -45,7 +45,7 @@ public class IntakeConveyorCommand extends CommandBase {
         pulseStart = getFPGATimestamp();
 
         intakeConveyor.setIntakeMotorOutput(0);
-        intakeConveyor.setCenteringMotorsOutput(0);
+//        intakeConveyor.setCenteringMotorsOutput(0);
         intakeConveyor.setFrontConveyorMotorOutput(0);
         intakeConveyor.setBackConveyorMotorOutput(0);
 
@@ -57,7 +57,7 @@ public class IntakeConveyorCommand extends CommandBase {
         pulseStart = getFPGATimestamp();
 
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
-        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
+//        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
         return determineState();
@@ -77,7 +77,7 @@ public class IntakeConveyorCommand extends CommandBase {
       public State execute() {
         pulseStart = getFPGATimestamp();
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
-        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
+//        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
         intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
@@ -94,7 +94,7 @@ public class IntakeConveyorCommand extends CommandBase {
       @Override
       public State execute() {
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
-        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
+//        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
         intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
