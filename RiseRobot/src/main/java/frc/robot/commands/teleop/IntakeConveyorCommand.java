@@ -19,7 +19,7 @@ public class IntakeConveyorCommand extends CommandBase {
   public IntakeConveyorCommand() {
     addRequirements(intakeConveyor);
     currentState = State.OFF;
-    pulseStart = -1;
+    pulseStart = getFPGATimestamp();
 
     intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
     intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
@@ -32,7 +32,8 @@ public class IntakeConveyorCommand extends CommandBase {
   }
 
   private static boolean shouldPulse() {
-    return (pulseStart != -1 && getFPGATimestamp() - pulseStart < PULSE_TIME) ||
+    // getFPGATimestamp() - pulseStart will always be almost 0, unless we are in a pulsing state
+    return getFPGATimestamp() - pulseStart < PULSE_TIME ||
         intakeConveyor.canPulse();
   }
 
@@ -40,7 +41,9 @@ public class IntakeConveyorCommand extends CommandBase {
     OFF {
       @Override
       public State execute() {
-        pulseStart = -1;
+        // Timer stops resetting only when it enters a pulsing state
+        pulseStart = getFPGATimestamp();
+
         intakeConveyor.setIntakeMotorOutput(0);
         intakeConveyor.setCenteringMotorsOutput(0);
         intakeConveyor.setFrontConveyorMotorOutput(0);
@@ -51,7 +54,8 @@ public class IntakeConveyorCommand extends CommandBase {
     }, INTAKING {
       @Override
       public State execute() {
-        pulseStart = -1;
+        pulseStart = getFPGATimestamp();
+
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
@@ -61,7 +65,8 @@ public class IntakeConveyorCommand extends CommandBase {
     }, OUTTAKING {
       @Override
       public State execute() {
-        pulseStart = -1;
+        pulseStart = getFPGATimestamp();
+
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
         intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
@@ -70,7 +75,7 @@ public class IntakeConveyorCommand extends CommandBase {
     }, IN_AND_OUT {
       @Override
       public State execute() {
-        pulseStart = -1;
+        pulseStart = getFPGATimestamp();
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
@@ -81,51 +86,41 @@ public class IntakeConveyorCommand extends CommandBase {
     }, PULSING {
       @Override
       public State execute() {
-        // Start timer, if necessary
-        if (pulseStart == -1) {
-          pulseStart = getFPGATimestamp();
-        }
-
-        // Pulse
-        intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
+        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
         return determineState();
       }
     }, IN_AND_PULSING {
       @Override
       public State execute() {
-        // Start timer, if necessary
-        if (pulseStart == -1) {
-          pulseStart = getFPGATimestamp();
-        }
-
-        // Pulse
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
         intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
-        intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
+
+        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
         return determineState();
       }
     };
 
     protected State determineState() {
-      if (intakeButton.get() && turretShooter.isReadyToShoot) {
-        return IN_AND_OUT;
-      }
-      if (intakeButton.get()) {
-        if (shouldPulse()) {
+      if(intakeButton.get()) {
+        if(turretShooter.isReadyToShoot) {
+          return IN_AND_OUT;
+        }
+        if(shouldPulse()) {
           return IN_AND_PULSING;
         }
         return INTAKING;
+      } else {
+        if(turretShooter.isReadyToShoot) {
+          return OUTTAKING;
+        }
+        if(shouldPulse()) {
+          return PULSING;
+        }
+        return OFF;
       }
-      if (turretShooter.isReadyToShoot) {
-        return OUTTAKING;
-      }
-      if (shouldPulse()) {
-        return PULSING;
-      }
-      return OFF;
     }
 
     public abstract State execute();

@@ -55,7 +55,6 @@ public final class Constants {
     public static class PneumaticIDs {
 
         public static final int INTAKE_TOGGLE_ID = 1;
-        public static final int CONVEYOR_STOP_ID = 1;
 
         public static final int CLIMBER_LOCK_ID = 2;
         public static final int CLIMBER_TOGGLE_ID = 3;
