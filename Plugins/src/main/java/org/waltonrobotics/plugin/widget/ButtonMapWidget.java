@@ -214,6 +214,12 @@ public class ButtonMapWidget extends SimpleAnnotatedWidget<ButtonMap> {
     content.getChildren().clear();
     activeRows.clear();
     setData(defaultMappings);
+    dataOrDefault.get().getMappings().forEach((k, v) -> {
+      if (!activeRows.containsKey(k)) {
+        activeRows.put(k, v);
+        addHBox(k, v);
+      }
+    });
   }
 
   @FXML
