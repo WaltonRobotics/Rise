@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.EnhancedBoolean;
 
 public class IntakeConveyor extends SubsystemBase {
 
@@ -25,9 +26,7 @@ public class IntakeConveyor extends SubsystemBase {
   public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
-  public static final double PULSE_POWER = 0.75;  // TODO adjust
-  public static final double PULSE_TIME = 0.5; // seconds  TODO adjust
-  private static final double BALL_MOVE_TIME = 0.2; // TODO adjust
+  public static final double PULSE_TIME = 0.2; // seconds  TODO adjust
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
   private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
@@ -39,7 +38,7 @@ public class IntakeConveyor extends SubsystemBase {
   private final DigitalInput frontConveyorSensor = new DigitalInput(FRONT_CONVEYOR_SENSOR_ID);
   private final DigitalInput backConveyorSensor = new DigitalInput(BACK_CONVEYOR_SENSOR_ID);
   private int ballCount;
-  private double ballStartTimeFront;
+  private EnhancedBoolean frontSensorGet;
 
 
   public IntakeConveyor() {
@@ -47,7 +46,7 @@ public class IntakeConveyor extends SubsystemBase {
     centeringMotors.setInverted(true);
     frontConveyorMotor.setInverted(true);
     ballCount = 0;
-    ballStartTimeFront = 0;
+    frontSensorGet = new EnhancedBoolean();
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
@@ -57,17 +56,16 @@ public class IntakeConveyor extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!frontConveyorSensor.get()) {
-      if (getFPGATimestamp() - ballStartTimeFront >= BALL_MOVE_TIME) {
-        ballCount++;
-      }
-      ballStartTimeFront = getFPGATimestamp();
+
+    frontSensorGet.set(frontConveyorSensor.get());
+    if(frontSensorGet.isRisingEdge()) {
+      ballCount++;
     }
 
-    setIntakeMotorOutput(INTAKE_POWER);
-    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-    setCenteringMotorsOutput(CENTERING_POWER);
-    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+//    setIntakeMotorOutput(INTAKE_POWER);
+//    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+//    setCenteringMotorsOutput(CENTERING_POWER);
+//    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
   }
 
   public void setIntakeToggle(boolean state) {
@@ -95,8 +93,9 @@ public class IntakeConveyor extends SubsystemBase {
   }
 
   public boolean canPulse() {
-    return ballCount >= 3 && !backConveyorSensor.get() &&
-        !overrideBackConveyorButton.get() && !overrideFrontConveyorButton.get();
+    return ballCount <= 3 &&
+        frontConveyorSensor.get() &&
+        !backConveyorSensor.get();
   }
 
 }
