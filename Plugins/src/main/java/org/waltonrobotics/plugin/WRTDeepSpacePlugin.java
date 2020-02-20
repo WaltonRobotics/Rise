@@ -21,9 +21,9 @@ import org.waltonrobotics.plugin.widget.TimerWidget;
  **/
 @Description(
     group = "org.waltonrobotics",
-    name = "WRTDeepSpace",
-    version = "1.0.0",
-    summary = "This plugin provides for widgets and themes used by WaltonRobotics in FRC DeepSpace."
+    name = "WRTInfiniteRecharge",
+    version = "1.0.2",
+    summary = "This plugin provides for widgets and themes used by WaltonRobotics in FRC Infinite Recharge."
 )
 public class WRTDeepSpacePlugin extends Plugin {
 
