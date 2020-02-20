@@ -13,26 +13,26 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbCommand extends CommandBase {
 
-  private ToggleState toggleState, previousToggleState;
+//  private ToggleState toggleState, previousToggleState;
   private static final double HOLD_POWER = 0.1;
   private static final double DEADBAND_LOW = -0.125;
   private static final double MAX_EXTEND_POWER = 0.4;
 
   public ClimbCommand() {
     addRequirements(climber);
-    toggleState = previousToggleState = DOWN;
+//    toggleState = previousToggleState = DOWN;
 
-    climberUpButton.whenPressed(() -> toggleState = UP);
-    climberDownButton.whenPressed(() -> toggleState = DOWN);
+    climberUpButton.whenPressed(UP::setSolenoidStates);
+    climberDownButton.whenPressed(DOWN::setSolenoidStates);
   }
 
   @Override
   public void execute() {
     // Run the corresponding initialize method upon change
-    if (toggleState != previousToggleState) {
-      toggleState.setSolenoidStates();
-      previousToggleState = toggleState;
-    }
+//    if (toggleState != previousToggleState) {
+//      toggleState.setSolenoidStates();
+//      previousToggleState = toggleState;
+//    }
 
     // Only move when the motor when it is unlocked
 //    if (toggleState == UP) {
