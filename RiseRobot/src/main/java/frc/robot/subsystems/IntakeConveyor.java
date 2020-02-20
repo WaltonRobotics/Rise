@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  public static final double INTAKE_POWER = 0.75;
+  public static final double INTAKE_POWER = 0.95;
   public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 0.75;
@@ -63,6 +63,11 @@ public class IntakeConveyor extends SubsystemBase {
       }
       ballStartTimeFront = getFPGATimestamp();
     }
+
+    setIntakeMotorOutput(INTAKE_POWER);
+    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+    setCenteringMotorsOutput(CENTERING_POWER);
+    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
   }
 
   public void setIntakeToggle(boolean state) {

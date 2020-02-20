@@ -5,7 +5,7 @@ package frc.robot.robots;
  */
 public enum RobotIdentifier {
     COMP_DEEP_SPACE(true, true, new CompDeepSpace()),
-    PRACTICE_RISE(false, true, new PracticeRise()),
+    PRACTICE_RISE(true, false, new PracticeRise()),
     COMP_RISE(false, false, new CompRise());
 
     boolean input1;

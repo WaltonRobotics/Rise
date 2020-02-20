@@ -12,11 +12,15 @@ import static frc.robot.Robot.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.interpolatingmap.*;
 
@@ -35,15 +39,22 @@ public class TurretShooter extends SubsystemBase {
 
     flywheelMaster.selectProfileSlot(0, 0);
 
+    flywheelMaster.setNeutralMode(NeutralMode.Brake);
+    flywheelSlave.setNeutralMode(NeutralMode.Brake);
+
     flywheelMaster.setInverted(true);
-    flywheelSlave.setInverted(InvertType.OpposeMaster);
+    flywheelSlave.setInverted(false);
     flywheelSlave.follow(flywheelMaster);
 
+    flywheelMaster.config_kF(0, 0.0491477);
+    flywheelMaster.config_kP(0, 0.28);
+    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+    SmartDashboard.putNumber("Flywheel P", 0);
   }
 
   @Override
   public void periodic() {
-
+    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
   }
 
   public void setFlywheelOutput(TalonFXControlMode controlMode, double output) {
