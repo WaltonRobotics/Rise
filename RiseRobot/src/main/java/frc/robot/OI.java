@@ -48,10 +48,10 @@ public class OI {
       buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON));
   public static EnhancedJoystickButton overrideBackConveyorButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(OVERRIDE_BACK_CONVEYOR_ON));
-  public static EnhancedJoystickButton overrideIntakeButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(OVERRIDE_INTAKE_ON));
-  public static EnhancedJoystickButton overrideCenteringButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(OVERRIDE_CENTERING_ON));
+//  public static EnhancedJoystickButton overrideIntakeButton = new EnhancedJoystickButton(
+//      buttonMap.getButtonIndex(OVERRIDE_INTAKE_ON)); //Shouldn't be necessary, intake button works
+//  public static EnhancedJoystickButton overrideCenteringButton = new EnhancedJoystickButton(
+//      buttonMap.getButtonIndex(OVERRIDE_CENTERING_ON));
   public static EnhancedJoystickButton turnToTargetButton = new EnhancedJoystickButton(
           buttonMap.getButtonIndex(TURN_TO_TARGET));
 }

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-//import static frc.robot.Constants.CANBusIDs.CENTERING_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_BACK_ID;
 import static frc.robot.Constants.CANBusIDs.CONVEYOR_FRONT_ID;
 import static frc.robot.Constants.CANBusIDs.INTAKE_ID;
@@ -8,9 +7,7 @@ import static frc.robot.Constants.DioIDs.BACK_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.DioIDs.FRONT_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.PneumaticIDs.INTAKE_TOGGLE_ID;
 import static frc.robot.OI.overrideBackConveyorButton;
-import static frc.robot.OI.overrideCenteringButton;
 import static frc.robot.OI.overrideFrontConveyorButton;
-import static frc.robot.OI.overrideIntakeButton;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -22,7 +19,7 @@ import frc.utils.EnhancedBoolean;
 public class IntakeConveyor extends SubsystemBase {
 
   public static final double INTAKE_POWER = 0.95;
-  public static final double CENTERING_POWER = 0.75;
+//  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_TIME = 0.2; // seconds  TODO adjust
@@ -49,8 +46,8 @@ public class IntakeConveyor extends SubsystemBase {
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
-    overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
-    overrideCenteringButton.whenPressed(() -> setBackConveyorMotorOutput(CENTERING_POWER));
+//    overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
+//    overrideCenteringButton.whenPressed(() -> setCenteringMotorsOutput(CENTERING_POWER));
   }
 
   @Override

@@ -102,8 +102,8 @@ public final class Constants {
         public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
         public static final String OVERRIDE_FRONT_CONVEYOR_ON = "Override Front Conveyor On";
         public static final String OVERRIDE_BACK_CONVEYOR_ON = "Override Back Conveyor On";
-        public static final String OVERRIDE_INTAKE_ON = "Override Intake On";
-        public static final String OVERRIDE_CENTERING_ON = "Override Centering On";
+//        public static final String OVERRIDE_INTAKE_ON = "Override Intake On";
+//        public static final String OVERRIDE_CENTERING_ON = "Override Centering On";
         public static final String TURN_TO_TARGET = "Turn To Target";
 
         /*
@@ -114,16 +114,16 @@ public final class Constants {
 //      {BUTTON_KEY,          new int[]{CONTROLLER_PORT, INDEX}},
                 {INTAKE_UP_KEY, new int[]{GAMEPAD_PORT, POV_N}},
                 {INTAKE_DOWN_KEY, new int[]{GAMEPAD_PORT, POV_S}},
-                {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 8}},
-                {SHOOT_KEY, new int[]{GAMEPAD_PORT, 6}},
-                {BARF_KEY, new int[]{GAMEPAD_PORT, 5}},
-                {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_N}},
-                {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, POV_S}},
-                {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},
-                {OVERRIDE_FRONT_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
-                {OVERRIDE_BACK_CONVEYOR_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
-                {OVERRIDE_INTAKE_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
-                {OVERRIDE_CENTERING_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
+                {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 7}},                // Left Trigger
+                {SHOOT_KEY, new int[]{GAMEPAD_PORT, 8}},                    // Right Trigger
+                {BARF_KEY, new int[]{GAMEPAD_PORT, 6}},                     // Right Bumper 
+                {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},        // XBox Y, PS Triangle
+                {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, 2}},      // XBox A, PS Cross
+                {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 1}},    // XBox X, PS Square
+                {OVERRIDE_FRONT_CONVEYOR_ON, new int[]{GAMEPAD_PORT, 9}},   // XBox "Select", PS "Share"
+                {OVERRIDE_BACK_CONVEYOR_ON, new int[]{GAMEPAD_PORT, 10}},   // XBox & PS "Start"
+//                {OVERRIDE_INTAKE_ON, new int[]{GAMEPAD_PORT, UNBOUND}},
+//                {OVERRIDE_CENTERING_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
                 {TURN_TO_TARGET, new int[]{RIGHT_JOYSTICK_PORT, 1}}
 
         }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));

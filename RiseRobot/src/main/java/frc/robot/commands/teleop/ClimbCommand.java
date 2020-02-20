@@ -34,8 +34,8 @@ public class ClimbCommand extends CommandBase {
       previousToggleState = toggleState;
     }
 
-    // Only move when the motor when it is up and unlocked
-    if (toggleState == UP) {
+    // Only move when the motor when it is unlocked
+//    if (toggleState == UP) {
       if (climberUnlockButton.get()) {
         climber.setClimberLock(true);
 
@@ -50,7 +50,7 @@ public class ClimbCommand extends CommandBase {
         climber.setClimberLock(false);
         climber.setClimberMotorOutput(PercentOutput, 0);
       }
-    }
+//    }
   }
 
   public enum ToggleState {
