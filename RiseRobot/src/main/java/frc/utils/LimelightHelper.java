@@ -17,7 +17,7 @@ public class LimelightHelper {
     private static NetworkTableEntry ta = table.getEntry("ta");
     private static NetworkTableEntry tv = table.getEntry("tv");
 
-    private static double targetHeight = 10;
+    private static double targetHeight = 90.5;
 
     private static MovingAverage linearFilter = new MovingAverage(5, 0);
 
