@@ -23,9 +23,9 @@ public enum AutonSelector {
      */
     TWO_A(3, "2A", new TimeAuto(
             new SetIntakeCommand(true),
-            new ShootAllBalls(3),
+//            new ShootAllBalls(3),
             new WaitCommand(2),
-            new TurnToAngle(180).withTimeout(2.5),
+//            new TurnToAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),
@@ -60,12 +60,13 @@ public enum AutonSelector {
     )),
     TESTS(254, "Tests", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new TurnToAngle(180)
+            new ResetPose(Paths.Two.intakeThreeBalls.getInitialPose()),
+            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0)
     )),
     SCREWING_AROUND(420, "Lol", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.ScrewingAround.infiniteLoop.getInitialPose()),
-            new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop)
+            new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop, 0)
     ));
 
     int id;

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.MovingAverage;
 import frc.utils.interpolatingmap.*;
 
 
@@ -32,7 +33,12 @@ public class TurretShooter extends SubsystemBase {
   private final TalonSRX turretMotor = new TalonSRX(SHOOTER_TURRET_ID);
   private final Encoder turretEncoder = new Encoder(TURRET_ENCODER_PORT_1, TURRET_ENCODER_PORT_2);
 
+  private int previousError = 0;
+  private int errorDelta = 0;
+
   public boolean isReadyToShoot = false;
+
+  private MovingAverage closedLoopErrorAverage;
 
 
   public TurretShooter() {
@@ -46,15 +52,29 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.setInverted(false);
     flywheelSlave.follow(flywheelMaster);
 
-    flywheelMaster.config_kF(0, 0.0491477);
-    flywheelMaster.config_kP(0, 0.28);
-    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
-    SmartDashboard.putNumber("Flywheel P", 0);
+    flywheelMaster.config_kF(0, 0.0452); //0.0452
+    flywheelMaster.config_kP(0, 0.1);
+    flywheelMaster.config_kI(0, 0.0001);
+    flywheelMaster.config_IntegralZone(0, 150);
+//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+//    SmartDashboard.putNumber("Flywheel P", 0.1);
+//    SmartDashboard.putNumber("Flywheel I", 0.0001);
+//    SmartDashboard.putNumber("Flywheel Izone", 150);
+    closedLoopErrorAverage = new MovingAverage(3, 0);
+
   }
 
   @Override
   public void periodic() {
-    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
+//    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
+//    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0.1));
+//    flywheelMaster.config_kI(0, SmartDashboard.getNumber("Flywheel I", 0.0001));
+//    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
+    SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
+    SmartDashboard.putNumber("Error Delta", errorDelta);
+    errorDelta = getClosedLoopFlywheelError() - previousError;
+    closedLoopErrorAverage.update(getClosedLoopFlywheelError());
+    previousError = getClosedLoopFlywheelError();
   }
 
   public void setFlywheelOutput(TalonFXControlMode controlMode, double output) {
@@ -65,8 +85,16 @@ public class TurretShooter extends SubsystemBase {
     return flywheelMaster.getSensorCollection().getIntegratedSensorVelocity();
   }
 
+  public double getClosedLoopErrorAverage() {
+    return closedLoopErrorAverage.getDoubleOutput();
+  }
+
   public int getClosedLoopFlywheelError() {
     return flywheelMaster.getClosedLoopError();
+  }
+
+  public int getClosedLoopErrorDelta() {
+    return errorDelta;
   }
 
   public void setTurretAngle(Rotation2d angle, boolean fieldOriented) {

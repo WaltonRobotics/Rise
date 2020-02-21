@@ -71,8 +71,8 @@ public class Robot extends WaltTimedRobot {
     SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
-//    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
-//    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
+    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
+    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
   }
 
@@ -105,6 +105,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void disabledInit() {
+
   }
 
   @Override
@@ -117,7 +118,7 @@ public class Robot extends WaltTimedRobot {
   @Override
   public void autonomousInit() {
     drivetrain.resetHardware();
-    AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 0)).getCommandGroup()
+    AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
         .schedule();
   }
 
@@ -131,6 +132,8 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void teleopInit() {
+
+    drivetrain.resetHardware();
 
   }
 

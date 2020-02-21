@@ -1,9 +1,7 @@
 package frc.robot.commands.teleop;
 
 import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
-import static frc.robot.OI.intakeButton;
-import static frc.robot.OI.intakeDownButton;
-import static frc.robot.OI.intakeUpButton;
+import static frc.robot.OI.*;
 import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
 import static frc.robot.subsystems.IntakeConveyor.*;
@@ -20,9 +18,6 @@ public class IntakeConveyorCommand extends CommandBase {
     addRequirements(intakeConveyor);
     currentState = State.OFF;
     pulseStart = getFPGATimestamp();
-
-    intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
-    intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
   }
 
   @Override
@@ -46,8 +41,12 @@ public class IntakeConveyorCommand extends CommandBase {
 
         intakeConveyor.setIntakeMotorOutput(0);
 //        intakeConveyor.setCenteringMotorsOutput(0);
-        intakeConveyor.setFrontConveyorMotorOutput(0);
-        intakeConveyor.setBackConveyorMotorOutput(0);
+        if(!overrideFrontConveyorButton.get()) {
+          intakeConveyor.setFrontConveyorMotorOutput(0);
+        }
+        if(!overrideBackConveyorButton.get()) {
+          intakeConveyor.setBackConveyorMotorOutput(0);
+        }
 
         return determineState();
       }
@@ -59,6 +58,9 @@ public class IntakeConveyorCommand extends CommandBase {
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
 //        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        if(!overrideBackConveyorButton.get()) {
+          intakeConveyor.setBackConveyorMotorOutput(0);
+        }
 
         return determineState();
       }
@@ -109,7 +111,7 @@ public class IntakeConveyorCommand extends CommandBase {
           return IN_AND_OUT;
         }
         if(shouldPulse()) {
-          return IN_AND_PULSING;
+//          return IN_AND_PULSING;
         }
         return INTAKING;
       } else {
@@ -117,7 +119,7 @@ public class IntakeConveyorCommand extends CommandBase {
           return OUTTAKING;
         }
         if(shouldPulse()) {
-          return PULSING;
+//          return PULSING;
         }
         return OFF;
       }

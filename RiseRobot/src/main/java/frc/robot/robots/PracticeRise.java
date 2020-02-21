@@ -9,10 +9,10 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class PracticeRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(2, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
-    private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
+    private final PIDController leftPIDController = new PIDController(1, 0, 0);
+    private final PIDController rightPIDController = new PIDController(1, 0, 0);
 
-    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04, 0.1); //0.487
 
     private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
             new TrapezoidProfile.Constraints(360, 80)); //0.009
@@ -27,32 +27,32 @@ public class PracticeRise implements WaltRobot {
 
     @Override
     public double getTrackWidth() {
-        return 0;
+        return 0.729784476;
     }
 
     @Override
     public double getKBeta() {
-        return 0;
+        return 2.0;
     }
 
     @Override
     public double getKZeta() {
-        return 0;
+        return 0.7;
     }
 
     @Override
     public PIDController getLeftPIDController() {
-        return null;
+        return leftPIDController;
     }
 
     @Override
     public PIDController getRightPIDController() {
-        return null;
+        return rightPIDController;
     }
 
     @Override
     public ProfiledPIDController getTurnPIDController() {
-        return null;
+        return turnPIDController;
     }
 
     @Override
@@ -67,17 +67,17 @@ public class PracticeRise implements WaltRobot {
 
     @Override
     public double getVelocityFactor() {
-        return 0;
+        return 0.0610634006918382 / 60.;
     }
 
     @Override
     public double getPositionFactor() {
-        return 0;
+        return 0.0610634006918382;
     }
 
     @Override
     public double getDistancePerPulse() {
-        return 0;
+        return 1;
     }
 
     @Override

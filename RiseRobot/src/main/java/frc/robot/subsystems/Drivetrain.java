@@ -51,6 +51,8 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
         SmartDashboard.putNumber("Left neo encoder distance", drivetrain.getCANEncoderLeftMeters());
         SmartDashboard.putNumber("right neo encoder distance", drivetrain.getCANEncoderRightMeters());
+
+        SmartDashboard.putNumber("Right Spark Max P", rightWheelsMaster.getPIDController().getP());
     }
 
     public void motorSetUp() {

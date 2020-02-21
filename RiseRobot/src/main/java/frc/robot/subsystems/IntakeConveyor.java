@@ -6,8 +6,9 @@ import static frc.robot.Constants.CANBusIDs.INTAKE_ID;
 import static frc.robot.Constants.DioIDs.BACK_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.DioIDs.FRONT_CONVEYOR_SENSOR_ID;
 import static frc.robot.Constants.PneumaticIDs.INTAKE_TOGGLE_ID;
-import static frc.robot.OI.overrideBackConveyorButton;
-import static frc.robot.OI.overrideFrontConveyorButton;
+import static frc.robot.OI.*;
+import static frc.robot.OI.intakeDownButton;
+import static frc.robot.Robot.intakeConveyor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -18,7 +19,7 @@ import frc.utils.EnhancedBoolean;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  public static final double INTAKE_POWER = 0.95;
+  public static final double INTAKE_POWER = 0.75;
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
@@ -48,19 +49,23 @@ public class IntakeConveyor extends SubsystemBase {
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
 //    overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
 //    overrideCenteringButton.whenPressed(() -> setCenteringMotorsOutput(CENTERING_POWER));
+
+    intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
+    intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
+    intakeButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
+    intakeButton.whenReleased(() -> intakeConveyor.setIntakeToggle(false));
   }
 
   @Override
   public void periodic() {
 
-    frontSensorGet.set(frontConveyorSensor.get());
+    frontSensorGet.set(!frontConveyorSensor.get());
     if(frontSensorGet.isRisingEdge()) {
       ballCount++;
     }
 
 //    setIntakeMotorOutput(INTAKE_POWER);
 //    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-//    setCenteringMotorsOutput(CENTERING_POWER);
 //    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
   }
 

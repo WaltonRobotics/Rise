@@ -161,6 +161,9 @@ public class RamseteTrackingCommand extends CommandBase {
                     m_feedforward.calculate(leftSpeedSetpoint,
                             (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
 
+//            System.out.printf("%f, %f\n", (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond), dt);
+
+
             double rightFeedforward =
                     m_feedforward.calculate(rightSpeedSetpoint,
                             (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);

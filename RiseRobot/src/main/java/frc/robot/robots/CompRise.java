@@ -10,8 +10,8 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class CompRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(2, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
-    private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
+    private final PIDController leftPIDController = new PIDController(1, 0, 0);   //maybe 2.53    //maybe 1.74? maybe 1.62?
+    private final PIDController rightPIDController = new PIDController(1, 0, 0);  //maybe 2.53
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
 
@@ -33,12 +33,12 @@ public class CompRise implements WaltRobot {
 
     @Override
     public double getKBeta() {
-        return 0;
+        return 2.0;
     }
 
     @Override
     public double getKZeta() {
-        return 0;
+        return 0.7;
     }
 
     @Override
