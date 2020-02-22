@@ -136,10 +136,13 @@ public class TurretShooter extends SubsystemBase {
    * @return RPMs to set the flywheel
    */
   public double estimateTargetSpeed(double distance) {
-    InterpolatingDouble result = currentRobot.getShooterCalibrationMap().get(new InterpolatingDouble(distance));
+    InterpolatingDouble result = currentRobot.getShooterCalibrationMap().getInterpolated(new InterpolatingDouble(distance));
+//    System.out.println(currentRobot.getShooterCalibrationMap().toString());
     if (result != null) {
+      System.out.println(result.value);
       return result.value;
     } else {
+      System.out.println(0);
       return defaultShooterRPM;
     }
   }

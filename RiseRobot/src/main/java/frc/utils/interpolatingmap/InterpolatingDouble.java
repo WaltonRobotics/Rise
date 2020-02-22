@@ -44,4 +44,8 @@ public class InterpolatingDouble implements Interpolable<InterpolatingDouble>, I
         }
     }
 
+    @Override
+    public String toString() {
+        return value + "";
+    }
 }
