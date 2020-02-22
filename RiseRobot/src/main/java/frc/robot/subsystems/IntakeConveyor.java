@@ -26,7 +26,7 @@ public class IntakeConveyor extends SubsystemBase {
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_TIME = 0.32; // seconds  TODO adjust
-  public static final double FRONT_SENSOR_GET_TIME_LIMIT = PULSE_TIME;
+  public static final double FRONT_SENSOR_DELAY_TIME = 0.1;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
 //  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
@@ -39,8 +39,9 @@ public class IntakeConveyor extends SubsystemBase {
   private final DigitalInput backConveyorSensor = new DigitalInput(BACK_CONVEYOR_SENSOR_ID);
   private int ballCount;
   private EnhancedBoolean frontSensorGet;
-  private double frontSensorGetStart;
-  private boolean isInFront;
+  private EnhancedBoolean frontSensorDelay;
+  private double frontSensorDelayStart;
+  private boolean frontSensorDelayPrevious;
 
 
   public IntakeConveyor() {
@@ -48,8 +49,8 @@ public class IntakeConveyor extends SubsystemBase {
 //    centeringMotors.setInverted(true);
     frontConveyorMotor.setInverted(true);
     ballCount = 0;
-    isInFront = true;
     frontSensorGet = new EnhancedBoolean();
+    frontSensorDelay = new EnhancedBoolean();
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
@@ -58,28 +59,46 @@ public class IntakeConveyor extends SubsystemBase {
 
     intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
     intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
-    intakeButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
-    intakeButton.whenReleased(() -> intakeConveyor.setIntakeToggle(false));
+//    intakeButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
+//    intakeButton.whenReleased(() -> intakeConveyor.setIntakeToggle(false));
   }
 
   @Override
   public void periodic() {
 
-    frontSensorGet.set(!frontConveyorSensor.get());
-    if(frontSensorGet.isRisingEdge()) {
-//      ballCount++;
-      frontSensorGetStart = getFPGATimestamp();
-      isInFront = false;
+    frontSensorDelay.set(!frontConveyorSensor.get());
+    if(frontSensorDelay.hasChanged()) {
+      frontSensorDelayStart = getFPGATimestamp();
+      frontSensorDelayPrevious = frontSensorDelay.get();
     }
-
-    if(isInFront) {
-      frontSensorGetStart = getFPGATimestamp();
-    } else {
-      if(getFPGATimestamp() - frontSensorGetStart > FRONT_SENSOR_GET_TIME_LIMIT) {
-//        ballCount++;
-        isInFront = true;
+    if(frontSensorDelayStart != -1 &&
+        getFPGATimestamp() - frontSensorDelayStart > FRONT_SENSOR_DELAY_TIME) {
+      if(frontSensorDelay.get() == frontSensorDelayPrevious) {
+        frontSensorGet.set(frontSensorDelayPrevious);
       }
+      frontSensorDelayStart = -1;
     }
+    if(frontSensorGet.isRisingEdge()) {
+      frontSensorGet.set(true);
+      ballCount++;
+    }
+    if(frontSensorGet.isFallingEdge()) {
+      frontSensorGet.set(false);
+    }
+//    if(frontSensorGet.isRisingEdge()) {
+////      ballCount++;
+//      frontSensorDelayStart = getFPGATimestamp();
+//      isInFront = false;
+//    }
+//
+//    if(isInFront) {
+//      frontSensorDelayStart = getFPGATimestamp();
+//    } else {
+//      if(getFPGATimestamp() - frontSensorDelayStart > FRONT_SENSOR_DELAY_TIME) {
+////        ballCount++;
+//        isInFront = true;
+//      }
+//    }
 
 //    setIntakeMotorOutput(INTAKE_POWER);
 //    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
@@ -111,6 +130,10 @@ public class IntakeConveyor extends SubsystemBase {
 
   public void resetBallCount() {
     ballCount = 0;
+  }
+
+  public int getBallCount() {
+    return ballCount;
   }
 
   public boolean canPulse() {

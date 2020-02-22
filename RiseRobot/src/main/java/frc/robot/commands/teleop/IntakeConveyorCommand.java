@@ -58,7 +58,9 @@ public class IntakeConveyorCommand extends CommandBase {
 
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
 //        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        if(intakeConveyor.getBallCount() < 3) {
+          intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        }
         if(!overrideBackConveyorButton.get()) {
           intakeConveyor.setBackConveyorMotorOutput(0);
         }
