@@ -43,7 +43,7 @@ public class TurretShooter extends SubsystemBase {
 
   public TurretShooter() {
 
-    flywheelMaster.selectProfileSlot(0, 0);
+    flywheelMaster.selectProfileSlot(1, 0);
 
     flywheelMaster.setNeutralMode(NeutralMode.Brake);
     flywheelSlave.setNeutralMode(NeutralMode.Brake);
@@ -53,11 +53,22 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.follow(flywheelMaster);
 
     flywheelMaster.config_kF(0, 0.0452); //0.0452
-    flywheelMaster.config_kP(0, 0.1);
-    flywheelMaster.config_kI(0, 0.0001);
-    flywheelMaster.config_IntegralZone(0, 150);
-//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
-//    SmartDashboard.putNumber("Flywheel P", 0.1);
+    flywheelMaster.config_kP(0, 0.15);
+//    flywheelMaster.config_kI(0, 0.000);
+//    flywheelMaster.config_IntegralZone(0, 150);
+    flywheelMaster.config_kD(0, 0.1);
+
+    flywheelMaster.config_kF(1, 0.04842603550);
+    flywheelMaster.config_kP(1, 0.15);
+    flywheelMaster.config_kD(1, 0.1);
+
+    flywheelMaster.configVoltageCompSaturation(10);
+    flywheelSlave.configVoltageCompSaturation(10);
+
+    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+    SmartDashboard.putNumber("Flywheel P", 0.12);
+    SmartDashboard.putNumber("Flywheel D", 0);
+
 //    SmartDashboard.putNumber("Flywheel I", 0.0001);
 //    SmartDashboard.putNumber("Flywheel Izone", 150);
     closedLoopErrorAverage = new MovingAverage(3, 0);
@@ -67,11 +78,14 @@ public class TurretShooter extends SubsystemBase {
   @Override
   public void periodic() {
 //    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
-//    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0.1));
-//    flywheelMaster.config_kI(0, SmartDashboard.getNumber("Flywheel I", 0.0001));
+//    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
+//    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
+    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
     SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
-    SmartDashboard.putNumber("Error Delta", errorDelta);
+//    SmartDashboard.putNumber("PID Slot")
+//    flywheelMaster.set(ControlMode.PercentOutput, 0.8);
+//    SmartDashboard.putNumber("Error Delta", errorDelta);
     errorDelta = getClosedLoopFlywheelError() - previousError;
     closedLoopErrorAverage.update(getClosedLoopFlywheelError());
     previousError = getClosedLoopFlywheelError();
@@ -114,6 +128,10 @@ public class TurretShooter extends SubsystemBase {
 
   public void setOpenLoopTurretOutput(double outputValue) {
     turretMotor.set(ControlMode.PercentOutput, outputValue);
+  }
+
+  public void switchProfileSlot(int slot) {
+    flywheelMaster.selectProfileSlot(slot, 0);
   }
 
   /**

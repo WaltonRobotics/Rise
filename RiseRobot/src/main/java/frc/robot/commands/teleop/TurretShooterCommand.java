@@ -1,5 +1,6 @@
 package frc.robot.commands.teleop;
 
+import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.shootButton;
@@ -8,6 +9,7 @@ import static frc.robot.Robot.turretShooter;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeConveyor;
@@ -16,13 +18,13 @@ import frc.utils.LimelightHelper;
 public class TurretShooterCommand extends CommandBase {
 
   private static final double JOYSTICK_DEADBAND = 0.125;
-  private static final int BARF_SPEED = 8000;
+  private static final int BARF_SPEED = 16000;
   protected static int targetSpeed = 0;
 
-  private static final int SPEED_ERROR_LIMIT = 200;
+  private static final int SPEED_ERROR_LIMIT = 500;
   private static final int SPEED_ERROR_DELTA_LIMIT = 75;
 
-  private static final double SPEED_ERROR_TIME_LIMIT = IntakeConveyor.PULSE_TIME * 0.9;
+  private static final double SHOOTING_DELAY_TIME = 0.25;
 
   private FlywheelState currentFlywheelState, previousFlywheelState;
   private TurretState currentTurretState;
@@ -120,6 +122,7 @@ public class TurretShooterCommand extends CommandBase {
       public void initialize() {
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         turretShooter.isReadyToShoot = false;
+        turretShooter.switchProfileSlot(0);
 //        System.out.println("Spinning up, error: " + turretShooter.getClosedLoopFlywheelError());
       }
 
@@ -130,33 +133,37 @@ public class TurretShooterCommand extends CommandBase {
         if (!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-        if (Math.abs(turretShooter.getClosedLoopErrorAverage()) < SPEED_ERROR_LIMIT &&
-                Math.abs(turretShooter.getClosedLoopFlywheelError()) < SPEED_ERROR_DELTA_LIMIT) {
+        if (Math.abs(turretShooter.getClosedLoopErrorAverage()) < SPEED_ERROR_LIMIT ) {
           return SHOOTING;
         }
         return this;
       }
     },
     SHOOTING {
+      private double delayStart;
+
       @Override
       public void initialize() {
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         turretShooter.isReadyToShoot = true;
+        turretShooter.switchProfileSlot(1);
         intakeConveyor.resetBallCount();
+        delayStart = getFPGATimestamp();
 //        System.out.println("Shooting, error: " + turretShooter.getClosedLoopFlywheelError());
 
       }
 
       @Override
       public FlywheelState execute() {
+//        SmartDashboard.putNumber("Delay Time", getFPGATimestamp() - delayStart);
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         if (!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-        if (Math.abs(turretShooter.getClosedLoopErrorAverage()) > SPEED_ERROR_LIMIT ||
-                Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_DELTA_LIMIT) {
-          return SPINNING_UP;
-        }
+//        if (Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT &&
+//        getFPGATimestamp() - delayStart > SHOOTING_DELAY_TIME) {
+//          return SPINNING_UP;
+//        }
         return this;
       }
     },
@@ -164,6 +171,7 @@ public class TurretShooterCommand extends CommandBase {
       @Override
       public void initialize() {
         turretShooter.isReadyToShoot = false;
+        turretShooter.switchProfileSlot(0);
       }
 
       @Override
