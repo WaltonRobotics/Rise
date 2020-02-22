@@ -2,6 +2,7 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.utils.LimelightHelper;
 
 import static frc.robot.OI.*;
 import static frc.robot.Robot.drivetrain;
@@ -30,8 +31,16 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         // (Joysticks inverted because limelight is facing backwards)
-        drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
 
+        if(turnToTargetButton.get()) {
+            double steerCmd = LimelightHelper.getTX() * 0.05;
+            drivetrain.setArcadeSpeeds(0 , steerCmd);
+            System.out.println(steerCmd);
+        }
+
+        else {
+            drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
+        }
     }
 
     @Override

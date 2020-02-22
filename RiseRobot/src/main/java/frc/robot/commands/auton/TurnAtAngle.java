@@ -23,8 +23,9 @@ public class TurnAtAngle extends CommandBase {
     @Override
     public void execute() {
         double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees(),
-                drivetrain.getHeading().minus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
-
+                drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
+        System.out.println("turning rate" + turnRate);
+        System.out.println("Target angle" + drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
         drivetrain.setDutyCycles(turnRate, -turnRate);
     }
 
