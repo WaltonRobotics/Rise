@@ -24,11 +24,12 @@ public class IntakeConveyorCommand extends CommandBase {
   public void execute() {
     currentState = currentState.execute();
     SmartDashboard.putString("Intake Conveyor State", currentState.name());
+    SmartDashboard.putBoolean("Should Pulse", shouldPulse());
   }
 
   private static boolean shouldPulse() {
     // getFPGATimestamp() - pulseStart will always be almost 0, unless we are in a pulsing state
-    return getFPGATimestamp() - pulseStart < PULSE_TIME ||
+    return (getFPGATimestamp() - pulseStart < PULSE_TIME && getFPGATimestamp() - pulseStart > 0.02) ||
         intakeConveyor.canPulse();
   }
 
@@ -111,7 +112,7 @@ public class IntakeConveyorCommand extends CommandBase {
           return IN_AND_OUT;
         }
         if(shouldPulse()) {
-//          return IN_AND_PULSING;
+          return IN_AND_PULSING;
         }
         return INTAKING;
       } else {
@@ -119,7 +120,7 @@ public class IntakeConveyorCommand extends CommandBase {
           return OUTTAKING;
         }
         if(shouldPulse()) {
-//          return PULSING;
+          return PULSING;
         }
         return OFF;
       }
