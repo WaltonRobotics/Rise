@@ -67,4 +67,8 @@ public class LimelightHelper {
     public static double getDistanceMeters() {
         return Units.inchesToMeters(targetHeight - currentRobot.getLimelightMountingHeight() / Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())));
     }
+
+    public static double getDistanceFeet() {
+        return ((targetHeight - currentRobot.getLimelightMountingHeight()) / (Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())))) / 12;
+    }
 }

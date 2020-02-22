@@ -21,10 +21,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IntakeConveyor;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
-import frc.utils.AutonSelector;
-import frc.utils.LiveDashboardHelper;
-import frc.utils.ShuffleboardTimer;
-import frc.utils.WaltTimedRobot;
+import frc.utils.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -98,6 +95,7 @@ public class Robot extends WaltTimedRobot {
       matchTimer.onColor = null;
       matchTimer.offColor = null;
     }
+    SmartDashboard.putNumber("distance", LimelightHelper.getDistanceFeet());
   }
 
   /**
