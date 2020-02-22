@@ -16,6 +16,7 @@ public class LimelightHelper {
     private static NetworkTableEntry ty = table.getEntry("ty");
     private static NetworkTableEntry ta = table.getEntry("ta");
     private static NetworkTableEntry tv = table.getEntry("tv");
+    private static NetworkTableEntry ledMode = table.getEntry("ledMode");
 
     private static double targetHeight = 89.69;
 
@@ -48,6 +49,16 @@ public class LimelightHelper {
      */
     public static double getTV() {
         return tv.getDouble(0);
+    }
+
+    public static void setLedMode(boolean on) {
+
+        if(on) {
+            ledMode.setNumber(3);
+        } else {
+            ledMode.setNumber(1);
+        }
+
     }
 
     /**
