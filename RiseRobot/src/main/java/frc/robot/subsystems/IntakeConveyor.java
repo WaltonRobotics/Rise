@@ -25,7 +25,7 @@ public class IntakeConveyor extends SubsystemBase {
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
-  public static final double PULSE_TIME = 0.32; // seconds  TODO adjust
+  public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
   public static final double FRONT_SENSOR_DELAY_TIME = 0.1;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
@@ -137,7 +137,7 @@ public class IntakeConveyor extends SubsystemBase {
   }
 
   public boolean canPulse() {
-    return ballCount <= 3 &&
+    return ballCount < 3 &&
         frontSensorGet.get();
   }
 

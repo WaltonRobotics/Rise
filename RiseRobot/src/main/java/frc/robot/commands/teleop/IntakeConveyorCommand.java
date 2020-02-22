@@ -60,6 +60,8 @@ public class IntakeConveyorCommand extends CommandBase {
 //        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
         if(intakeConveyor.getBallCount() < 3) {
           intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        } else {
+          intakeConveyor.setFrontConveyorMotorOutput(0);
         }
         if(!overrideBackConveyorButton.get()) {
           intakeConveyor.setBackConveyorMotorOutput(0);
@@ -100,7 +102,11 @@ public class IntakeConveyorCommand extends CommandBase {
       public State execute() {
         intakeConveyor.setIntakeMotorOutput(INTAKE_POWER);
 //        intakeConveyor.setCenteringMotorsOutput(CENTERING_POWER);
-        intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        if(intakeConveyor.getBallCount() < 3) {
+          intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+        } else {
+          intakeConveyor.setFrontConveyorMotorOutput(0);
+        }
 
         intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
