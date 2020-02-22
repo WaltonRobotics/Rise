@@ -111,7 +111,7 @@ public class RamseteTrackingCommand extends CommandBase {
                                 * initialState.velocityMetersPerSecond));
         m_timer.reset();
         m_timer.start();
-        if (m_useSparkPID) {
+        if (!m_useSparkPID) {
             m_leftController.reset();
             m_rightController.reset();
         }
@@ -161,17 +161,14 @@ public class RamseteTrackingCommand extends CommandBase {
                     m_feedforward.calculate(leftSpeedSetpoint,
                             (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
 
-//            System.out.printf("%f, %f\n", (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond), dt);
+//          System.out.printf("%f, %f\n", (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond), dt);
 
 
             double rightFeedforward =
                     m_feedforward.calculate(rightSpeedSetpoint,
                             (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-            leftOutput = leftSpeedSetpoint;
-            rightOutput = rightSpeedSetpoint;
-
-            drivetrain.setVelocities(leftOutput, leftFeedforward, rightOutput, rightFeedforward, m_sparkMaxPIDSlot);
+            drivetrain.setVelocities(leftSpeedSetpoint, leftFeedforward, rightSpeedSetpoint, rightFeedforward, m_sparkMaxPIDSlot);
         }
 
         m_prevTime = curTime;
