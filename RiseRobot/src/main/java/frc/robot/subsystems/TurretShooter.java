@@ -15,9 +15,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,8 +64,6 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.configVoltageCompSaturation(10);
 
     SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
-    SmartDashboard.putNumber("Flywheel P", 0.12);
-    SmartDashboard.putNumber("Flywheel D", 0);
 
 //    SmartDashboard.putNumber("Flywheel I", 0.0001);
 //    SmartDashboard.putNumber("Flywheel Izone", 150);
@@ -81,7 +77,7 @@ public class TurretShooter extends SubsystemBase {
 //    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
 //    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
-    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
     SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
 //    SmartDashboard.putNumber("PID Slot")
 //    flywheelMaster.set(ControlMode.PercentOutput, 0.8);

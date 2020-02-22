@@ -18,7 +18,7 @@ import frc.utils.LimelightHelper;
 public class TurretShooterCommand extends CommandBase {
 
   private static final double JOYSTICK_DEADBAND = 0.125;
-  private static final int BARF_SPEED = 16000;
+  private static final int BARF_SPEED = 6000;
   protected static int targetSpeed = 0;
 
   private static final int SPEED_ERROR_LIMIT = 500;
@@ -147,7 +147,6 @@ public class TurretShooterCommand extends CommandBase {
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         turretShooter.isReadyToShoot = true;
         turretShooter.switchProfileSlot(1);
-        intakeConveyor.resetBallCount();
         delayStart = getFPGATimestamp();
 //        System.out.println("Shooting, error: " + turretShooter.getClosedLoopFlywheelError());
 
@@ -155,6 +154,7 @@ public class TurretShooterCommand extends CommandBase {
 
       @Override
       public FlywheelState execute() {
+        intakeConveyor.resetBallCount();
 //        SmartDashboard.putNumber("Delay Time", getFPGATimestamp() - delayStart);
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         if (!(shootButton.get() || barfButton.get())) {
