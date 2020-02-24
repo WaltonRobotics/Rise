@@ -9,12 +9,12 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class PracticeRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(1, 0, 0);
-    private final PIDController rightPIDController = new PIDController(1, 0, 0);
+    private final PIDController leftPIDController = new PIDController(1.4, 0, 0);
+    private final PIDController rightPIDController = new PIDController(1.4, 0, 0);
 
-    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04, 0.1); //0.487
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04, 0); //0.487
 
-    private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
+    private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.012, 0, 0,
             new TrapezoidProfile.Constraints(360, 80)); //0.009
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();

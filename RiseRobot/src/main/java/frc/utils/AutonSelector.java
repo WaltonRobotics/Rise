@@ -22,10 +22,8 @@ public enum AutonSelector {
      * shoot 3, pick up 3 in trench, pick up 2 in generator, align
      */
     TWO_A(3, "2A", new TimeAuto(
-            new SetIntakeCommand(true),
-//            new ShootAllBalls(3),
-            new WaitCommand(2),
-//            new TurnToAngle(180).withTimeout(2.5),
+//            new ShootAllBalls(1, 16500),
+            new TurnToAngle(180).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),

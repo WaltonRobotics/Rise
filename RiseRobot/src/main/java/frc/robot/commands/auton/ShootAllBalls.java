@@ -41,17 +41,21 @@ public class ShootAllBalls extends CommandBase {
 
     @Override
     public void execute() {
-
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, rpm);
 
-        if(turretShooter.getClosedLoopFlywheelError() < shooterTolerance) {
+        if(timer.get() > 0.35) {
             intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
             intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
         }
     }
 
     @Override
+    public void end(boolean interrupted) {
+
+    }
+
+    @Override
     public boolean isFinished() {
-        return timer.get() == totalTime;
+        return timer.get() > totalTime;
     }
 }
