@@ -115,7 +115,6 @@ public class Robot extends WaltTimedRobot {
   @Override
   public void autonomousInit() {
     drivetrain.resetHardware();
-
     AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
         .schedule();
   }
