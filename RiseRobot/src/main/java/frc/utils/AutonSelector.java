@@ -22,17 +22,16 @@ public enum AutonSelector {
      * shoot 3, pick up 3 in trench, pick up 2 in generator, align
      */
     TWO_A(3, "2A", new TimeAuto(
-            new SetIntakeCommand(true),
-//            new ShootAllBalls(3),
-            new WaitCommand(2),
-//            new TurnToAngle(180).withTimeout(2.5),
+//            new ShootAllBalls(1, 16500),
+            new InstantCommand(() -> drivetrain.resetHardware()),
+            new TurnToAngle(-90).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
-            new RamseteTrackingCommand(Paths.Two.trenchPickup, 0),
-            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0),
-            new RamseteTrackingCommand(Paths.Two.trenchBackup, 0),
-            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls, 0),
-            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot, 0)
+            new RamseteTrackingCommand(Paths.Two.trenchPickup),
+            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls),
+            new RamseteTrackingCommand(Paths.Two.trenchBackup),
+            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
+            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
     )),
     /**
      * Pick up 2 enemy trench, shoot 5
@@ -60,8 +59,9 @@ public enum AutonSelector {
     )),
     TESTS(254, "Tests", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new ResetPose(Paths.Two.intakeThreeBalls.getInitialPose()),
-            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0)
+            new TurnToAngle(90)
+//            new ResetPose(Paths.Two.intakeThreeBalls.getInitialPose()),
+//            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0)
     )),
     SCREWING_AROUND(420, "Lol", new TimeAuto(
             new InstantCommand(() -> drivetrain.resetHardware()),

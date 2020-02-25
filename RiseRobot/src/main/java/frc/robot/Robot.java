@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auton.SetIntakeCommand;
 import frc.robot.commands.teleop.ClimbCommand;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
@@ -65,10 +66,9 @@ public class Robot extends WaltTimedRobot {
     matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
         "0x0024D6", "0x000b40");
 
-    SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
+    SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
-    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
   }
 
@@ -129,8 +129,10 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void teleopInit() {
-    drivetrain.resetHardware();
+
+    CommandScheduler.getInstance().schedule(new IntakeConveyorCommand());
     CommandScheduler.getInstance().schedule(new TurretShooterCommand());
+    drivetrain.resetHardware();
   }
 
   /**

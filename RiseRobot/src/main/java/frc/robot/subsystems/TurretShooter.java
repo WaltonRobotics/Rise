@@ -44,13 +44,14 @@ public class TurretShooter extends SubsystemBase {
 
   private MovingAverage closedLoopErrorAverage;
 
+  public boolean isAuto = false;
 
   public TurretShooter() {
 
     flywheelMaster.selectProfileSlot(1, 0);
 
-    flywheelMaster.setNeutralMode(NeutralMode.Brake);
-    flywheelSlave.setNeutralMode(NeutralMode.Brake);
+    flywheelMaster.setNeutralMode(NeutralMode.Coast);
+    flywheelSlave.setNeutralMode(NeutralMode.Coast);
 
     flywheelMaster.setInverted(true);
     flywheelSlave.setInverted(false);
