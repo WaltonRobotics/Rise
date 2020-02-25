@@ -154,7 +154,7 @@ public class TurretShooterCommand extends CommandBase {
 
       @Override
       public FlywheelState execute() {
-        intakeConveyor.resetBallCount();
+//        intakeConveyor.resetBallCount();
 //        SmartDashboard.putNumber("Delay Time", getFPGATimestamp() - delayStart);
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
         if (!(shootButton.get() || barfButton.get())) {

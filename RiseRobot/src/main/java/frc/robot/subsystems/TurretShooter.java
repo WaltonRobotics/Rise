@@ -34,6 +34,12 @@ public class TurretShooter extends SubsystemBase {
   private int previousError = 0;
   private int errorDelta = 0;
 
+  private double minShootingDistance = 10;
+  private double maxShootingDistance = 10;
+
+  private double minDistanceRPM = 16300;
+  private double maxDistanceRPM = 21000;
+
   public boolean isReadyToShoot = false;
 
   private MovingAverage closedLoopErrorAverage;
@@ -138,6 +144,14 @@ public class TurretShooter extends SubsystemBase {
   public double estimateTargetSpeed(double distance) {
     InterpolatingDouble result = currentRobot.getShooterCalibrationMap().getInterpolated(new InterpolatingDouble(distance));
 //    System.out.println(currentRobot.getShooterCalibrationMap().toString());
+    if(distance < minShootingDistance) {
+      return minDistanceRPM;
+    }
+
+    if(distance > maxShootingDistance) {
+      return maxDistanceRPM;
+    }
+
     if (result != null) {
       System.out.println(result.value);
       return result.value;

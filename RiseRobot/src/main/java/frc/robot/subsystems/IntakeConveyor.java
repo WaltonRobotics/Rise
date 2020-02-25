@@ -38,10 +38,15 @@ public class IntakeConveyor extends SubsystemBase {
   private final DigitalInput frontConveyorSensor = new DigitalInput(FRONT_CONVEYOR_SENSOR_ID);
   private final DigitalInput backConveyorSensor = new DigitalInput(BACK_CONVEYOR_SENSOR_ID);
   private int ballCount;
+  
   private EnhancedBoolean frontSensorGet;
   private EnhancedBoolean frontSensorDelay;
   private double frontSensorDelayStart;
   private boolean frontSensorDelayPrevious;
+  private EnhancedBoolean backSensorGet;
+  private EnhancedBoolean backSensorDelay;
+  private double backSensorDelayStart;
+  private boolean backSensorDelayPrevious;
 
 
   public IntakeConveyor() {
@@ -51,6 +56,8 @@ public class IntakeConveyor extends SubsystemBase {
     ballCount = 0;
     frontSensorGet = new EnhancedBoolean();
     frontSensorDelay = new EnhancedBoolean();
+    backSensorGet = new EnhancedBoolean();
+    backSensorDelay = new EnhancedBoolean();
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
@@ -66,6 +73,7 @@ public class IntakeConveyor extends SubsystemBase {
   @Override
   public void periodic() {
 
+    // Update front sensor ball identification
     frontSensorDelay.set(!frontConveyorSensor.get());
     if(frontSensorDelay.hasChanged()) {
       frontSensorDelayStart = getFPGATimestamp();
@@ -85,6 +93,31 @@ public class IntakeConveyor extends SubsystemBase {
     if(frontSensorGet.isFallingEdge()) {
       frontSensorGet.set(false);
     }
+    
+    // Update back sensor ball identification
+    backSensorDelay.set(!backConveyorSensor.get());
+    if(backSensorDelay.hasChanged()) {
+      backSensorDelayStart = getFPGATimestamp();
+      backSensorDelayPrevious = backSensorDelay.get();
+    }
+    if(backSensorDelayStart != -1 &&
+        getFPGATimestamp() - backSensorDelayStart > FRONT_SENSOR_DELAY_TIME) {
+      if(backSensorDelay.get() == backSensorDelayPrevious) {
+        backSensorGet.set(backSensorDelayPrevious);
+      }
+      backSensorDelayStart = -1;
+    }
+    if(backSensorGet.isRisingEdge()) {
+      backSensorGet.set(true);
+    }
+    if(backSensorGet.isFallingEdge()) {
+      backSensorGet.set(false);
+      ballCount--;
+    }
+
+    ballCount = Math.max(0, ballCount);
+    
+    
 //    if(frontSensorGet.isRisingEdge()) {
 ////      ballCount++;
 //      frontSensorDelayStart = getFPGATimestamp();
