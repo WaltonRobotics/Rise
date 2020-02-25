@@ -131,6 +131,9 @@ public class Drivetrain extends SubsystemBase {
         setDutyCycles(leftMotorOutput, rightMotorOutput);
     }
 
+    public AHRS getAhrs() {
+        return ahrs;
+    }
 
     public Rotation2d getHeading() {
         return Rotation2d.fromDegrees(-ahrs.getAngle());  // counter clock wise positive

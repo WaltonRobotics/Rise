@@ -66,7 +66,7 @@ public class Robot extends WaltTimedRobot {
     matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
         "0x0024D6", "0x000b40");
 
-    SmartDashboard.putNumber(AUTON_SELECT_ID, 0);
+    SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
@@ -115,7 +115,6 @@ public class Robot extends WaltTimedRobot {
   @Override
   public void autonomousInit() {
     drivetrain.resetHardware();
-    new SetIntakeCommand(true);
 
     AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
         .schedule();

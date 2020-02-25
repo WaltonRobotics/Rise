@@ -43,6 +43,7 @@ public class IntakeConveyor extends SubsystemBase {
   private double frontSensorDelayStart;
   private boolean frontSensorDelayPrevious;
 
+  public boolean isAuto;
 
   public IntakeConveyor() {
     intakeMotor.setInverted(false);
