@@ -61,8 +61,6 @@ public class IntakeConveyor extends SubsystemBase {
   public void periodic() {
 
     // Update front sensor ball identification
-    frontConveyorSensor.update();
-    backConveyorSensor.update();
     if(frontConveyorSensor.getSensorGetter().isRisingEdge()) {
       ballCount++;
     }
