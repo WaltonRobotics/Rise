@@ -34,8 +34,8 @@ public class TurretShooter extends SubsystemBase {
   private int previousError = 0;
   private int errorDelta = 0;
 
-  private double minShootingDistance = 10;
-  private double maxShootingDistance = 10;
+  private double minShootingDistance = 9;
+  private double maxShootingDistance = 25;
 
   private double minDistanceRPM = 16300;
   private double maxDistanceRPM = 21000;
@@ -57,18 +57,21 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.setInverted(false);
     flywheelSlave.follow(flywheelMaster);
 
-    flywheelMaster.config_kF(0, 0.0452); //0.0452
-    flywheelMaster.config_kP(0, 0.15);
+    flywheelMaster.config_kF(0, 0.05975); //0.0452
+    flywheelMaster.config_kP(0, 0);
 //    flywheelMaster.config_kI(0, 0.000);
 //    flywheelMaster.config_IntegralZone(0, 150);
-    flywheelMaster.config_kD(0, 0.1);
+    flywheelMaster.config_kD(0, 0);
 
-    flywheelMaster.config_kF(1, 0.04842603550);
-    flywheelMaster.config_kP(1, 0.15);
-    flywheelMaster.config_kD(1, 0.1);
+    flywheelMaster.config_kF(1, 0.06); // 0.04842603550
+    flywheelMaster.config_kP(1, 0.015);
+    flywheelMaster.config_kD(1, 0);
 
+    // This is important
     flywheelMaster.configVoltageCompSaturation(10);
+    flywheelMaster.enableVoltageCompensation(true);
     flywheelSlave.configVoltageCompSaturation(10);
+    flywheelSlave.enableVoltageCompensation(true);
 
     SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
 
@@ -84,7 +87,7 @@ public class TurretShooter extends SubsystemBase {
 //    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
 //    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
-//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
     SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
 //    SmartDashboard.putNumber("PID Slot")
 //    flywheelMaster.set(ControlMode.PercentOutput, 0.8);
