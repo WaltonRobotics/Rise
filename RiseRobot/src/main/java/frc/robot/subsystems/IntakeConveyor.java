@@ -20,11 +20,12 @@ import frc.utils.IRSensor;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  public static final double INTAKE_POWER = 0.75;
+  public static final double INTAKE_POWER = 1; // 0.75
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
+  public static final double RAMP_TIME = 0.4;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
 //  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
@@ -58,6 +59,10 @@ public class IntakeConveyor extends SubsystemBase {
     intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
 //    intakeButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
 //    intakeButton.whenReleased(() -> intakeConveyor.setIntakeToggle(false));
+
+    // TODO use openLoopRamping for conveyor
+    frontConveyorMotor.configOpenloopRamp(RAMP_TIME);
+    backConveyorMotor.configOpenloopRamp(RAMP_TIME);
   }
 
   @Override

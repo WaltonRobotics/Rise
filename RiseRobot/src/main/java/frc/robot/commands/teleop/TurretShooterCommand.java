@@ -21,7 +21,7 @@ public class TurretShooterCommand extends CommandBase {
   private static final int BARF_SPEED = 6000;
   protected static int targetSpeed = 0;
 
-  private static final int SPEED_ERROR_LIMIT = 500;
+  private static final int SPEED_ERROR_LIMIT = 100;
   private static final int SPEED_ERROR_DELTA_LIMIT = 75;
 
   private static final double SHOOTING_DELAY_TIME = 0.25;
@@ -75,9 +75,9 @@ public class TurretShooterCommand extends CommandBase {
       currentFlywheelState = currentFlywheelState.execute();
 //    currentTurretState = currentTurretState.execute();
 
-//      SmartDashboard.putString("Flywheel State", currentFlywheelState.name());
+      SmartDashboard.putString("Flywheel State", currentFlywheelState.name());
 //      SmartDashboard.putString("Turret State", currentTurretState.name());
-//      SmartDashboard.putNumber("Target Speed", targetSpeed);
+      SmartDashboard.putNumber("Target Speed", targetSpeed);
     }
   }
 
@@ -135,7 +135,7 @@ public class TurretShooterCommand extends CommandBase {
     SPINNING_UP {
       @Override
       public void initialize() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed + SHOOTING_ADDITIVE);
+        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
         turretShooter.isReadyToShoot = false;
         turretShooter.switchProfileSlot(0);
 //        System.out.println("Spinning up, error: " + turretShooter.getClosedLoopFlywheelError());
@@ -143,12 +143,12 @@ public class TurretShooterCommand extends CommandBase {
 
       @Override
       public FlywheelState execute() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed + SHOOTING_ADDITIVE);
+        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
 //        System.out.println("Spinning up " + turretShooter.getFlywheelSpeed());
         if (!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-        if (turretShooter.getClosedLoopFlywheelError() > 0 && turretShooter.getClosedLoopFlywheelError() < SPEED_ERROR_LIMIT) {
+        if (turretShooter.getClosedLoopFlywheelError() < SPEED_ERROR_LIMIT) {
           return SHOOTING;
         }
         return this;
@@ -175,10 +175,10 @@ public class TurretShooterCommand extends CommandBase {
         if (!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
         }
-//        if (Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT &&
-//        getFPGATimestamp() - delayStart > SHOOTING_DELAY_TIME) {
-//          return SPINNING_UP;
-//        }
+        if (turretShooter.getClosedLoopFlywheelError() > 0 &&
+            Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT) {
+          return SPINNING_UP;
+        }
         return this;
       }
     },
