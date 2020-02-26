@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -14,11 +13,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.auton.TurnAtAngle;
-import frc.utils.LimelightHelper;
 
 import static frc.robot.Constants.CANBusIDs.*;
-import static frc.robot.OI.turnToTargetButton;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
@@ -131,10 +127,6 @@ public class Drivetrain extends SubsystemBase {
         setDutyCycles(leftMotorOutput, rightMotorOutput);
     }
 
-    public AHRS getAhrs() {
-        return ahrs;
-    }
-
     public Rotation2d getHeading() {
         return Rotation2d.fromDegrees(-ahrs.getAngle());  // counter clock wise positive
     }
@@ -164,7 +156,7 @@ public class Drivetrain extends SubsystemBase {
         zeroNeoEncoders();
         zeroHeading();
     }
-
+    
     public void resetOdometry(Pose2d startingPose) {
         driveOdometry.resetPosition(startingPose, getHeading());
     }

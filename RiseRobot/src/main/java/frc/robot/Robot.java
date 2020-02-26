@@ -70,6 +70,8 @@ public class Robot extends WaltTimedRobot {
     SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
+    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
+    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
     CommandScheduler.getInstance().schedule(new IntakeConveyorCommand());
     CommandScheduler.getInstance().schedule(new TurretShooterCommand());
