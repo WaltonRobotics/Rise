@@ -10,18 +10,29 @@ import static frc.robot.Robot.drivetrain;
 
 public enum AutonSelector {
     DO_NOTHING(0, "Do Nothing", new SequentialCommandGroup()),
-    CROSS_BASELINE_FORWARDS(1, "Cross Baseline Forwards", new SequentialCommandGroup(
+    ZERO_A(1, "Cross Baseline Forwards", new SequentialCommandGroup(
             new ResetPose(Paths.CrossBaseline.forwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
-    CROSS_BASELINE_BACKWARDS(2, "Cross Baseline Backwards", new SequentialCommandGroup(
+    ZERO_B(2, "Cross Baseline Backwards", new SequentialCommandGroup(
             new ResetPose(Paths.CrossBaseline.backwards.getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
+    )),
+    ONE_A(3, "Shoot 3 Go back", new TimedAuton(
+            new ResetPose(Paths.CrossBaseline.generateBackwards().getInitialPose()),
+            new ShootAllBalls(6),
+            new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
+    )),
+    ONE_B(4, "Shoot 3 Turn and Go back", new TimedAuton(
+            new ShootAllBalls(5),
+            new TurnToAngle(180),
+            new ResetPose(Paths.CrossBaseline.generateForwards().getInitialPose()),
+            new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
     /**
      * shoot 3, pick up 3 in trench, pick up 2 in generator, align
      */
-    TWO_A(3, "2A", new TimeAuto(
+    TWO_A(5, "2A", new TimedAuton(
 //            new ShootAllBalls(1, 16500),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new TurnToAngle(-90).withTimeout(2.5),
@@ -36,7 +47,7 @@ public enum AutonSelector {
     /**
      * Pick up 2 enemy trench, shoot 5
      */
-    FOUR(4, "4", new TimeAuto(
+    FOUR(6, "4", new TimedAuton(
             new SetIntakeCommand(true),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
@@ -46,7 +57,7 @@ public enum AutonSelector {
     /**
      * Pick up 2 enemy trench, shoot 5, pick up 3 from our trench, pick up 2 from generator, shoot all
      */
-    FIVE(5, "5", new TimeAuto(
+    FIVE(7, "5", new TimedAuton(
             new SetIntakeCommand(true),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
@@ -57,13 +68,13 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.Five.threeBallTrench),
             new RamseteTrackingCommand(Paths.Five.trenchToGenerator)
     )),
-    TESTS(254, "Tests", new TimeAuto(
+    TESTS(254, "Tests", new TimedAuton(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new TurnToAngle(90)
 //            new ResetPose(Paths.Two.intakeThreeBalls.getInitialPose()),
 //            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls, 0)
     )),
-    SCREWING_AROUND(420, "Lol", new TimeAuto(
+    SCREWING_AROUND(420, "Lol", new TimedAuton(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.ScrewingAround.infiniteLoop.getInitialPose()),
             new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop, 0)

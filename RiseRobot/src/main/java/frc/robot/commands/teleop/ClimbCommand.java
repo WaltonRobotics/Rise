@@ -6,8 +6,6 @@ import static frc.robot.OI.climberUnlockButton;
 import static frc.robot.OI.climberUpButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.Robot.climber;
-import static frc.robot.commands.teleop.ClimbCommand.ToggleState.DOWN;
-import static frc.robot.commands.teleop.ClimbCommand.ToggleState.UP;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -22,8 +20,8 @@ public class ClimbCommand extends CommandBase {
     addRequirements(climber);
 //    toggleState = previousToggleState = DOWN;
 
-    climberUpButton.whenPressed(UP::setSolenoidStates);
-    climberDownButton.whenPressed(DOWN::setSolenoidStates);
+    climberUpButton.whenPressed(() -> climber.setClimberDeploy(true));
+    climberDownButton.whenPressed(() -> climber.setClimberDeploy(false));
   }
 
   @Override
@@ -37,7 +35,7 @@ public class ClimbCommand extends CommandBase {
     // Only move when the motor when it is unlocked
 //    if (toggleState == UP) {
       if (climberUnlockButton.get()) {
-        climber.setClimberLock(true);
+        climber.setClimberLock(false);
 
         double extendCommand = gamepad.getLeftY();
 
@@ -47,26 +45,9 @@ public class ClimbCommand extends CommandBase {
           climber.setClimberMotorOutput(PercentOutput, HOLD_POWER);
         }
       } else {
-        climber.setClimberLock(false);
+        climber.setClimberLock(true);
         climber.setClimberMotorOutput(PercentOutput, 0);
       }
 //    }
-  }
-
-  public enum ToggleState {
-    // Will need to update the true/false values for the initialize methods when we see function
-    DOWN {
-      @Override
-      public void setSolenoidStates() {
-        climber.setClimberToggle(false);
-      }
-    }, UP {
-      @Override
-      public void setSolenoidStates() {
-        climber.setClimberToggle(true);
-      }
-    };
-
-    public abstract void setSolenoidStates();
   }
 }

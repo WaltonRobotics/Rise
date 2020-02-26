@@ -1,5 +1,6 @@
 package frc.robot.commands.auton;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -10,19 +11,12 @@ public class ShootAllBalls extends CommandBase {
 
     private Timer timer;
     private double totalTime;
-    private int rpm;
 
     public ShootAllBalls(double time) {
         timer = new Timer();
         totalTime = time;
-        rpm = -1;
     }
 
-    public ShootAllBalls(double time, int rpmFlyWheel) {
-        timer = new Timer();
-        totalTime = time;
-        rpm = rpmFlyWheel;
-    }
 
     @Override
     public void initialize() {
@@ -36,12 +30,6 @@ public class ShootAllBalls extends CommandBase {
 
     @Override
     public void execute() {
-//        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, rpm);
-//
-//        if(timer.get() > 0.35) {
-//            intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
-//            intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-//        }
     }
 
     @Override

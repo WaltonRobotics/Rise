@@ -83,11 +83,11 @@ public class TurretShooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-//    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
+    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
 //    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
 //    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
-    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
     SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
 //    SmartDashboard.putNumber("PID Slot")
 //    flywheelMaster.set(ControlMode.PercentOutput, 0.8);
@@ -102,7 +102,7 @@ public class TurretShooter extends SubsystemBase {
   }
 
   public double getFlywheelSpeed() {
-    return flywheelMaster.getSensorCollection().getIntegratedSensorVelocity();
+    return -flywheelMaster.getSensorCollection().getIntegratedSensorVelocity();
   }
 
   public double getClosedLoopErrorAverage() {
@@ -160,7 +160,6 @@ public class TurretShooter extends SubsystemBase {
       System.out.println(result.value);
       return result.value;
     } else {
-      System.out.println(0);
       return defaultShooterRPM;
     }
   }

@@ -1,29 +1,33 @@
 package frc.robot.commands.auton;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
-public class TurnAtAngle extends CommandBase {
+public class AlignToTarget extends CommandBase {
 
     private double targetAngle;
+    private PIDController turnController;
 
-    public TurnAtAngle(double targetAngle) {
+    public AlignToTarget(double targetAngle) {
         this.targetAngle = targetAngle;
+        turnController = new PIDController(0.00555, 0, 0); //TODO: Tune but goal is for 1 oscillation
+        turnController.setTolerance(1);
     }
 
     @Override
     public void initialize() {
-        currentRobot.getTurnPIDController().reset(new TrapezoidProfile.State(drivetrain.getHeading().getDegrees(), drivetrain.getAngularVelocity()));
+        turnController.reset();
     }
 
     @Override
     public void execute() {
-        double turnRate = -currentRobot.getTurnPIDController().calculate(drivetrain.getHeading().getDegrees(),
+        double turnRate = turnController.calculate(drivetrain.getHeading().getDegrees(),
                 drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
+
         System.out.println("turning rate" + turnRate);
         System.out.println("Target angle" + drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
         drivetrain.setDutyCycles(turnRate, -turnRate);

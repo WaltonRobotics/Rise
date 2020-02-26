@@ -4,6 +4,7 @@ import static frc.robot.Constants.CANBusIDs.CLIMBER_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_LOCK_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_TOGGLE_ID;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -22,12 +23,13 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     climberMotor.selectProfileSlot(0, 0);
+    climberMotor.setNeutralMode(NeutralMode.Coast);
     climberMotor.setInverted(false);
   }
 
-  public void setClimberToggle(boolean on) {
-    if (climberToggle.get() != on) {
-      climberToggle.set(on);
+  public void setClimberDeploy(boolean deployed) {
+    if (climberToggle.get() != deployed) {
+      climberToggle.set(deployed);
     }
   }
 

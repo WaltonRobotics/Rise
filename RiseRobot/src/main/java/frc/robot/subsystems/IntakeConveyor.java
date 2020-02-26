@@ -23,8 +23,8 @@ public class IntakeConveyor extends SubsystemBase {
   public static final double INTAKE_POWER = 1; // 0.75
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
-  public static final double BACK_CONVEYOR_POWER = 1;
-  public static final double PULSE_TIME = 0.45; // seconds  TODO adjust
+  public static final double BACK_CONVEYOR_POWER = 0.60;
+  public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
   public static final double RAMP_TIME = 0.45;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
@@ -63,6 +63,7 @@ public class IntakeConveyor extends SubsystemBase {
     // TODO use openLoopRamping for conveyor
     frontConveyorMotor.configOpenloopRamp(RAMP_TIME);
     backConveyorMotor.configOpenloopRamp(RAMP_TIME);
+
   }
 
   @Override
@@ -85,8 +86,8 @@ public class IntakeConveyor extends SubsystemBase {
     ballCount = Math.max(0, ballCount);
 
 //    setIntakeMotorOutput(INTAKE_POWER);
-//    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-//    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
     SmartDashboard.putNumber("Ball Count", ballCount);
   }
