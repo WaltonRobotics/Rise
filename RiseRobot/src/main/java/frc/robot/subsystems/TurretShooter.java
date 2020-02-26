@@ -63,9 +63,9 @@ public class TurretShooter extends SubsystemBase {
 //    flywheelMaster.config_IntegralZone(0, 150);
     flywheelMaster.config_kD(0, 0);
 
-    flywheelMaster.config_kF(1, 0.06); // 0.04842603550
-    flywheelMaster.config_kP(1, 0.015);
-    flywheelMaster.config_kD(1, 0);
+    flywheelMaster.config_kF(1, 0.057); // 0.04842603550
+    flywheelMaster.config_kP(1, 0.016);
+    flywheelMaster.config_kD(1, 0.001);
 
     // This is important
     flywheelMaster.configVoltageCompSaturation(10);
