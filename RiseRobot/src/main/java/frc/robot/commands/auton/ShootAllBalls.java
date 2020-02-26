@@ -1,15 +1,9 @@
 package frc.robot.commands.auton;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.LimelightHelper;
 
-import static frc.robot.Constants.Shooter.shooterTolerance;
-import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
-import static frc.robot.subsystems.IntakeConveyor.BACK_CONVEYOR_POWER;
-import static frc.robot.subsystems.IntakeConveyor.FRONT_CONVEYOR_POWER;
 
 
 public class ShootAllBalls extends CommandBase {
@@ -37,7 +31,7 @@ public class ShootAllBalls extends CommandBase {
 //        if(rpm != -1) {
 //            rpm = (int)turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceMeters());
 //        }
-        turretShooter.shouldShoot = true;
+        turretShooter.autoShouldShoot = true;
     }
 
     @Override
@@ -52,7 +46,7 @@ public class ShootAllBalls extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        turretShooter.shouldShoot = false;
+        turretShooter.autoShouldShoot = false;
     }
 
     @Override

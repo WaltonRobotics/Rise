@@ -4,6 +4,7 @@ import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.shootButton;
+import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -98,7 +99,7 @@ public class TurretShooterCommand extends CommandBase {
 //        if (shootButton.get() || barfButton.get()) {
 //          return SPINNING_UP;
 //        }
-        if (shootButton.get() || (Robot.isAuto && true)) { // TODO adjust the auto setting
+        if (shootButton.get() || (Robot.isAuto && turretShooter.autoShouldShoot)) {
           // If shooting, estimate the target speed
           targetSpeed = (int) turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceFeet());
           return SPINNING_UP;
