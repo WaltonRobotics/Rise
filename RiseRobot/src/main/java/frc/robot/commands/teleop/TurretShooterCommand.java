@@ -4,29 +4,24 @@ import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.barfButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.OI.shootButton;
-import static frc.robot.Robot.intakeConveyor;
 import static frc.robot.Robot.turretShooter;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeConveyor;
+import frc.robot.Robot;
 import frc.utils.LimelightHelper;
 
 public class TurretShooterCommand extends CommandBase {
 
   private static final double JOYSTICK_DEADBAND = 0.125;
   private static final int BARF_SPEED = 6000;
-  protected static int targetSpeed = 0;
-
   private static final int SPEED_ERROR_LIMIT = 100;
   private static final int SPEED_ERROR_DELTA_LIMIT = 75;
-
   private static final double SHOOTING_DELAY_TIME = 0.25;
   private static final int SHOOTING_ADDITIVE = 500;
-
+  protected static int targetSpeed = 0;
   private FlywheelState currentFlywheelState, previousFlywheelState;
   private TurretState currentTurretState;
 
@@ -40,45 +35,18 @@ public class TurretShooterCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double distanceToTarget = LimelightHelper.getDistanceMeters();
-
-    // TODO This command won't exist during auton yet
-    if (turretShooter.isAuto) {
-      if (turretShooter.isReadyToShoot) {
-        targetSpeed = (int)turretShooter.estimateTargetSpeed(distanceToTarget);
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed + SHOOTING_ADDITIVE);
-
-        if (turretShooter.getClosedLoopFlywheelError() > 0 && turretShooter.getClosedLoopFlywheelError() < SPEED_ERROR_LIMIT) {
-          intakeConveyor.setFrontConveyorMotorOutput(IntakeConveyor.FRONT_CONVEYOR_POWER);
-          intakeConveyor.setBackConveyorMotorOutput(IntakeConveyor.BACK_CONVEYOR_POWER);
-        }
-      }
+    if (previousFlywheelState != currentFlywheelState) {
+      currentFlywheelState.initialize();
     }
-    // If the flywheel state has changed, run the new state's initialize method
+    previousFlywheelState = currentFlywheelState;
 
-    else {
-      if (previousFlywheelState != currentFlywheelState) {
-        if (shootButton.get()) {
-          // If shooting, estimate the target speed
-          targetSpeed = (int) turretShooter.estimateTargetSpeed(distanceToTarget);
-        } else if (barfButton.get()) {
-          targetSpeed = BARF_SPEED;
-        } else {
-          targetSpeed = 0;
-        }
-        // Run the initialize method and update previousFlywheelState
-        currentFlywheelState.initialize();
-      }
-      previousFlywheelState = currentFlywheelState;
-
-      // Run the states' execute methods, and update the pointers, as necessary.
-      currentFlywheelState = currentFlywheelState.execute();
+    // Run the states' execute methods, and update the pointers, as necessary.
+    currentFlywheelState = currentFlywheelState.execute();
 //    currentTurretState = currentTurretState.execute();
 
-      SmartDashboard.putString("Flywheel State", currentFlywheelState.name());
+    SmartDashboard.putString("Flywheel State", currentFlywheelState.name());
 //      SmartDashboard.putString("Turret State", currentTurretState.name());
-      SmartDashboard.putNumber("Target Speed", targetSpeed);
-    }
+    SmartDashboard.putNumber("Target Speed", targetSpeed);
   }
 
 
@@ -122,11 +90,21 @@ public class TurretShooterCommand extends CommandBase {
     OFF {
       @Override
       public void initialize() {
+        targetSpeed = 0;
       }
 
       @Override
       public FlywheelState execute() {
-        if (shootButton.get() || barfButton.get()) {
+//        if (shootButton.get() || barfButton.get()) {
+//          return SPINNING_UP;
+//        }
+        if (shootButton.get() || (Robot.isAuto && true)) { // TODO adjust the auto setting
+          // If shooting, estimate the target speed
+          targetSpeed = (int) turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceFeet());
+          return SPINNING_UP;
+        }
+        if (barfButton.get()) {
+          targetSpeed = BARF_SPEED;
           return SPINNING_UP;
         }
         return this;
@@ -135,7 +113,8 @@ public class TurretShooterCommand extends CommandBase {
     SPINNING_UP {
       @Override
       public void initialize() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
+        turretShooter
+            .setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
         turretShooter.isReadyToShoot = false;
         turretShooter.switchProfileSlot(0);
 //        System.out.println("Spinning up, error: " + turretShooter.getClosedLoopFlywheelError());
@@ -143,7 +122,8 @@ public class TurretShooterCommand extends CommandBase {
 
       @Override
       public FlywheelState execute() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
+        turretShooter
+            .setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
 //        System.out.println("Spinning up " + turretShooter.getFlywheelSpeed());
         if (!(shootButton.get() || barfButton.get())) {
           return SPINNING_DOWN;
@@ -187,6 +167,7 @@ public class TurretShooterCommand extends CommandBase {
       public void initialize() {
         turretShooter.isReadyToShoot = false;
         turretShooter.switchProfileSlot(0);
+        targetSpeed = 0;
       }
 
       @Override

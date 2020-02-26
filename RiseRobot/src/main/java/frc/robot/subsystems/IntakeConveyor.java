@@ -24,8 +24,8 @@ public class IntakeConveyor extends SubsystemBase {
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
-  public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
-  public static final double RAMP_TIME = 0.4;
+  public static final double PULSE_TIME = 0.45; // seconds  TODO adjust
+  public static final double RAMP_TIME = 0.45;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
 //  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM

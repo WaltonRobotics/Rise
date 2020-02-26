@@ -43,6 +43,7 @@ public class Robot extends WaltTimedRobot {
   private static ShuffleboardTimer matchTimer;
 
   public static boolean isBlue = true;
+  public static boolean isAuto = true;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -70,6 +71,8 @@ public class Robot extends WaltTimedRobot {
     SmartDashboard.putBoolean(IS_BLUE, false);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
+    CommandScheduler.getInstance().schedule(new IntakeConveyorCommand());
+    CommandScheduler.getInstance().schedule(new TurretShooterCommand());
   }
 
   /**
@@ -114,6 +117,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void autonomousInit() {
+    isAuto = true;
     drivetrain.resetHardware();
     AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
         .schedule();
@@ -129,9 +133,7 @@ public class Robot extends WaltTimedRobot {
 
   @Override
   public void teleopInit() {
-
-    CommandScheduler.getInstance().schedule(new IntakeConveyorCommand());
-    CommandScheduler.getInstance().schedule(new TurretShooterCommand());
+    isAuto = false;
     drivetrain.resetHardware();
   }
 

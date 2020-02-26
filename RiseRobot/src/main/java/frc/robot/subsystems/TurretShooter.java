@@ -44,7 +44,7 @@ public class TurretShooter extends SubsystemBase {
 
   private MovingAverage closedLoopErrorAverage;
 
-  public boolean isAuto = false;
+  public boolean shouldShoot = false;
 
   public TurretShooter() {
 

@@ -33,25 +33,26 @@ public class ShootAllBalls extends CommandBase {
     @Override
     public void initialize() {
         timer.start();
-
-        if(rpm != -1) {
-            rpm = (int)turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceMeters());
-        }
+//
+//        if(rpm != -1) {
+//            rpm = (int)turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceMeters());
+//        }
+        turretShooter.shouldShoot = true;
     }
 
     @Override
     public void execute() {
-        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, rpm);
-
-        if(timer.get() > 0.35) {
-            intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
-            intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-        }
+//        turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, rpm);
+//
+//        if(timer.get() > 0.35) {
+//            intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+//            intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+//        }
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        turretShooter.shouldShoot = false;
     }
 
     @Override
