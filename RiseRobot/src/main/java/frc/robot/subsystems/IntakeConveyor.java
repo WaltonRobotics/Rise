@@ -60,11 +60,17 @@ public class IntakeConveyor extends SubsystemBase {
   @Override
   public void periodic() {
 
+    frontConveyorSensor.update();
+    backConveyorSensor.update();
+
+    frontConveyorSensorBool.set(!frontConveyorSensor.get());
+    backConveyorSensorBool.set(!backConveyorSensor.get());
+
     // Update front sensor ball identification
-    if(frontConveyorSensor.getSensorGetter().isRisingEdge()) {
+    if(frontConveyorSensorBool.isRisingEdge()) {
       ballCount++;
     }
-    if(backConveyorSensor.getSensorGetter().isFallingEdge()) {
+    if(backConveyorSensorBool.isFallingEdge()) {
       ballCount--;
     }
 
@@ -107,7 +113,7 @@ public class IntakeConveyor extends SubsystemBase {
 
   public boolean canPulse() {
     return ballCount < 3 &&
-        frontConveyorSensor.getSensorGetter().get();
+        frontConveyorSensorBool.get();
   }
 
 }
