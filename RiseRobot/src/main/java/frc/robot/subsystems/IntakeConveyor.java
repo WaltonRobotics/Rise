@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.EnhancedBoolean;
 import frc.utils.IRSensor;
 
 public class IntakeConveyor extends SubsystemBase {
@@ -36,7 +37,9 @@ public class IntakeConveyor extends SubsystemBase {
 //  private final DigitalInput backConveyorSensor = new DigitalInput(BACK_CONVEYOR_SENSOR_ID);
   private int ballCount;
   private final IRSensor frontConveyorSensor = new IRSensor(FRONT_CONVEYOR_SENSOR_ID);
+  private final EnhancedBoolean frontConveyorSensorBool = new EnhancedBoolean();
   private final IRSensor backConveyorSensor = new IRSensor(BACK_CONVEYOR_SENSOR_ID);
+  private final EnhancedBoolean backConveyorSensorBool = new EnhancedBoolean();
 
   public boolean isAuto;
 
