@@ -14,19 +14,25 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.utils.EnhancedBoolean;
 import frc.utils.IRSensor;
 
 public class IntakeConveyor extends SubsystemBase {
 
   public static final double INTAKE_POWER = 1; // 0.75
+  public static final double SPIN_BACK_POWER = -0.4;
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_POWER = 0.60;
   public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
   public static final double RAMP_TIME = 0.45;
+  public static final double INTAKE_ACTUATION_TIME = 0.2;
 
   private final VictorSPX intakeMotor = new VictorSPX(INTAKE_ID);
 //  private final VictorSPX centeringMotors = new VictorSPX(CENTERING_ID);  // May end up being PWM
@@ -43,7 +49,10 @@ public class IntakeConveyor extends SubsystemBase {
   private final IRSensor backConveyorSensor = new IRSensor(BACK_CONVEYOR_SENSOR_ID);
   private final EnhancedBoolean backConveyorSensorBool = new EnhancedBoolean();
 
+  private final EnhancedBoolean toggleBool = new EnhancedBoolean();
+
   public boolean autoShouldIntake = false;
+  public boolean spinBack = false;
 
   public IntakeConveyor() {
     intakeMotor.setInverted(false);
@@ -75,6 +84,17 @@ public class IntakeConveyor extends SubsystemBase {
 
     frontConveyorSensorBool.set(!frontConveyorSensor.get());
     backConveyorSensorBool.set(!backConveyorSensor.get());
+
+    toggleBool.set(intakeToggle.get());
+    if(toggleBool.isRisingEdge()) {
+      CommandScheduler.getInstance().schedule(
+          new SequentialCommandGroup(
+              new WaitCommand(INTAKE_ACTUATION_TIME),
+              new InstantCommand(() -> spinBack = true)));
+    }
+    if(toggleBool.isFallingEdge()) {
+      spinBack = false;
+    }
 
     // Update front sensor ball identification
     if(frontConveyorSensorBool.isRisingEdge()) {

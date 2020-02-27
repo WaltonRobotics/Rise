@@ -41,7 +41,11 @@ public class IntakeConveyorCommand extends CommandBase {
         // Timer stops resetting only when it enters a pulsing state
         pulseStart = getFPGATimestamp();
 
-        intakeConveyor.setIntakeMotorOutput(0);
+        if(intakeConveyor.spinBack) {
+          intakeConveyor.setIntakeMotorOutput(SPIN_BACK_POWER);
+        } else {
+          intakeConveyor.setIntakeMotorOutput(0);
+        }
 //        intakeConveyor.setCenteringMotorsOutput(0);
         if(!overrideFrontConveyorButton.get()) {
           intakeConveyor.setFrontConveyorMotorOutput(0);
@@ -75,6 +79,12 @@ public class IntakeConveyorCommand extends CommandBase {
       public State execute() {
         pulseStart = getFPGATimestamp();
 
+        if(intakeConveyor.spinBack) {
+          intakeConveyor.setIntakeMotorOutput(SPIN_BACK_POWER);
+        } else {
+          intakeConveyor.setIntakeMotorOutput(0);
+        }
+
         intakeConveyor.setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
         intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
 
@@ -94,6 +104,14 @@ public class IntakeConveyorCommand extends CommandBase {
     }, PULSING {
       @Override
       public State execute() {
+
+        if(intakeConveyor.spinBack) {
+          intakeConveyor.setIntakeMotorOutput(SPIN_BACK_POWER);
+        } else {
+          intakeConveyor.setIntakeMotorOutput(0);
+        }
+        intakeConveyor.setFrontConveyorMotorOutput(0);
+
         intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
 
         return determineState();
