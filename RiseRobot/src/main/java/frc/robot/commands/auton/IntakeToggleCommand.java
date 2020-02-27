@@ -6,10 +6,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import static frc.robot.Robot.intakeConveyor;
 
-public class SetIntakeCommand extends SequentialCommandGroup {
+public class IntakeToggleCommand extends SequentialCommandGroup {
 
-    public SetIntakeCommand(boolean deployed) {
+    public IntakeToggleCommand(boolean deployed, double wait) {
         addCommands(new InstantCommand(() -> intakeConveyor.setIntakeToggle(deployed)));
+        addCommands(new WaitCommand(wait));
     }
 
 }

@@ -8,6 +8,7 @@ import static frc.robot.subsystems.IntakeConveyor.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 
 public class IntakeConveyorCommand extends CommandBase {
 
@@ -115,7 +116,7 @@ public class IntakeConveyorCommand extends CommandBase {
     };
 
     protected State determineState() {
-      if(intakeButton.get()) {
+      if(intakeButton.get() || (Robot.isAuto && intakeConveyor.autoShouldIntake)) {
         if(turretShooter.isReadyToShoot) {
           return IN_AND_OUT;
         }

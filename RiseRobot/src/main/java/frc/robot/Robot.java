@@ -4,14 +4,11 @@ import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.auton.SetIntakeCommand;
-import frc.robot.commands.teleop.ClimbCommand;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
 import frc.robot.commands.teleop.TurretShooterCommand;
@@ -67,11 +64,11 @@ public class Robot extends WaltTimedRobot {
     matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
         "0x0024D6", "0x000b40");
 
-    SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
     SmartDashboard.putBoolean(IS_BLUE, false);
+    SmartDashboard.putNumber(AUTON_SELECT_ID, 3);
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
-//    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
-//    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
+    CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
+    CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
   }
 
@@ -84,6 +81,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber(AUTON_SELECT_ID, SmartDashboard.getNumber(AUTON_SELECT_ID, 5));
     CommandScheduler.getInstance().run();
     if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
       isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
@@ -118,6 +116,7 @@ public class Robot extends WaltTimedRobot {
   @Override
   public void autonomousInit() {
     isAuto = true;
+    turretShooter.autoShouldShoot = false;
     drivetrain.resetHardware();
     AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
         .schedule();

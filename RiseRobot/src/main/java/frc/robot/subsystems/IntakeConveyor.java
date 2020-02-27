@@ -42,7 +42,7 @@ public class IntakeConveyor extends SubsystemBase {
   private final IRSensor backConveyorSensor = new IRSensor(BACK_CONVEYOR_SENSOR_ID);
   private final EnhancedBoolean backConveyorSensorBool = new EnhancedBoolean();
 
-  public boolean isAuto;
+  public boolean autoShouldIntake = false;
 
   public IntakeConveyor() {
     intakeMotor.setInverted(false);
@@ -86,8 +86,8 @@ public class IntakeConveyor extends SubsystemBase {
     ballCount = Math.max(0, ballCount);
 
 //    setIntakeMotorOutput(INTAKE_POWER);
-    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+//    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+//    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
     SmartDashboard.putNumber("Ball Count", ballCount);
   }

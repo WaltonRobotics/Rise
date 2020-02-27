@@ -1,6 +1,7 @@
 package frc.utils;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Paths;
@@ -32,23 +33,25 @@ public enum AutonSelector {
     /**
      * shoot 3, pick up 3 in trench, pick up 2 in generator, align
      */
-    TWO_A(5, "2A", new TimedAuton(
-//            new ShootAllBalls(1, 16500),
+    TWO_A(5, "5", new TimedAuton(
+//            new ShootAllBalls(5),
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new TurnToAngle(-90).withTimeout(2.5),
+            new ShootAllBalls(6),
+            new TurnToAngle(-130).withTimeout(2.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup),
-            new RamseteTrackingCommand(Paths.Two.intakeThreeBalls),
-            new RamseteTrackingCommand(Paths.Two.trenchBackup),
-            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
-            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
+            new IntakeToggleCommand(true, 3),
+            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.intakeThreeBalls), new EnableIntakeCommand())
+//            new RamseteTrackingCommand(Paths.Two.trenchBackup),
+//            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
+//            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
     )),
     /**
      * Pick up 2 enemy trench, shoot 5
      */
     FOUR(6, "4", new TimedAuton(
-            new SetIntakeCommand(true),
+            new IntakeToggleCommand(true, 3),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Four.intakeTwo),
@@ -58,7 +61,7 @@ public enum AutonSelector {
      * Pick up 2 enemy trench, shoot 5, pick up 3 from our trench, pick up 2 from generator, shoot all
      */
     FIVE(7, "5", new TimedAuton(
-            new SetIntakeCommand(true),
+            new IntakeToggleCommand(true, 3),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
             new RamseteTrackingCommand(Paths.Five.intakeTwo),

@@ -17,7 +17,7 @@ import frc.utils.LimelightHelper;
 public class TurretShooterCommand extends CommandBase {
 
   private static final double JOYSTICK_DEADBAND = 0.125;
-  private static final int BARF_SPEED = 17000;
+  private static final int BARF_SPEED = 6000;
   private static final int SPEED_ERROR_LIMIT = 200;
   private static final int SPEED_ERROR_DELTA_LIMIT = 75;
   private static final double SHOOTING_DELAY_TIME = 0.25;
@@ -126,7 +126,8 @@ public class TurretShooterCommand extends CommandBase {
         turretShooter
             .setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed/* + SHOOTING_ADDITIVE*/);
 //        System.out.println("Spinning up " + turretShooter.getFlywheelSpeed());
-        if (!(shootButton.get() || barfButton.get()) || (Robot.isAuto && !turretShooter.autoShouldShoot)) {
+        if ((!Robot.isAuto && !(shootButton.get() || barfButton.get())) ||
+                (Robot.isAuto && !turretShooter.autoShouldShoot)) {
           return SPINNING_DOWN;
         }
         if (Math.abs(turretShooter.getClosedLoopFlywheelError()) < SPEED_ERROR_LIMIT) {
@@ -153,7 +154,8 @@ public class TurretShooterCommand extends CommandBase {
 //        intakeConveyor.resetBallCount();
 //        SmartDashboard.putNumber("Delay Time", getFPGATimestamp() - delayStart);
         turretShooter.setFlywheelOutput(TalonFXControlMode.Velocity, targetSpeed);
-        if (!(shootButton.get() || barfButton.get()) || (Robot.isAuto && !turretShooter.autoShouldShoot)) {
+        if ((!Robot.isAuto && !(shootButton.get() || barfButton.get())) ||
+                (Robot.isAuto && !turretShooter.autoShouldShoot)) {
           return SPINNING_DOWN;
         }
         if (turretShooter.getClosedLoopFlywheelError() >= 0 &&
