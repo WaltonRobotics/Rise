@@ -130,7 +130,8 @@ public class TurretShooterCommand extends CommandBase {
                 (Robot.isAuto && !turretShooter.autoShouldShoot)) {
           return SPINNING_DOWN;
         }
-        if (Math.abs(turretShooter.getClosedLoopFlywheelError()) < SPEED_ERROR_LIMIT) {
+        if (turretShooter.getClosedLoopFlywheelError() < 0 ||
+                Math.abs(turretShooter.getClosedLoopFlywheelError()) < SPEED_ERROR_LIMIT) {
           return SHOOTING;
         }
         return this;
@@ -176,7 +177,13 @@ public class TurretShooterCommand extends CommandBase {
       @Override
       public FlywheelState execute() {
         turretShooter.setFlywheelOutput(TalonFXControlMode.PercentOutput, 0);
-        if (shootButton.get() || barfButton.get()) {
+        if (shootButton.get() || (Robot.isAuto && turretShooter.autoShouldShoot)) {
+          // If shooting, estimate the target speed
+          targetSpeed = (int) turretShooter.estimateTargetSpeed(LimelightHelper.getDistanceFeet());
+          return SPINNING_UP;
+        }
+        if (barfButton.get()) {
+          targetSpeed = BARF_SPEED;
           return SPINNING_UP;
         }
         if (Math.abs(turretShooter.getFlywheelSpeed()) < SPEED_ERROR_LIMIT) {

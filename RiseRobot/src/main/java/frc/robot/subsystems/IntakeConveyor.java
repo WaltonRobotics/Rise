@@ -30,7 +30,7 @@ public class IntakeConveyor extends SubsystemBase {
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_POWER = 0.60;
-  public static final double PULSE_TIME = 0.33; // seconds  TODO adjust
+  public static final double PULSE_TIME = 0.3; // seconds  TODO adjust
   public static final double RAMP_TIME = 0.45;
   public static final double INTAKE_ACTUATION_TIME = 0.2;
 

@@ -48,7 +48,7 @@ public class TurretShooter extends SubsystemBase {
 
   public TurretShooter() {
 
-    flywheelMaster.selectProfileSlot(1, 0);
+    flywheelMaster.selectProfileSlot(0, 0);
 
     flywheelMaster.setNeutralMode(NeutralMode.Coast);
     flywheelSlave.setNeutralMode(NeutralMode.Coast);
@@ -57,15 +57,15 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.setInverted(false);
     flywheelSlave.follow(flywheelMaster);
 
-    flywheelMaster.config_kF(0, 0.05975); //0.0452
-    flywheelMaster.config_kP(0, 0);
+    flywheelMaster.config_kF(0, 0.06); //0.0452
+    flywheelMaster.config_kP(0, 0.0);
 //    flywheelMaster.config_kI(0, 0.000);
 //    flywheelMaster.config_IntegralZone(0, 150);
     flywheelMaster.config_kD(0, 0);
 
-    flywheelMaster.config_kF(1, 0.057); // 0.04842603550
-    flywheelMaster.config_kP(1, 0.016);
-    flywheelMaster.config_kD(1, 0.001);
+    flywheelMaster.config_kF(1, 0.06); // 0.04842603550
+    flywheelMaster.config_kP(1, 0.01);
+    flywheelMaster.config_kD(1, 0.000);
 
     // This is important
     flywheelMaster.configVoltageCompSaturation(10);
