@@ -3,6 +3,7 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
@@ -12,9 +13,10 @@ public class AlignToTarget extends CommandBase {
     private double targetAngle;
     private PIDController turnController;
 
-    public AlignToTarget(double targetAngle) {
-        this.targetAngle = targetAngle;
-        turnController = new PIDController(0.00555, 0, 0); //TODO: Tune but goal is for 1 oscillation
+    public AlignToTarget(DoubleSupplier targetAngleSupplier) {
+        addRequirements(drivetrain);
+        this.targetAngle = targetAngleSupplier.getAsDouble();
+        turnController = new PIDController(0.05, 0, 0); //TODO: Tune but goal is for 1 oscillation
         turnController.setTolerance(1);
     }
 

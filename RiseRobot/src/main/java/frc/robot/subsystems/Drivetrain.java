@@ -38,8 +38,6 @@ public class Drivetrain extends SubsystemBase {
     public Drivetrain() {
         motorSetUp();
         resetHardware();
-
-        turnToTargetButton.whenPressed(new AlignToTarget(LimelightHelper.getTX()).withTimeout(1.5));
     }
 
     @Override

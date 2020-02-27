@@ -24,7 +24,7 @@ import frc.utils.IRSensor;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  public static final double INTAKE_POWER = 1; // 0.75
+  public static final double INTAKE_POWER = 0.875; // 0.75   // 1
   public static final double SPIN_BACK_POWER = -0.4;
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
@@ -62,6 +62,7 @@ public class IntakeConveyor extends SubsystemBase {
 
     overrideFrontConveyorButton.whenPressed(() -> setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER));
     overrideBackConveyorButton.whenPressed(() -> setBackConveyorMotorOutput(BACK_CONVEYOR_POWER));
+    outtakeButton.whenPressed(() -> setIntakeMotorOutput(SPIN_BACK_POWER));
 //    overrideIntakeButton.whenPressed(() -> setIntakeMotorOutput(INTAKE_POWER));
 //    overrideCenteringButton.whenPressed(() -> setCenteringMotorsOutput(CENTERING_POWER));
 
@@ -142,7 +143,7 @@ public class IntakeConveyor extends SubsystemBase {
   }
 
   public boolean canPulse() {
-    return ballCount < 3 &&
+    return ballCount < 4 &&
         frontConveyorSensorBool.get();
   }
 

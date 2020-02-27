@@ -95,6 +95,7 @@ public final class Constants {
         public static final String INTAKE_UP_KEY = "Intake Up";
         public static final String INTAKE_DOWN_KEY = "Intake Down";
         public static final String INTAKE_ON_KEY = "Intake";
+        public static final String INTAKE_REVERSE_KEY = "Reverse Intake";
         public static final String SHOOT_KEY = "Shoot";
         public static final String BARF_KEY = "Slow outtake";
         public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
@@ -115,6 +116,7 @@ public final class Constants {
                 {INTAKE_UP_KEY, new int[]{GAMEPAD_PORT, POV_N}},
                 {INTAKE_DOWN_KEY, new int[]{GAMEPAD_PORT, POV_S}},
                 {INTAKE_ON_KEY, new int[]{GAMEPAD_PORT, 7}},                // Left Trigger
+                {INTAKE_REVERSE_KEY, new int[]{GAMEPAD_PORT, 5}},           // Left Bumper
                 {SHOOT_KEY, new int[]{GAMEPAD_PORT, 8}},                    // Right Trigger
                 {BARF_KEY, new int[]{GAMEPAD_PORT, 6}},                     // Right Bumper 
                 {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},        // XBox Y, PS Triangle

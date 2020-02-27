@@ -159,10 +159,10 @@ public class TurretShooterCommand extends CommandBase {
                 (Robot.isAuto && !turretShooter.autoShouldShoot)) {
           return SPINNING_DOWN;
         }
-        if (turretShooter.getClosedLoopFlywheelError() >= 0 &&
-            Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT) {
-          return SPINNING_UP;
-        }
+//        if (turretShooter.getClosedLoopFlywheelError() >= 0 &&
+//            Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT) {
+//          return SPINNING_UP;
+//        }
         return this;
       }
     },

@@ -3,12 +3,14 @@ package frc.robot;
 import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
+import static frc.robot.OI.turnToTargetButton;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auton.AlignToTarget;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
 import frc.robot.commands.teleop.TurretShooterCommand;
@@ -70,6 +72,8 @@ public class Robot extends WaltTimedRobot {
     CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
     CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
+
+//    turnToTargetButton.whenPressed(new AlignToTarget(LimelightHelper::getTX).withTimeout(1.5));
   }
 
   /**

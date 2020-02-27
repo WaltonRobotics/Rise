@@ -42,7 +42,7 @@ public enum AutonSelector {
             new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.goShoot), new EnableIntakeCommand()),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new TurnToAngle(138).withTimeout(2.5),
-            new AlignToTarget(LimelightHelper.getTX()).withTimeout(1.5),
+            new AlignToTarget(LimelightHelper::getTX).withTimeout(1.5),
             new ShootAllBalls(4)
 //            new RamseteTrackingCommand(Paths.Two.trenchBackup),
 //            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),

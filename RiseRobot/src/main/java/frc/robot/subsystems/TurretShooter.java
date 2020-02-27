@@ -50,8 +50,8 @@ public class TurretShooter extends SubsystemBase {
 
     flywheelMaster.selectProfileSlot(0, 0);
 
-    flywheelMaster.setNeutralMode(NeutralMode.Coast);
-    flywheelSlave.setNeutralMode(NeutralMode.Coast);
+    flywheelMaster.setNeutralMode(NeutralMode.Brake);
+    flywheelSlave.setNeutralMode(NeutralMode.Brake);
 
     flywheelMaster.setInverted(true);
     flywheelSlave.setInverted(false);

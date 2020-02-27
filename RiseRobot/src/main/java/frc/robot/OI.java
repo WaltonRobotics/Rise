@@ -34,6 +34,8 @@ public class OI {
       buttonMap.getButtonIndex(INTAKE_DOWN_KEY));
   public static EnhancedJoystickButton intakeButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(INTAKE_ON_KEY));
+  public static EnhancedJoystickButton outtakeButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(INTAKE_REVERSE_KEY));
   public static EnhancedJoystickButton shootButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(SHOOT_KEY));
   public static EnhancedJoystickButton barfButton = new EnhancedJoystickButton(
