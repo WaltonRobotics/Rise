@@ -57,10 +57,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void motorSetUp() {
-        leftWheelsMaster.restoreFactoryDefaults();
-        leftWheelsSlave.restoreFactoryDefaults();
-        rightWheelsMaster.restoreFactoryDefaults();
-        rightWheelsSlave.restoreFactoryDefaults();
+//        leftWheelsMaster.restoreFactoryDefaults();
+//        leftWheelsSlave.restoreFactoryDefaults();
+//        rightWheelsMaster.restoreFactoryDefaults();
+//        rightWheelsSlave.restoreFactoryDefaults();
 
         leftWheelsMaster.setInverted(true);
 
@@ -95,6 +95,11 @@ public class Drivetrain extends SubsystemBase {
         rightWheelsMaster.getPIDController().setP(currentRobot.getRightPIDController().getP(), 0);
         rightWheelsMaster.getPIDController().setI(currentRobot.getRightPIDController().getI(), 0);
         rightWheelsMaster.getPIDController().setD(currentRobot.getRightPIDController().getD(), 0);
+
+//        leftWheelsMaster.burnFlash();
+//        leftWheelsSlave.burnFlash();
+//        rightWheelsSlave.burnFlash();
+//        rightWheelsMaster.burnFlash();
 
     }
 
