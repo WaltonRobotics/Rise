@@ -94,7 +94,7 @@ public class IntakeConveyorCommand extends CommandBase {
     }, PULSING {
       @Override
       public State execute() {
-        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+        intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
 
         return determineState();
       }
@@ -109,7 +109,7 @@ public class IntakeConveyorCommand extends CommandBase {
           intakeConveyor.setFrontConveyorMotorOutput(0);
         }
 
-        intakeConveyor.setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+        intakeConveyor.setBackConveyorMotorOutput(PULSE_POWER);
 
         return determineState();
       }

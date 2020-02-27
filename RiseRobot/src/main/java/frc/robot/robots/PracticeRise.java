@@ -122,11 +122,13 @@ public class PracticeRise implements WaltRobot {
 
     @Override
     public void populateShooterLUT() {
-        shooterCalibrationMap.put(new InterpolatingDouble(9.96), new InterpolatingDouble(16800.0));
-        shooterCalibrationMap.put(new InterpolatingDouble(12.718), new InterpolatingDouble(16500.0));
-        shooterCalibrationMap.put(new InterpolatingDouble(15.2), new InterpolatingDouble(16400.0));
-        shooterCalibrationMap.put(new InterpolatingDouble(17.04), new InterpolatingDouble(16800.0));
-        shooterCalibrationMap.put(new InterpolatingDouble(19.9), new InterpolatingDouble(17700.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(10.05), new InterpolatingDouble(14100.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(12.75), new InterpolatingDouble(13800.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(15.35), new InterpolatingDouble(13900.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(17.16), new InterpolatingDouble(14400.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(20.07), new InterpolatingDouble(14850.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(7.292000000000001), new InterpolatingDouble(18000.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(22.3), new InterpolatingDouble(15750.0));
     }
 
     @Override
