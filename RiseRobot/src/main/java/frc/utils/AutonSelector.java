@@ -1,9 +1,6 @@
 package frc.utils;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 import frc.robot.commands.auton.*;
 
@@ -31,18 +28,22 @@ public enum AutonSelector {
             new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
     /**
-     * shoot 3, pick up 3 in trench, pick up 2 in generator, align
+     * shoot 3, pick up 3 in trench, shoot 3
      */
     TWO_A(5, "5", new TimedAuton(
 //            new ShootAllBalls(5),
             new InstantCommand(() -> drivetrain.resetHardware()),
-            new ShootAllBalls(6),
-            new TurnToAngle(-130).withTimeout(2.5),
+            new ParallelCommandGroup(new ShootAllBalls(4), new IntakeToggleCommand(true, 0.5)),
+            new TurnToAngle(-130).withTimeout(1.5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
-            new RamseteTrackingCommand(Paths.Two.trenchPickup),
-            new IntakeToggleCommand(true, 3),
-            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.intakeThreeBalls), new EnableIntakeCommand())
+            new RamseteTrackingCommand(Paths.Two.trenchPickup).andThen(() -> drivetrain.setVoltages(0, 0)),
+            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.intakeThreeBalls), new EnableIntakeCommand()),
+            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.goShoot), new EnableIntakeCommand()),
+            new InstantCommand(() -> drivetrain.resetHardware()),
+            new TurnToAngle(138).withTimeout(2.5),
+            new AlignToTarget(LimelightHelper.getTX()).withTimeout(1.5),
+            new ShootAllBalls(4)
 //            new RamseteTrackingCommand(Paths.Two.trenchBackup),
 //            new RamseteTrackingCommand(Paths.Two.generatorPickupTwoBalls),
 //            new RamseteTrackingCommand(Paths.Two.generatorBackupToShoot)
