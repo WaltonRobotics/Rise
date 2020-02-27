@@ -49,7 +49,7 @@ public class IntakeConveyor extends SubsystemBase {
   private final IRSensor backConveyorSensor = new IRSensor(BACK_CONVEYOR_SENSOR_ID);
   private final EnhancedBoolean backConveyorSensorBool = new EnhancedBoolean();
 
-  private final EnhancedBoolean toggleBool = new EnhancedBoolean();
+//  private final EnhancedBoolean toggleBool = new EnhancedBoolean();
 
   public boolean autoShouldIntake = false;
   public boolean spinBack = false;
@@ -85,16 +85,16 @@ public class IntakeConveyor extends SubsystemBase {
     frontConveyorSensorBool.set(!frontConveyorSensor.get());
     backConveyorSensorBool.set(!backConveyorSensor.get());
 
-    toggleBool.set(intakeToggle.get());
-    if(toggleBool.isRisingEdge()) {
-      CommandScheduler.getInstance().schedule(
-          new SequentialCommandGroup(
-              new WaitCommand(INTAKE_ACTUATION_TIME),
-              new InstantCommand(() -> spinBack = true)));
-    }
-    if(toggleBool.isFallingEdge()) {
-      spinBack = false;
-    }
+//    toggleBool.set(intakeToggle.get());
+//    if(toggleBool.isRisingEdge()) {
+//      CommandScheduler.getInstance().schedule(
+//          new SequentialCommandGroup(
+//              new WaitCommand(INTAKE_ACTUATION_TIME),
+//              new InstantCommand(() -> spinBack = true)));
+//    }
+//    if(toggleBool.isFallingEdge()) {
+//      spinBack = false;
+//    }
 
     // Update front sensor ball identification
     if(frontConveyorSensorBool.isRisingEdge()) {
