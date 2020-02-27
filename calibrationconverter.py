@@ -27,7 +27,7 @@ def main(argv):
         sys.exit(2)
 		
     with open(inputfile) as csvfile:
-        reader = pandas.read_csv(csvfile, header=0, names=['distance', 'speed'])
+        reader = pandas.read_csv(csvfile, header=0, names=['distance', 'speed', 'real distance'])
         with open(outputfile, 'w') as output:        
             for row in reader.itertuples(index=False, name='CalibrationPoint'):
                 output.writelines(to_java_string(row))
