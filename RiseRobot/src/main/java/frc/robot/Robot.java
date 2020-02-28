@@ -73,7 +73,7 @@ public class Robot extends WaltTimedRobot {
     CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
 
-//    turnToTargetButton.whenPressed(new AlignToTarget(LimelightHelper::getTX).withTimeout(1.5));
+    turnToTargetButton.whenPressed(new AlignToTarget(LimelightHelper::getTX).withTimeout(1.5));
   }
 
   /**

@@ -108,8 +108,8 @@ public class IntakeConveyor extends SubsystemBase {
     ballCount = Math.max(0, ballCount);
 
 //    setIntakeMotorOutput(INTAKE_POWER);
-//    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
-//    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
+    setBackConveyorMotorOutput(BACK_CONVEYOR_POWER);
+    setFrontConveyorMotorOutput(FRONT_CONVEYOR_POWER);
 
     SmartDashboard.putNumber("Ball Count", ballCount);
   }

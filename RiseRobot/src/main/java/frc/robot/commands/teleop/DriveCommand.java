@@ -32,15 +32,15 @@ public class DriveCommand extends CommandBase {
     public void execute() {
         // (Joysticks inverted because limelight is facing backwards)
 
-        if(turnToTargetButton.get()) {
-            double steerCmd = LimelightHelper.getTX() * 0.05;
-            drivetrain.setArcadeSpeeds(0 , steerCmd);
-            System.out.println(steerCmd);
-        }
-//
-        else {
+//        if(turnToTargetButton.get()) {
+//            double steerCmd = LimelightHelper.getTX() * 0.05;
+//            drivetrain.setArcadeSpeeds(0 , steerCmd);
+//            System.out.println(steerCmd);
+//        }
+////
+//        else {
             drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
-        }
+//        }
     }
 
     @Override

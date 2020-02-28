@@ -9,8 +9,8 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class PracticeRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(2.3, 0, 0);
-    private final PIDController rightPIDController = new PIDController(2.3, 0, 0);
+    private final PIDController leftPIDController = new PIDController(2.34, 0, 0);
+    private final PIDController rightPIDController = new PIDController(2.34, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04,0); //0.487
 

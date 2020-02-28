@@ -48,22 +48,22 @@ public class TurretShooter extends SubsystemBase {
 
   public TurretShooter() {
 
-    flywheelMaster.selectProfileSlot(0, 0);
+    flywheelMaster.selectProfileSlot(1, 0);
 
     flywheelMaster.setNeutralMode(NeutralMode.Brake);
     flywheelSlave.setNeutralMode(NeutralMode.Brake);
 
     flywheelMaster.setInverted(true);
     flywheelSlave.setInverted(false);
-    flywheelSlave.follow(flywheelMaster);
+//    flywheelSlave.follow(flywheelMaster);
 
     flywheelMaster.config_kF(0, 0.06); //0.0452
-    flywheelMaster.config_kP(0, 0.0);
+    flywheelMaster.config_kP(0, 0.01);
 //    flywheelMaster.config_kI(0, 0.000);
 //    flywheelMaster.config_IntegralZone(0, 150);
     flywheelMaster.config_kD(0, 0);
 
-    flywheelMaster.config_kF(1, 0.06); // 0.04842603550
+    flywheelMaster.config_kF(1, 0.0593); // 0.04842603550
     flywheelMaster.config_kP(1, 0.01);
     flywheelMaster.config_kD(1, 0.000);
 
@@ -84,6 +84,8 @@ public class TurretShooter extends SubsystemBase {
   @Override
   public void periodic() {
 //    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
+//    setFlywheelOutput(TalonFXControlMode.Velocity, 16500);
+//    setFlywheelOutput(TalonFXControlMode.PercentOutput, 0.8);
 //    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
 //    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
@@ -99,6 +101,8 @@ public class TurretShooter extends SubsystemBase {
 
   public void setFlywheelOutput(TalonFXControlMode controlMode, double output) {
     flywheelMaster.set(controlMode, output);
+    flywheelSlave.set(TalonFXControlMode.Follower, SHOOTER_FLYWHEEL_MASTER_ID);
+//    flywheelSlave.set(controlMode, output);
   }
 
   public double getFlywheelSpeed() {

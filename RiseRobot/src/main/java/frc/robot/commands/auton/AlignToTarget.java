@@ -10,7 +10,7 @@ import static frc.robot.Robot.drivetrain;
 
 public class AlignToTarget extends CommandBase {
 
-    private double targetAngle;
+    private double targetAngle, setPoint;
     private PIDController turnController;
 
     public AlignToTarget(DoubleSupplier targetAngleSupplier) {
@@ -18,6 +18,7 @@ public class AlignToTarget extends CommandBase {
         this.targetAngle = targetAngleSupplier.getAsDouble();
         turnController = new PIDController(0.05, 0, 0); //TODO: Tune but goal is for 1 oscillation
         turnController.setTolerance(1);
+        setPoint = drivetrain.getHeading().getDegrees() + targetAngle;
     }
 
     @Override
@@ -27,8 +28,7 @@ public class AlignToTarget extends CommandBase {
 
     @Override
     public void execute() {
-        double turnRate = turnController.calculate(drivetrain.getHeading().getDegrees(),
-                drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
+        double turnRate = turnController.calculate(drivetrain.getHeading().getDegrees(), setPoint);
 
         System.out.println("turning rate" + turnRate);
         System.out.println("Target angle" + drivetrain.getHeading().plus(Rotation2d.fromDegrees(targetAngle)).getDegrees());
