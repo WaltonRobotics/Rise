@@ -8,7 +8,7 @@ import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
 
 public class TurnToAngle extends CommandBase {
-    private double targetAngle;
+    protected double targetAngle;
     private int atTargetCount;
 
     public TurnToAngle(double targetAngle) {
