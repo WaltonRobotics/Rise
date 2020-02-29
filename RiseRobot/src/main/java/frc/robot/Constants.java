@@ -67,6 +67,8 @@ public final class Constants {
 
         public static final int FRONT_CONVEYOR_SENSOR_ID = 4;
         public static final int BACK_CONVEYOR_SENSOR_ID = 5;
+        public static final int LED1_ID = 6;
+        public static final int LED2_ID = 7;
 
     }
 
