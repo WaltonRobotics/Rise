@@ -74,43 +74,60 @@ public class Paths {
 
     public static class Two {
 
-        public static Trajectory trenchPickup = generateTwoTrenchPickup();
-        public static Trajectory intakeThreeBalls = generateTwoIntakeThreeBalls();
+//        public static Trajectory trenchPickup = generateTwoTrenchPickup();
+//        public static Trajectory intakeThreeBalls = generateTwoIntakeThreeBalls();
         public static Trajectory backUpToShootTrench = generateTwoBackUpShoot();
         public static Trajectory goShoot = generateTwoGoShoot();
+        public static Trajectory trenchAndIntake = generateTwoTrenchAndIntake();
 //        public static Trajectory trenchBackup = generateTwoTrenchBackup();
 //        public static Trajectory generatorPickupTwoBalls = generateTwoGeneratorPickupTwoBalls();
 //        public static Trajectory generatorBackupToShoot = generateTwoGeneratorBackupToShoot();
 
-        public static Trajectory generateTwoTrenchPickup() {
+//        public static Trajectory generateTwoTrenchPickup() {
+//            TrajectoryConfig config = new TrajectoryConfig(
+//                    Units.feetToMeters(12.75), Units.feetToMeters(6));
+//            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+//            config.addConstraint(new CentripetalAccelerationConstraint(3.25));
+//            config.setKinematics(drivetrain.getDriveKinematics());
+//            config.setStartVelocity(0);
+//            config.setEndVelocity(4);
+//
+//            return TrajectoryGenerator.generateTrajectory(
+//                    Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(50)),
+//                            new Pose2d(Units.feetToMeters(17.529), Units.feetToMeters(24.576), Rotation2d.fromDegrees(0.0))),
+//                    config
+//            );
+//        }
+
+//        public static Trajectory generateTwoIntakeThreeBalls() {
+//            TrajectoryConfig config = new TrajectoryConfig(
+//                    Units.feetToMeters(8.5), Units.feetToMeters(6));
+//            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+//            config.setKinematics(drivetrain.getDriveKinematics());
+//
+//            config.setStartVelocity(4);
+//            config.setEndVelocity(0);
+//
+//            return TrajectoryGenerator.generateTrajectory(
+//                    Arrays.asList(new Pose2d(Units.feetToMeters(17.529), Units.feetToMeters(24.576), Rotation2d.fromDegrees(0.0)),
+//                            new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487), Rotation2d.fromDegrees(0.0))),
+//                    config
+//            );
+//        }
+
+        public static Trajectory generateTwoTrenchAndIntake() {
             TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(12.75), Units.feetToMeters(6));
+                Units.feetToMeters(12.75), Units.feetToMeters(6));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.addConstraint(new CentripetalAccelerationConstraint(3.25));
             config.setKinematics(drivetrain.getDriveKinematics());
             config.setStartVelocity(0);
-            config.setEndVelocity(4);
-
-            return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(50)),
-                            new Pose2d(Units.feetToMeters(17.529), Units.feetToMeters(24.576), Rotation2d.fromDegrees(0.0))),
-                    config
-            );
-        }
-
-        public static Trajectory generateTwoIntakeThreeBalls() {
-            TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(8.5), Units.feetToMeters(6));
-            config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
-            config.setKinematics(drivetrain.getDriveKinematics());
-
-            config.setStartVelocity(4);
             config.setEndVelocity(0);
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(17.529), Units.feetToMeters(24.576), Rotation2d.fromDegrees(0.0)),
-                            new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487), Rotation2d.fromDegrees(0.0))),
-                    config
+                Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(26)),
+                    new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487), Rotation2d.fromDegrees(0.0))),
+                config
             );
         }
 
@@ -222,7 +239,8 @@ public class Paths {
         public static class Five {
 
             public static Trajectory intakeTwo = generateFiveIntakeTwo();
-            public static Trajectory backupFromTrench = generateFiveBackupFromTrench();
+            public static Trajectory tightTurnFromTrench = generateFiveTightTurnFromTrench();
+            public static Trajectory getAwayFromTrench = generateFiveGetAwayFromTrench();
             public static Trajectory threeBallTrench = generateFiveThreeBallTrenchPickUp();
             public static Trajectory trenchToGenerator = generateFromTrenchToGenerator();
 
@@ -234,12 +252,26 @@ public class Paths {
 
                 return TrajectoryGenerator.generateTrajectory(
                         Arrays.asList(new Pose2d(Units.feetToMeters(10.821), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0.0)),
-                                new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.488), Rotation2d.fromDegrees(0.0))),
+                                new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0.0))),
                         config
                 );
             }
 
-            public static Trajectory generateFiveBackupFromTrench() {
+            public static Trajectory generateFiveTightTurnFromTrench() {
+                TrajectoryConfig config = new TrajectoryConfig(
+                    Units.feetToMeters(5), Units.feetToMeters(3));
+                config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
+                config.setKinematics(drivetrain.getDriveKinematics());
+                config.setReversed(true);
+
+                return TrajectoryGenerator.generateTrajectory(
+                    Arrays.asList(new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0.0)),
+                        new Pose2d(Units.feetToMeters(19.002), Units.feetToMeters(3.287), Rotation2d.fromDegrees(-75))),
+                    config
+                );
+            }
+
+            public static Trajectory generateFiveGetAwayFromTrench() {
                 TrajectoryConfig config = new TrajectoryConfig(
                         Units.feetToMeters(10), Units.feetToMeters(6));
                 config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
@@ -247,8 +279,8 @@ public class Paths {
                 config.setReversed(true);
 
                 return TrajectoryGenerator.generateTrajectory(
-                        Arrays.asList(new Pose2d(Units.feetToMeters(20.004), Units.feetToMeters(2.488), Rotation2d.fromDegrees(0.0)),
-                                new Pose2d(Units.feetToMeters(17.047), Units.feetToMeters(13.224), Rotation2d.fromDegrees(150.0))),
+                        Arrays.asList(new Pose2d(Units.feetToMeters(19.002), Units.feetToMeters(3.287), Rotation2d.fromDegrees(-75)),
+                                new Pose2d(Units.feetToMeters(16.216), Units.feetToMeters(15.298), Rotation2d.fromDegrees(-78))),
                         config
                 );
             }

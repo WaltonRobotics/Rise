@@ -15,7 +15,7 @@ public class PracticeRise implements WaltRobot {
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04,0); //0.487
 
     private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.013, 0, 0,
-            new TrapezoidProfile.Constraints(500, 450)); //0.009
+            new TrapezoidProfile.Constraints(500, 550)); //0.009
 
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
 
@@ -137,7 +137,7 @@ public class PracticeRise implements WaltRobot {
         shooterCalibrationMap.put(new InterpolatingDouble(17.17), new InterpolatingDouble(12250.0));
         shooterCalibrationMap.put(new InterpolatingDouble(18.9), new InterpolatingDouble(12500.0));
         shooterCalibrationMap.put(new InterpolatingDouble(19.97), new InterpolatingDouble(12800.0));
-        shooterCalibrationMap.put(new InterpolatingDouble(8.38), new InterpolatingDouble(15500.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(8.38), new InterpolatingDouble(13000.0));
         shooterCalibrationMap.put(new InterpolatingDouble(23.2), new InterpolatingDouble(12500.0));
 
     }

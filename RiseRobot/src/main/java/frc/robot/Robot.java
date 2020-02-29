@@ -8,6 +8,7 @@ import static frc.utils.AutonSelector.DO_NOTHING;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +47,8 @@ public class Robot extends WaltTimedRobot {
 
   public static boolean isBlue = true;
   public static boolean isAuto = true;
+
+  public Jaguar jaguar = new Jaguar(19);
 
   private static SendableChooser<Integer> autonChooser;
 
