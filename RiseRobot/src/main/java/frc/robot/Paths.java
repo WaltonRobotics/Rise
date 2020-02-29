@@ -84,12 +84,12 @@ public class Paths {
 
         public static Trajectory generateTwoTrenchPickup() {
             TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(10), Units.feetToMeters(4));
+                    Units.feetToMeters(12.75), Units.feetToMeters(6));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
-            config.addConstraint(new CentripetalAccelerationConstraint(3    ));
+            config.addConstraint(new CentripetalAccelerationConstraint(3.25));
             config.setKinematics(drivetrain.getDriveKinematics());
             config.setStartVelocity(0);
-            config.setEndVelocity(2);
+            config.setEndVelocity(4);
 
             return TrajectoryGenerator.generateTrajectory(
                     Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(50)),
@@ -100,11 +100,11 @@ public class Paths {
 
         public static Trajectory generateTwoIntakeThreeBalls() {
             TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(4.0), Units.feetToMeters(3));
+                    Units.feetToMeters(8.5), Units.feetToMeters(6));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
 
-            config.setStartVelocity(2);
+            config.setStartVelocity(4);
             config.setEndVelocity(0);
 
             return TrajectoryGenerator.generateTrajectory(
@@ -116,7 +116,7 @@ public class Paths {
 
         public static Trajectory generateTwoBackUpShoot() {
             TrajectoryConfig config = new TrajectoryConfig(
-                    Units.feetToMeters(4.0), Units.feetToMeters(3));
+                    Units.feetToMeters(12.75), Units.feetToMeters(8));
             config.addConstraint(new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(), drivetrain.getDriveKinematics(), 10.0));
             config.setKinematics(drivetrain.getDriveKinematics());
 

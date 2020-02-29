@@ -133,6 +133,7 @@ public class Robot extends WaltTimedRobot {
   public void autonomousInit() {
     isAuto = true;
     turretShooter.autoShouldShoot = false;
+    intakeConveyor.setBallCount(3);
     drivetrain.resetHardware();
     AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
   }

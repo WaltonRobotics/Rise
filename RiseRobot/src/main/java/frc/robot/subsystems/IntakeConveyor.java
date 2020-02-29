@@ -24,13 +24,13 @@ import frc.utils.IRSensor;
 
 public class IntakeConveyor extends SubsystemBase {
 
-  public static final double INTAKE_POWER = 0.875; // 0.75   // 1
+  public static final double INTAKE_POWER = 0.8; // 0.75   // 1    // 0.875
   public static final double SPIN_BACK_POWER = -0.4;
 //  public static final double CENTERING_POWER = 0.75;
   public static final double FRONT_CONVEYOR_POWER = 1;
   public static final double BACK_CONVEYOR_POWER = 1;
   public static final double PULSE_POWER = 0.60;
-  public static final double PULSE_TIME = 0.3; // seconds  TODO adjust
+  public static final double PULSE_TIME = 0.29; // seconds  TODO adjust
   public static final double RAMP_TIME = 0.45;
   public static final double INTAKE_ACTUATION_TIME = 0.2;
 
@@ -135,8 +135,12 @@ public class IntakeConveyor extends SubsystemBase {
     backConveyorMotor.set(ControlMode.PercentOutput, output);
   }
 
+  public void setBallCount(int ballCount) {
+    this.ballCount = ballCount;
+  }
+
   public void resetBallCount() {
-    ballCount = 0;
+    setBallCount(0);
   }
 
   public int getBallCount() {
