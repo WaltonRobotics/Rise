@@ -19,9 +19,8 @@ public class TurretShooterCommand extends CommandBase {
   private static final double JOYSTICK_DEADBAND = 0.125;
   private static final int BARF_SPEED = 6000;
   private static final int SPEED_ERROR_LIMIT = 200;
-  private static final int SPEED_ERROR_DELTA_LIMIT = 75;
   private static final double SHOOTING_DELAY_TIME = 0.25;
-  private static final int SHOOTING_ADDITIVE = 500;
+  private static final int SHOOTING_ADDITIVE = 300;
   protected static int targetSpeed = 0;
   private FlywheelState currentFlywheelState, previousFlywheelState;
   private TurretState currentTurretState;
@@ -159,10 +158,10 @@ public class TurretShooterCommand extends CommandBase {
                 (Robot.isAuto && !turretShooter.autoShouldShoot)) {
           return SPINNING_DOWN;
         }
-//        if (turretShooter.getClosedLoopFlywheelError() >= 0 &&
-//            Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT) {
-//          return SPINNING_UP;
-//        }
+        if (turretShooter.getClosedLoopFlywheelError() >= 0 &&
+            Math.abs(turretShooter.getClosedLoopFlywheelError()) > SPEED_ERROR_LIMIT) {
+          return SPINNING_UP;
+        }
         return this;
       }
     },

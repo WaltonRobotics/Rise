@@ -56,4 +56,6 @@ public class OI {
 //      buttonMap.getButtonIndex(OVERRIDE_CENTERING_ON));
   public static EnhancedJoystickButton turnToTargetButton = new EnhancedJoystickButton(
           buttonMap.getButtonIndex(TURN_TO_TARGET));
+  public static EnhancedJoystickButton resetBallCountButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(RESET_BALL_COUNT));
 }

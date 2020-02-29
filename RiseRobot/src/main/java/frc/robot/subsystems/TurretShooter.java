@@ -58,7 +58,7 @@ public class TurretShooter extends SubsystemBase {
 //    flywheelSlave.follow(flywheelMaster);
 
     flywheelMaster.config_kF(0, 0.057); //0.0452
-    flywheelMaster.config_kP(0, 0.01);
+    flywheelMaster.config_kP(0, 0.013);
 //    flywheelMaster.config_kI(0, 0.000);
 //    flywheelMaster.config_IntegralZone(0, 150);
     flywheelMaster.config_kD(0, 0);
@@ -83,13 +83,13 @@ public class TurretShooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
+//    setFlywheelOutput(TalonFXControlMode.Velocity, SmartDashboard.getNumber("Flywheel Speed", getFlywheelSpeed()));
 //    setFlywheelOutput(TalonFXControlMode.Velocity, 16500);
 //    setFlywheelOutput(TalonFXControlMode.PercentOutput, 0.8);
 //    flywheelMaster.config_kP(0, SmartDashboard.getNumber("Flywheel P", 0));
 //    flywheelMaster.config_kD(0, SmartDashboard.getNumber("Flywheel D", 0));
 //    flywheelMaster.config_IntegralZone(0, (int)SmartDashboard.getNumber("Flywheel Izone", 150));
-//    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
+    SmartDashboard.putNumber("Flywheel Speed", getFlywheelSpeed());
     SmartDashboard.putNumber("Closed Loop error", getClosedLoopFlywheelError());
 //    SmartDashboard.putNumber("PID Slot")
 //    flywheelMaster.set(ControlMode.PercentOutput, 0.8);

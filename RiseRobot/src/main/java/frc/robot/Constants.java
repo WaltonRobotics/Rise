@@ -106,6 +106,7 @@ public final class Constants {
 //        public static final String OVERRIDE_INTAKE_ON = "Override Intake On";
 //        public static final String OVERRIDE_CENTERING_ON = "Override Centering On";
         public static final String TURN_TO_TARGET = "Turn To Target";
+        public static final String RESET_BALL_COUNT = "Reset Ball Count";
 
         /*
         Add default mappings here, following the template
@@ -126,7 +127,8 @@ public final class Constants {
                 {OVERRIDE_BACK_CONVEYOR_ON, new int[]{GAMEPAD_PORT, 10}},   // XBox & PS "Start"
 //                {OVERRIDE_INTAKE_ON, new int[]{GAMEPAD_PORT, UNBOUND}},
 //                {OVERRIDE_CENTERING_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
-                {TURN_TO_TARGET, new int[]{RIGHT_JOYSTICK_PORT, 1}}
+                {TURN_TO_TARGET, new int[]{RIGHT_JOYSTICK_PORT, 1}},
+                {RESET_BALL_COUNT, new int[]{GAMEPAD_PORT, 3}}              // XBox B, PS Circle
 
         }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
     }

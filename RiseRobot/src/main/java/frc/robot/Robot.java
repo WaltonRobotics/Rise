@@ -4,10 +4,12 @@ import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
 import static frc.robot.OI.turnToTargetButton;
+import static frc.utils.AutonSelector.DO_NOTHING;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.AlignToTarget;
@@ -22,6 +24,7 @@ import frc.robot.subsystems.IntakeConveyor;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
 import frc.utils.*;
+import java.util.Arrays;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -43,6 +46,8 @@ public class Robot extends WaltTimedRobot {
 
   public static boolean isBlue = true;
   public static boolean isAuto = true;
+
+  private static SendableChooser<Integer> autonChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -74,6 +79,12 @@ public class Robot extends WaltTimedRobot {
 //    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
 
     turnToTargetButton.whenPressed(new AlignToTarget().withTimeout(1.5));
+
+
+    autonChooser = new SendableChooser<>();
+    autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING.getId());
+    Arrays.stream(AutonSelector.values()).forEach(n -> autonChooser.addOption(n.name(), n.getId()));
+    SmartDashboard.putData("Auton Selector", autonChooser);
   }
 
   /**
@@ -85,7 +96,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber(AUTON_SELECT_ID, SmartDashboard.getNumber(AUTON_SELECT_ID, 5));
+//    SmartDashboard.putNumber(AUTON_SELECT_ID, SmartDashboard.getNumber(AUTON_SELECT_ID, 0));
     CommandScheduler.getInstance().run();
     if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
       isBlue = SmartDashboard.getBoolean(IS_BLUE, false);
@@ -100,6 +111,7 @@ public class Robot extends WaltTimedRobot {
       matchTimer.offColor = null;
     }
     SmartDashboard.putNumber("distance", LimelightHelper.getDistanceFeet());
+//    SmartDashboard.putNumber("Turn P", SmartDashboard.getNumber("Turn P", 0.04));
   }
 
   /**
@@ -107,7 +119,7 @@ public class Robot extends WaltTimedRobot {
    */
   @Override
   public void disabledInit() {
-
+    SmartDashboard.putData("Auton Selector", autonChooser);
   }
 
   @Override
@@ -122,8 +134,7 @@ public class Robot extends WaltTimedRobot {
     isAuto = true;
     turretShooter.autoShouldShoot = false;
     drivetrain.resetHardware();
-    AutonSelector.findById((int) SmartDashboard.getNumber(AUTON_SELECT_ID, 254)).getCommandGroup()
-        .schedule();
+    AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
   }
 
   /**

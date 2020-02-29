@@ -68,6 +68,7 @@ public class IntakeConveyor extends SubsystemBase {
 
     intakeUpButton.whenPressed(() -> intakeConveyor.setIntakeToggle(false));
     intakeDownButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
+    resetBallCountButton.whenPressed(this::resetBallCount);
 //    intakeButton.whenPressed(() -> intakeConveyor.setIntakeToggle(true));
 //    intakeButton.whenReleased(() -> intakeConveyor.setIntakeToggle(false));
 
