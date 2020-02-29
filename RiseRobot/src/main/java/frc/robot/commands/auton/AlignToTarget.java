@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.utils.LimelightHelper;
 import java.util.function.DoubleSupplier;
 
@@ -29,6 +30,7 @@ public class AlignToTarget extends CommandBase {
         atTargetCount = 0;
         targetAngle = drivetrain.getHeading().getDegrees() - angleSupplier.getAsDouble();
         System.out.println("turning to " + targetAngle);
+        System.out.println("Auto Align");
 
         controller.reset();
         controller.setTolerance(1);
@@ -63,7 +65,7 @@ public class AlignToTarget extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return controller.atSetpoint() || !turnToTargetButton.get();
+        return controller.atSetpoint() || (!Robot.isAuto && !turnToTargetButton.get());
     }
 
 }

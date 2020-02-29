@@ -9,8 +9,8 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class PracticeRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(2.34, 0, 0);
-    private final PIDController rightPIDController = new PIDController(2.34, 0, 0);
+    private final PIDController leftPIDController = new PIDController(2.37, 0, 0);
+    private final PIDController rightPIDController = new PIDController(2.37, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04,0); //0.487
 
@@ -135,6 +135,7 @@ public class PracticeRise implements WaltRobot {
         shooterCalibrationMap.put(new InterpolatingDouble(12.72), new InterpolatingDouble(12100.0));
         shooterCalibrationMap.put(new InterpolatingDouble(15.3), new InterpolatingDouble(11950.0));
         shooterCalibrationMap.put(new InterpolatingDouble(17.17), new InterpolatingDouble(12250.0));
+        shooterCalibrationMap.put(new InterpolatingDouble(18.9), new InterpolatingDouble(12500.0));
         shooterCalibrationMap.put(new InterpolatingDouble(19.97), new InterpolatingDouble(12800.0));
         shooterCalibrationMap.put(new InterpolatingDouble(8.38), new InterpolatingDouble(17700.0));
         shooterCalibrationMap.put(new InterpolatingDouble(23.2), new InterpolatingDouble(12500.0));

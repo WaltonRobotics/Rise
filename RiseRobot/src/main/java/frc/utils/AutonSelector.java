@@ -1,8 +1,12 @@
 package frc.utils;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Paths;
 import frc.robot.commands.auton.*;
+
+import java.nio.file.Path;
 
 import static frc.robot.Robot.drivetrain;
 
@@ -27,21 +31,35 @@ public enum AutonSelector {
             new ResetPose(Paths.CrossBaseline.generateForwards().getInitialPose()),
             new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
     )),
+    TWO_A(5, "Shoot 3 Pick up 3 turn shoot", new TimedAuton(
+            new InstantCommand(() -> drivetrain.resetHardware()),
+            new ParallelCommandGroup(new ShootAllBalls(4), new IntakeToggleCommand(true, 0.5)),
+            new ResetPose(new Pose2d(Paths.Two.trenchPickup.getInitialPose().getTranslation().getX(),
+                    Paths.Two.trenchPickup.getInitialPose().getTranslation().getY(),
+                    Rotation2d.fromDegrees(180))),
+            new TurnToAngle(-130).withTimeout(1.5),
+            new RamseteTrackingCommand(Paths.Two.trenchPickup),
+            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.intakeThreeBalls), new EnableIntakeCommand()),
+            new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.generateTwoBackUpShoot())),
+            new TurnToAngle(25 ).withTimeout(2.5),
+            new AlignToTarget().withTimeout(1.5),
+            new ShootAllBalls(4)
+    )),
     /**
-     * shoot 3, pick up 3 in trench, shoot 3
+     * shoot 3, pick up 3 in trench, move and shoot 3
      */
-    TWO_A(5, "5", new TimedAuton(
+    TWO_B(6, "5", new TimedAuton(
 //            new ShootAllBalls(5),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ParallelCommandGroup(new ShootAllBalls(4), new IntakeToggleCommand(true, 0.5)),
+            new ResetPose(new Pose2d(Paths.Two.trenchPickup.getInitialPose().getTranslation().getX(),
+                    Paths.Two.trenchPickup.getInitialPose().getTranslation().getY(),
+                    Rotation2d.fromDegrees(180))),
             new TurnToAngle(-130).withTimeout(1.5),
-            new InstantCommand(() -> drivetrain.resetHardware()),
-            new ResetPose(Paths.Two.trenchPickup.getInitialPose()),
             new RamseteTrackingCommand(Paths.Two.trenchPickup).andThen(() -> drivetrain.setVoltages(0, 0)),
             new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.intakeThreeBalls), new EnableIntakeCommand()),
             new ParallelDeadlineGroup(new RamseteTrackingCommand(Paths.Two.goShoot), new EnableIntakeCommand()),
-            new InstantCommand(() -> drivetrain.resetHardware()),
-            new TurnToAngle(190).withTimeout(2.5),
+            new TurnToAngle(0).withTimeout(2.5),
             new AlignToTarget().withTimeout(1.5),
             new ShootAllBalls(4)
 //            new RamseteTrackingCommand(Paths.Two.trenchBackup),
@@ -51,7 +69,7 @@ public enum AutonSelector {
     /**
      * Pick up 2 enemy trench, shoot 5
      */
-    FOUR(6, "4", new TimedAuton(
+    FOUR(7, "4", new TimedAuton(
             new IntakeToggleCommand(true, 3),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Four.intakeTwo.getInitialPose()),
@@ -61,7 +79,7 @@ public enum AutonSelector {
     /**
      * Pick up 2 enemy trench, shoot 5, pick up 3 from our trench, pick up 2 from generator, shoot all
      */
-    FIVE(7, "5", new TimedAuton(
+    FIVE(8, "5", new TimedAuton(
             new IntakeToggleCommand(true, 3),
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.Five.intakeTwo.getInitialPose()),
