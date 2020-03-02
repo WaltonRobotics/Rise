@@ -26,7 +26,7 @@ public class LimelightHelper {
      * @return tx The x angle from target in degrees
      */
     public static double getTX() {
-        return tx.getDouble(0);
+        return tx.getDouble(Double.NaN);
     }
 
     /**

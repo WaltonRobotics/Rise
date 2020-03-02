@@ -11,20 +11,22 @@ public final class LEDController {
   private static DigitalOutput LED1 = new DigitalOutput(LED1_ID);
   private static DigitalOutput LED2 = new DigitalOutput(LED2_ID);
 
-  private LEDController() {
-  }
-
-  public static void setLEDAutoAlignMode() {
+  public static void setLEDFoundTargetMode() {
     LED1.set(true);
     LED2.set(true);
   }
 
-  public static void setLEDFoundTargetMode() {
+  public static void setLEDTurnRightMode() {
     LED1.set(false);
     LED2.set(true);
   }
 
-  public static void setLEDNoTargetFoundMode() {
+  public static void setLEDTurnLeftMode() {
+    LED1.set(true);
+    LED2.set(false);
+  }
+
+  public static void setLEDPassiveMode() {
     LED1.set(false);
     LED2.set(false);
   }

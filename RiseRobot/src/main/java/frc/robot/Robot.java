@@ -25,7 +25,12 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IntakeConveyor;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.TurretShooter;
-import frc.utils.*;
+import frc.utils.AutonSelector;
+import frc.utils.LEDController;
+import frc.utils.LimelightHelper;
+import frc.utils.LiveDashboardHelper;
+import frc.utils.ShuffleboardTimer;
+import frc.utils.WaltTimedRobot;
 import java.util.Arrays;
 
 /**
@@ -43,15 +48,11 @@ public class Robot extends WaltTimedRobot {
   public static IntakeConveyor intakeConveyor;
 
   public static WaltRobot currentRobot;
-
-  private static ShuffleboardTimer matchTimer;
-
   public static boolean isBlue = true;
   public static boolean isAuto = true;
-
-  public Jaguar jaguar = new Jaguar(19);
-
+  private static ShuffleboardTimer matchTimer;
   private static SendableChooser<Integer> autonChooser;
+  public Jaguar jaguar = new Jaguar(19);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -84,11 +85,12 @@ public class Robot extends WaltTimedRobot {
 
     turnToTargetButton.whenPressed(new AlignToTarget().withTimeout(1.5));
 
-
     autonChooser = new SendableChooser<>();
     autonChooser.setDefaultOption(DO_NOTHING.name(), DO_NOTHING.getId());
     Arrays.stream(AutonSelector.values()).forEach(n -> autonChooser.addOption(n.name(), n.getId()));
     SmartDashboard.putData("Auton Selector", autonChooser);
+
+    LEDController.setLEDPassiveMode();
   }
 
   /**
@@ -108,7 +110,7 @@ public class Robot extends WaltTimedRobot {
       isBlue = (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue);
     }
     matchTimer.sendToShuffleboard();
-    if(matchTimer.timeSupplier.get() < 30 && matchTimer.precision == 0) {
+    if (matchTimer.timeSupplier.get() < 30 && matchTimer.precision == 0) {
       matchTimer.precision = 1;
       // Default red-orange colors
       matchTimer.onColor = null;
@@ -116,6 +118,16 @@ public class Robot extends WaltTimedRobot {
     }
     SmartDashboard.putNumber("distance", LimelightHelper.getDistanceFeet());
 //    SmartDashboard.putNumber("Turn P", SmartDashboard.getNumber("Turn P", 0.04));
+    
+    if (Double.isNaN(LimelightHelper.getTX())) {          // Limelight is not on yet
+      LEDController.setLEDPassiveMode();
+    } else if (Math.abs(LimelightHelper.getTX()) <= 1) {  // Within angle tolerance
+      LEDController.setLEDFoundTargetMode();
+    } else if (LimelightHelper.getTX() < 0) {             // Target is to the left
+      LEDController.setLEDTurnLeftMode();
+    } else {                                              // Target is to the right
+      LEDController.setLEDTurnRightMode();
+    }
   }
 
   /**
