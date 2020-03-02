@@ -1,9 +1,8 @@
 package frc.robot.commands.teleop;
 
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.PercentOutput;
-import static frc.robot.OI.climberDownButton;
+import static frc.robot.OI.climberToggleButton;
 import static frc.robot.OI.climberUnlockButton;
-import static frc.robot.OI.climberUpButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.Robot.climber;
 
@@ -20,8 +19,7 @@ public class ClimbCommand extends CommandBase {
     addRequirements(climber);
 //    toggleState = previousToggleState = DOWN;
 
-    climberUpButton.whenPressed(() -> climber.setClimberDeploy(true));
-    climberDownButton.whenPressed(() -> climber.setClimberDeploy(false));
+    climberToggleButton.whenPressed(() -> climber.toggleClimberDeploy());
   }
 
   @Override

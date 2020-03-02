@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.AlignToTarget;
+import frc.robot.commands.teleop.ClimbCommand;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
 import frc.robot.commands.teleop.TurretShooterCommand;
@@ -68,7 +69,7 @@ public class Robot extends WaltTimedRobot {
     drivetrain = new Drivetrain();
 //    spinner = new Spinner();
     turretShooter = new TurretShooter();
-//    climber = new Climber();
+    climber = new Climber();
     intakeConveyor = new IntakeConveyor();
 
     matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
@@ -79,7 +80,7 @@ public class Robot extends WaltTimedRobot {
     CommandScheduler.getInstance().setDefaultCommand(drivetrain, new DriveCommand());
     CommandScheduler.getInstance().setDefaultCommand(intakeConveyor, new IntakeConveyorCommand());
     CommandScheduler.getInstance().setDefaultCommand(turretShooter, new TurretShooterCommand());
-//    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
+    CommandScheduler.getInstance().setDefaultCommand(climber, new ClimbCommand());
 
     turnToTargetButton.whenPressed(new AlignToTarget().withTimeout(1.5));
 
@@ -137,6 +138,8 @@ public class Robot extends WaltTimedRobot {
     isAuto = true;
     turretShooter.autoShouldShoot = false;
     intakeConveyor.setBallCount(3);
+    intakeConveyor.setIntakeToggle(false);
+    climber.setClimberToggle(false);
     drivetrain.resetHardware();
     AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
   }

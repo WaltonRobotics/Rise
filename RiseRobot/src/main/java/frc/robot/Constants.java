@@ -14,7 +14,6 @@ import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
 import static frc.utils.EnhancedJoystickButton.POV_N;
 import static frc.utils.EnhancedJoystickButton.POV_S;
-import static frc.utils.EnhancedJoystickButton.UNBOUND;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -100,8 +99,7 @@ public final class Constants {
         public static final String INTAKE_REVERSE_KEY = "Reverse Intake";
         public static final String SHOOT_KEY = "Shoot";
         public static final String BARF_KEY = "Slow outtake";
-        public static final String CLIMBER_UP_BUTTON_KEY = "Climber Up";
-        public static final String CLIMBER_DOWN_BUTTON_KEY = "Climber Down";
+        public static final String CLIMBER_TOGGLE_BUTTON_KEY = "Climber Toggle";
         public static final String CLIMBER_UNLOCK_BUTTON_KEY = "Unlock Climber";
         public static final String OVERRIDE_FRONT_CONVEYOR_ON = "Override Front Conveyor On";
         public static final String OVERRIDE_BACK_CONVEYOR_ON = "Override Back Conveyor On";
@@ -122,8 +120,7 @@ public final class Constants {
                 {INTAKE_REVERSE_KEY, new int[]{GAMEPAD_PORT, 5}},           // Left Bumper
                 {SHOOT_KEY, new int[]{GAMEPAD_PORT, 8}},                    // Right Trigger
                 {BARF_KEY, new int[]{GAMEPAD_PORT, 6}},                     // Right Bumper 
-                {CLIMBER_UP_BUTTON_KEY, new int[]{GAMEPAD_PORT, 4}},        // XBox Y, PS Triangle
-                {CLIMBER_DOWN_BUTTON_KEY, new int[]{GAMEPAD_PORT, 2}},      // XBox A, PS Cross
+                {CLIMBER_TOGGLE_BUTTON_KEY, new int[]{LEFT_JOYSTICK_PORT, 1}},
                 {CLIMBER_UNLOCK_BUTTON_KEY, new int[]{GAMEPAD_PORT, 1}},    // XBox X, PS Square
                 {OVERRIDE_FRONT_CONVEYOR_ON, new int[]{GAMEPAD_PORT, 9}},   // XBox "Select", PS "Share"
                 {OVERRIDE_BACK_CONVEYOR_ON, new int[]{GAMEPAD_PORT, 10}},   // XBox & PS "Start"

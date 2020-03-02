@@ -27,10 +27,12 @@ public class Climber extends SubsystemBase {
     climberMotor.setInverted(false);
   }
 
-  public void setClimberDeploy(boolean deployed) {
-    if (climberToggle.get() != deployed) {
-      climberToggle.set(deployed);
-    }
+  public void setClimberToggle(boolean value) {
+    climberToggle.set(value);
+  }
+
+  public void toggleClimberDeploy() {
+    climberToggle.set(!climberToggle.get());
   }
 
   public void setClimberLock(boolean on) {
