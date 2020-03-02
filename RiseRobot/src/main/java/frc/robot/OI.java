@@ -41,19 +41,25 @@ public class OI {
   public static EnhancedJoystickButton barfButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(BARF_KEY));
   public static EnhancedJoystickButton climberToggleButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(CLIMBER_TOGGLE_BUTTON_KEY));
+      buttonMap.getButtonIndex(CLIMBER_TOGGLE_KEY));
   public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(CLIMBER_UNLOCK_BUTTON_KEY));
+      buttonMap.getButtonIndex(CLIMBER_UNLOCK_KEY));
   public static EnhancedJoystickButton overrideFrontConveyorButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON));
+      buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON_KEY));
   public static EnhancedJoystickButton overrideBackConveyorButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(OVERRIDE_BACK_CONVEYOR_ON));
+      buttonMap.getButtonIndex(OVERRIDE_BACK_CONVEYOR_ON_KEY));
 //  public static EnhancedJoystickButton overrideIntakeButton = new EnhancedJoystickButton(
 //      buttonMap.getButtonIndex(OVERRIDE_INTAKE_ON)); //Shouldn't be necessary, intake button works
 //  public static EnhancedJoystickButton overrideCenteringButton = new EnhancedJoystickButton(
 //      buttonMap.getButtonIndex(OVERRIDE_CENTERING_ON));
   public static EnhancedJoystickButton turnToTargetButton = new EnhancedJoystickButton(
-          buttonMap.getButtonIndex(TURN_TO_TARGET));
+          buttonMap.getButtonIndex(TURN_TO_TARGET_KEY));
   public static EnhancedJoystickButton resetBallCountButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(RESET_BALL_COUNT));
+      buttonMap.getButtonIndex(RESET_BALL_COUNT_KEY));
+  public static EnhancedJoystickButton actuateSpinnerToggleButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(ACTUATE_SPINNER_TOGGLE_KEY));
+  public static EnhancedJoystickButton spinControlPanelButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(SPIN_WHEEL_KEY));
+  public static EnhancedJoystickButton spinToColorButton = new EnhancedJoystickButton(
+      buttonMap.getButtonIndex(SPIN_TO_COLOR_KEY));
 }

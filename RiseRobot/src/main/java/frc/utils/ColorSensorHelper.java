@@ -3,6 +3,7 @@ package frc.utils;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -13,53 +14,32 @@ public class ColorSensorHelper {
   public static final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   public static final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-
-  private final ColorSensorV3 colorSensor;
-  private final ColorMatch colorMatcher = new ColorMatch();
-
-  private final int targetDistanceLimit = 400;
-
-  private ControlPanelColor currentColor = ControlPanelColor.NONE;
-
+  private static final ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
+  private static final ColorMatch colorMatcher = loadColorMatcher();
+  private static final int targetDistanceLimit = 200;
 
   public enum ControlPanelColor {
-    RED{
-      @Override
-      public int getValue() {
-        return 0;
+    RED, GREEN, BLUE, YELLOW, NONE;   // In CW order
+
+    public boolean moveCW(ControlPanelColor targetColor) {
+      int comparison = this.compareTo(targetColor);
+      if(comparison < 0) {
+        if(Math.abs(comparison) < 2) {
+          return true;
+        }
+        return false;
       }
-    },GREEN{
-      @Override
-      public int getValue() {
-        return 1;
+      if(Math.abs(comparison) > 2) {
+        return true;
       }
-    }, BLUE{
-      @Override
-      public int getValue() {
-        return 2;
-      }
-    },YELLOW{
-      @Override
-      public int getValue() {
-        return 3;
-      }
-    }, NONE;
-    public int getValue(){
-      return -1;
+      return false;
     }
   }
-  public ColorSensorHelper(ColorSensorV3 colorSensor) {
-    this.colorSensor = colorSensor;
-    colorMatcher.addColorMatch(kBlueTarget);
-    colorMatcher.addColorMatch(kGreenTarget);
-    colorMatcher.addColorMatch(kRedTarget);
-    colorMatcher.addColorMatch(kYellowTarget);
-  }
 
-  public ControlPanelColor getColorMatch() {
+  public static ControlPanelColor getColorMatch() {
     Color detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-    if (getProximity() > SmartDashboard.getNumber("IRSensorLimit", targetDistanceLimit)) {
+    if (getProximity() > targetDistanceLimit) {
       if (match.color.equals(kRedTarget)) {
         return ControlPanelColor.RED;
       } else if (match.color.equals(kYellowTarget)) {
@@ -73,9 +53,16 @@ public class ColorSensorHelper {
     return ControlPanelColor.NONE;
   }
 
-  public int getProximity(){
-    int detectedValue = colorSensor.getProximity();
-    return detectedValue;
+  private static int getProximity(){
+    return colorSensor.getProximity();
   }
 
+  private static ColorMatch loadColorMatcher() {
+    ColorMatch colorMatcher = new ColorMatch();
+    colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);
+    return colorMatcher;
+  }
 }

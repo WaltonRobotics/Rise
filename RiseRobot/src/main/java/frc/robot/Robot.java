@@ -118,8 +118,8 @@ public class Robot extends WaltTimedRobot {
     }
     SmartDashboard.putNumber("distance", LimelightHelper.getDistanceFeet());
 //    SmartDashboard.putNumber("Turn P", SmartDashboard.getNumber("Turn P", 0.04));
-    
-    if (Double.isNaN(LimelightHelper.getTX())) {          // Limelight is not on yet
+
+    if (LimelightHelper.getTX() == 0) {                   // Limelight sees no target or isn't on
       LEDController.setLEDPassiveMode();
     } else if (Math.abs(LimelightHelper.getTX()) <= 1) {  // Within angle tolerance
       LEDController.setLEDFoundTargetMode();
