@@ -10,10 +10,10 @@ int gradient_hues[NUM_LEDS];
 
 int turnLeftIndex = NUM_LEDS / 2 - 1;   // Moving from 29 -> 0
 int turnRightIndex = NUM_LEDS / 2;  // Moving from 30 -> 59
-int turnFadeStep = map(1, 0, NUM_LEDS, 0, 255);
+int turnFadeStep = map(10, 0, NUM_LEDS, 0, 255);
 
 void setup() {
-  FastLED.addLeds<WS2812B, LED_PIN> (leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, LED_PIN, GRB> (leds, NUM_LEDS);
   pinMode(FROM_RIO_ONE, INPUT);
   pinMode(FROM_RIO_TWO, INPUT);
 
@@ -29,6 +29,9 @@ void loop() {
     showTurnRight();
   } else {
     showGradient();
+//    showFoundTarget();
+//    showTurnLeft();
+//    showTurnRight();
   }
 }
 
@@ -43,44 +46,49 @@ void initGradient() {
 
 void showGradient() {
   for(int i = 0; i < NUM_LEDS; i++) {
-    gradient_hues[i] = (gradient_hues[i] + 1) % 255;
+    gradient_hues[i] = gradient_hues[i] + 1;
+    if(gradient_hues[i] > 255) {
+      gradient_hues[i] = 0;
+    }
     leds[i] = CHSV(gradient_hues[i], 255, 255);
-    FastLED.show();
   }
+  FastLED.show();
 }
 
 void showTurnLeft() {
+  for(int i = NUM_LEDS / 2; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
   turnLeftIndex = turnLeftIndex - 1;
   if(turnLeftIndex < 0) {
     turnLeftIndex = NUM_LEDS / 2 - 1;
   }
   for(int i = 0; i < NUM_LEDS / 2; i++) {
-    if(i = turnLeftIndex) {
+    if(i == turnLeftIndex) {
       leds[i] = CRGB::Blue;
     } else {
       leds[i].b = max(0, leds[i].b - turnFadeStep);
     }
-  }
-  for(int i = NUM_LEDS / 2; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
+    delay(1);
   }
   FastLED.show();
 }
 
 void showTurnRight() {
+  for(int i = 0; i < NUM_LEDS / 2; i++) {
+    leds[i] = CRGB::Black;
+  }
   turnRightIndex = turnRightIndex + 1;
-  if(turnLeftIndex >= NUM_LEDS) {
-    turnLeftIndex = NUM_LEDS / 2;
+  if(turnRightIndex >= NUM_LEDS) {
+    turnRightIndex = NUM_LEDS / 2;
   }
   for(int i = NUM_LEDS / 2; i < NUM_LEDS; i++) {
-    if(i = turnRightIndex) {
+    if(i == turnRightIndex) {
       leds[i] = CRGB::Blue;
     } else {
       leds[i].b = max(0, leds[i].b - turnFadeStep);
     }
-  }
-  for(int i = 0; i < NUM_LEDS / 2; i++) {
-    leds[i] = CRGB::Black;
+    delay(1);
   }
   FastLED.show();
 }

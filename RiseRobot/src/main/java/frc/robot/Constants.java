@@ -164,7 +164,7 @@ public final class Constants {
 
   public static class Shooter {
 
-    public static final int defaultShooterRPM = 14100;
+    public static final int defaultShooterRPM = 12500;
     public static final int shooterTolerance = 500;
 
   }

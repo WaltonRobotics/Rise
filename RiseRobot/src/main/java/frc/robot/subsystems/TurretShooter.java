@@ -37,8 +37,8 @@ public class TurretShooter extends SubsystemBase {
   private double minShootingDistance = 9;
   private double maxShootingDistance = 25;
 
-  private double minDistanceRPM = 16300;
-  private double maxDistanceRPM = 21000;
+  private double minDistanceRPM = 12800;
+  private double maxDistanceRPM = 13000;
 
   public boolean isReadyToShoot = false;
 

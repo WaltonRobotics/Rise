@@ -119,77 +119,79 @@ public class Robot extends WaltTimedRobot {
     SmartDashboard.putNumber("distance", LimelightHelper.getDistanceFeet());
 //    SmartDashboard.putNumber("Turn P", SmartDashboard.getNumber("Turn P", 0.04));
 
-    if (LimelightHelper.getTX() == 0) {                   // Limelight sees no target or isn't on
+    if (LimelightHelper.getTV() == 1) {                     // Limelight sees a target
+      if (Math.abs(LimelightHelper.getTX()) <= 1) {         // Within angle tolerance
+        LEDController.setLEDFoundTargetMode();
+      } else if (LimelightHelper.getTX() < 0) {             // Target is to the left
+        LEDController.setLEDTurnLeftMode();
+      } else {                                              // Target is to the right
+        LEDController.setLEDTurnRightMode();
+      }
+    } else {
       LEDController.setLEDPassiveMode();
-    } else if (Math.abs(LimelightHelper.getTX()) <= 1) {  // Within angle tolerance
-      LEDController.setLEDFoundTargetMode();
-    } else if (LimelightHelper.getTX() < 0) {             // Target is to the left
-      LEDController.setLEDTurnLeftMode();
-    } else {                                              // Target is to the right
-      LEDController.setLEDTurnRightMode();
     }
   }
 
-  /**
-   * This function is called once each time the robot enters Disabled mode.
-   */
-  @Override
-  public void disabledInit() {
-    SmartDashboard.putData("Auton Selector", autonChooser);
+    /**
+     * This function is called once each time the robot enters Disabled mode.
+     */
+    @Override
+    public void disabledInit () {
+      SmartDashboard.putData("Auton Selector", autonChooser);
+    }
+
+    @Override
+    public void disabledPeriodic () {
+    }
+
+    /**
+     * This autonomous runs the autonomous command selected
+     */
+    @Override
+    public void autonomousInit () {
+      isAuto = true;
+      turretShooter.autoShouldShoot = false;
+      intakeConveyor.setBallCount(3);
+      intakeConveyor.setIntakeToggle(false);
+      climber.setClimberToggle(false);
+      drivetrain.resetHardware();
+      AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
+    }
+
+    /**
+     * This function is called periodically during autonomous.
+     */
+    @Override
+    public void autonomousPeriodic () {
+      CommandScheduler.getInstance().run();
+    }
+
+    @Override
+    public void teleopInit () {
+      isAuto = false;
+      drivetrain.resetHardware();
+    }
+
+    /**
+     * This function is called periodically during operator control.
+     */
+    @Override
+    public void teleopPeriodic () {
+      CommandScheduler.getInstance().run();
+
+      LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
+    }
+
+    @Override
+    public void testInit () {
+      CommandScheduler.getInstance().cancelAll();
+    }
+
+    /**
+     * This function is called periodically during test mode.
+     */
+    @Override
+    public void testPeriodic () {
+    }
+
   }
-
-  @Override
-  public void disabledPeriodic() {
-  }
-
-  /**
-   * This autonomous runs the autonomous command selected
-   */
-  @Override
-  public void autonomousInit() {
-    isAuto = true;
-    turretShooter.autoShouldShoot = false;
-    intakeConveyor.setBallCount(3);
-    intakeConveyor.setIntakeToggle(false);
-    climber.setClimberToggle(false);
-    drivetrain.resetHardware();
-    AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
-  }
-
-  /**
-   * This function is called periodically during autonomous.
-   */
-  @Override
-  public void autonomousPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
-
-  @Override
-  public void teleopInit() {
-    isAuto = false;
-    drivetrain.resetHardware();
-  }
-
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-    CommandScheduler.getInstance().run();
-
-    LiveDashboardHelper.putRobotData(drivetrain.getRobotPose());
-  }
-
-  @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
-  }
-
-}
