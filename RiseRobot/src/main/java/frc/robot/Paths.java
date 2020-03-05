@@ -129,7 +129,7 @@ public class Paths {
 
     public static Trajectory generateTwoTrenchAndIntake() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(7));
+          Units.feetToMeters(11.5), Units.feetToMeters(7));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));
@@ -149,7 +149,7 @@ public class Paths {
 
     public static Trajectory generateTwoBackUpShoot() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(8));
+          Units.feetToMeters(11.5), Units.feetToMeters(7));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));
@@ -168,7 +168,7 @@ public class Paths {
 
     public static Trajectory generateBackUpAndTurn() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(8));
+          Units.feetToMeters(11.5), Units.feetToMeters(7));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));
@@ -180,12 +180,12 @@ public class Paths {
       return TrajectoryGenerator.generateTrajectory(
           Arrays.asList(new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487),
                   Rotation2d.fromDegrees(0)),
-              new Pose2d(Units.feetToMeters(16.145), Units.feetToMeters(24.511),
+              new Pose2d(Units.feetToMeters(18.827), Units.feetToMeters(24.375),
                   Rotation2d.fromDegrees(3.336)),
-              new Pose2d(Units.feetToMeters(13.018), Units.feetToMeters(20.985),
-                  Rotation2d.fromDegrees(132.741)),
-              new Pose2d(Units.feetToMeters(18.489), Units.feetToMeters(19.585),
-                  Rotation2d.fromDegrees(179.675))),
+              new Pose2d(Units.feetToMeters(13.083), Units.feetToMeters(21.291),
+                  Rotation2d.fromDegrees(105.0)),
+              new Pose2d(Units.feetToMeters(16.093), Units.feetToMeters(19.296),
+                  Rotation2d.fromDegrees(180))),
           config
       );
     }
@@ -294,7 +294,7 @@ public class Paths {
 
     public static Trajectory generateFiveIntakeTwo() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(8));
+          Units.feetToMeters(11.5), Units.feetToMeters(7));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));
@@ -311,7 +311,7 @@ public class Paths {
 
     public static Trajectory generateFiveGetAwayFromTrenchFor6() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(6));
+          Units.feetToMeters(11.5), Units.feetToMeters(6));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));
@@ -335,7 +335,7 @@ public class Paths {
 
     public static Trajectory generateFiveGetAwayFromTrenchFor4() {
       TrajectoryConfig config = new TrajectoryConfig(
-          Units.feetToMeters(12.75), Units.feetToMeters(6));
+          Units.feetToMeters(11.5), Units.feetToMeters(6));
       config.addConstraint(
           new DifferentialDriveVoltageConstraint(currentRobot.getDrivetrainFeedforward(),
               drivetrain.getDriveKinematics(), 10.0));

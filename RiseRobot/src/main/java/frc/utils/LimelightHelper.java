@@ -22,6 +22,8 @@ public class LimelightHelper {
 
     private static MovingAverage linearFilter = new MovingAverage(5, 0);
 
+    private static final double FEET_OFFSET = 0.13;
+
     /**
      * @return tx The x angle from target in degrees
      */
@@ -69,6 +71,6 @@ public class LimelightHelper {
     }
 
     public static double getDistanceFeet() {
-        return ((targetHeight - currentRobot.getLimelightMountingHeight()) / (Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())))) / 12;
+        return ((targetHeight - currentRobot.getLimelightMountingHeight()) / (Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())))) / 12 + FEET_OFFSET;
     }
 }

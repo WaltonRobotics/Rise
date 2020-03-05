@@ -62,4 +62,6 @@ public class OI {
       buttonMap.getButtonIndex(SPIN_WHEEL_KEY));
   public static EnhancedJoystickButton spinToColorButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(SPIN_TO_COLOR_KEY));
+  public static EnhancedJoystickButton toggleLimelightLEDButton = new EnhancedJoystickButton(
+          buttonMap.getButtonIndex(LIMELIGHT_TOGGLE_KEY));
 }

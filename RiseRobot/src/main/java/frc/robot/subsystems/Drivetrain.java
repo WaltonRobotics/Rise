@@ -75,10 +75,10 @@ public class Drivetrain extends SubsystemBase {
         rightWheelsMaster.setOpenLoopRampRate(0);
         rightWheelsSlave.setOpenLoopRampRate(0);
 
-        leftWheelsMaster.setSmartCurrentLimit(38);
-        leftWheelsSlave.setSmartCurrentLimit(38);
-        rightWheelsMaster.setSmartCurrentLimit(38);
-        rightWheelsSlave.setSmartCurrentLimit(38);
+        leftWheelsMaster.setSmartCurrentLimit(80);
+        leftWheelsSlave.setSmartCurrentLimit(80);
+        rightWheelsMaster.setSmartCurrentLimit(80);
+        rightWheelsSlave.setSmartCurrentLimit(80);
 
         leftWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getVelocityFactor());
         rightWheelsMaster.getEncoder().setVelocityConversionFactor(currentRobot.getVelocityFactor());

@@ -57,13 +57,13 @@ public class TurretShooter extends SubsystemBase {
     flywheelSlave.setInverted(false);
 //    flywheelSlave.follow(flywheelMaster);
 
-    flywheelMaster.config_kF(0, 0.057); //0.0452
+    flywheelMaster.config_kF(0, 0.056); //0.0452
     flywheelMaster.config_kP(0, 0.013);
 //    flywheelMaster.config_kI(0, 0.000);
 //    flywheelMaster.config_IntegralZone(0, 150);
     flywheelMaster.config_kD(0, 0);
 
-    flywheelMaster.config_kF(1, 0.057); // 0.04842603550
+    flywheelMaster.config_kF(1, 0.056); // 0.04842603550
     flywheelMaster.config_kP(1, 0.01);
     flywheelMaster.config_kD(1, 0.000);
 

@@ -10,10 +10,7 @@ package frc.robot;
 import static frc.robot.Constants.Joysticks.GAMEPAD_PORT;
 import static frc.robot.Constants.Joysticks.LEFT_JOYSTICK_PORT;
 import static frc.robot.Constants.Joysticks.RIGHT_JOYSTICK_PORT;
-import static frc.utils.EnhancedJoystickButton.POV_E;
-import static frc.utils.EnhancedJoystickButton.POV_N;
-import static frc.utils.EnhancedJoystickButton.POV_S;
-import static frc.utils.EnhancedJoystickButton.POV_W;
+import static frc.utils.EnhancedJoystickButton.*;
 
 import edu.wpi.first.wpilibj.util.Units;
 import java.util.Map;
@@ -111,6 +108,7 @@ public final class Constants {
     public static final String ACTUATE_SPINNER_TOGGLE_KEY = "Spinner Toggle Hold";
     public static final String SPIN_WHEEL_KEY = "Spin Control Panel";
     public static final String SPIN_TO_COLOR_KEY = "Spin To Designated Color";
+    public static final String LIMELIGHT_TOGGLE_KEY = "Limelight LED Toggle";
 
     /*
     Add default mappings here, following the template
@@ -133,8 +131,9 @@ public final class Constants {
         {TURN_TO_TARGET_KEY, new int[]{RIGHT_JOYSTICK_PORT, 1}},
         {RESET_BALL_COUNT_KEY, new int[]{GAMEPAD_PORT, 3}},           // XBox B, PS Circle
         {ACTUATE_SPINNER_TOGGLE_KEY, new int[]{GAMEPAD_PORT, POV_E}},
-        {SPIN_WHEEL_KEY, new int[]{GAMEPAD_PORT, 2}},                 // XBox A, PS Cross
-        {SPIN_TO_COLOR_KEY, new int[]{GAMEPAD_PORT, 4}},              // XBox Y, PS Triangle
+        {SPIN_WHEEL_KEY, new int[]{GAMEPAD_PORT, UNBOUND}},
+        {SPIN_TO_COLOR_KEY, new int[]{GAMEPAD_PORT, UNBOUND}},
+        {LIMELIGHT_TOGGLE_KEY, new int[]{GAMEPAD_PORT, 4}},
 
     }).collect(Collectors.toMap(n -> (String) n[0], n -> (int[]) n[1]));
   }
