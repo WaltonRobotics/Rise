@@ -28,10 +28,10 @@ public class TimedAuton extends SequentialCommandGroup {
         super.end(interrupted);
     }
 
-//    @Override
-//    public boolean isFinished() {
-//        return super.isFinished() || getFPGATimestamp() - startTime >= 15;
-//    }
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || getFPGATimestamp() - startTime >= 15;
+    }
 }
 
 
