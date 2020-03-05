@@ -24,6 +24,8 @@ public class LimelightHelper {
 
     private static final double FEET_OFFSET = 0.13;
 
+    private static boolean limelightToggle = false;
+
     /**
      * @return tx The x angle from target in degrees
      */
@@ -61,6 +63,11 @@ public class LimelightHelper {
             ledMode.setNumber(1);
         }
 
+    }
+
+    public static void toggleLimelight() {
+        setLedMode(limelightToggle);
+        limelightToggle = !limelightToggle;
     }
 
     /**

@@ -2,8 +2,7 @@ package frc.robot;
 
 import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
-import static frc.robot.OI.buttonMap;
-import static frc.robot.OI.turnToTargetButton;
+import static frc.robot.OI.*;
 import static frc.utils.AutonSelector.DO_NOTHING;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -91,6 +90,7 @@ public class Robot extends WaltTimedRobot {
     SmartDashboard.putData("Auton Selector", autonChooser);
 
     LEDController.setLEDPassiveMode();
+    LimelightHelper.setLedMode(true);
   }
 
   /**
@@ -155,6 +155,7 @@ public class Robot extends WaltTimedRobot {
       intakeConveyor.setIntakeToggle(false);
       climber.setClimberToggle(false);
       drivetrain.resetHardware();
+      LimelightHelper.setLedMode(true);
       AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
     }
 
@@ -170,6 +171,7 @@ public class Robot extends WaltTimedRobot {
     public void teleopInit () {
       isAuto = false;
       drivetrain.resetHardware();
+      LimelightHelper.setLedMode(true);
     }
 
     /**
