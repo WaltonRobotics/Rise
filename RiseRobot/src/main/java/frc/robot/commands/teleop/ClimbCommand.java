@@ -15,9 +15,9 @@ public class ClimbCommand extends CommandBase {
   private static final double HOLD_POWER = 0.05;   // Functions as a deadband
   private static final double DEADBAND = 0.125;
   //  private static final double DEADBAND_LOW = -0.125;
-  private static final double MAX_EXTEND_POWER = 0.4;
-  private static final double KICK_BACK_POWER = 0.1;
-  private static final double KICK_BACK_TIME = 0.1;
+  private static final double MAX_EXTEND_POWER = 0.8;
+  private static final double KICK_BACK_POWER = 0.2;
+  private static final double KICK_BACK_TIME = 0.2;
 
   private EnhancedBoolean extending;
   private double kickBackStart;
