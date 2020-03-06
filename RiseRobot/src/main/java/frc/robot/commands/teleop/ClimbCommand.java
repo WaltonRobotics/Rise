@@ -1,58 +1,39 @@
 package frc.robot.commands.teleop;
 
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.PercentOutput;
-import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.climberToggleButton;
-import static frc.robot.OI.climberUnlockButton;
 import static frc.robot.OI.gamepad;
 import static frc.robot.Robot.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.EnhancedBoolean;
+import frc.utils.LEDController;
 
 public class ClimbCommand extends CommandBase {
 
-  private static final double HOLD_POWER = 0.05;   // Functions as a deadband
+  private static final double HOLD_POWER = 0.075;
   private static final double DEADBAND = 0.125;
   //  private static final double DEADBAND_LOW = -0.125;
-  private static final double MAX_EXTEND_POWER = 0.8;
-  private static final double KICK_BACK_POWER = 0.2;
-  private static final double KICK_BACK_TIME = 0.2;
-
-  private EnhancedBoolean extending;
-  private double kickBackStart;
+  private static final double MAX_EXTEND_POWER = 0.7;
 
   public ClimbCommand() {
     addRequirements(climber);
-
-    extending = new EnhancedBoolean();
-
-    climberToggleButton.whenPressed(() -> climber.toggleClimberDeploy());
   }
 
   @Override
   public void execute() {
-    if (climberUnlockButton.get()) {
-      climber.setClimberLock(true);
+    double climbCommand = -gamepad.getLeftY();
 
-      double extendCommand = -gamepad.getLeftY();
-
-      extending.set(extendCommand > DEADBAND);
-
-      if(!extending.get()) {
-        kickBackStart = getFPGATimestamp();
-      }
-
-      if (extending.get() && getFPGATimestamp() - kickBackStart < KICK_BACK_TIME) {
-        climber.setClimberMotorOutput(PercentOutput, -KICK_BACK_POWER);
-      } else if (Math.abs(extendCommand) > DEADBAND) {
-        climber.setClimberMotorOutput(PercentOutput, Math.min(extendCommand, MAX_EXTEND_POWER));
-      } else {
-        climber.setClimberMotorOutput(PercentOutput, -HOLD_POWER);
-      }
+    if (!climber.getClimberToggle() && Math.abs(climbCommand) > DEADBAND) {
+      climber.setClimberMotorOutput(PercentOutput, Math.min(climbCommand, MAX_EXTEND_POWER));
+      LEDController.setLEDClimbingMode();
     } else {
-      climber.setClimberLock(false);
-      climber.setClimberMotorOutput(PercentOutput, 0);
+      climber.setClimberMotorOutput(PercentOutput, -HOLD_POWER);
+      LEDController.setLEDPassiveMode();
     }
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    climber.setClimberMotorOutput(PercentOutput, 0);
   }
 }

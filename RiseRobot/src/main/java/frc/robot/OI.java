@@ -42,8 +42,8 @@ public class OI {
       buttonMap.getButtonIndex(BARF_KEY));
   public static EnhancedJoystickButton climberToggleButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(CLIMBER_TOGGLE_KEY));
-  public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
-      buttonMap.getButtonIndex(CLIMBER_UNLOCK_KEY));
+//  public static EnhancedJoystickButton climberUnlockButton = new EnhancedJoystickButton(
+//      buttonMap.getButtonIndex(CLIMBER_UNLOCK_KEY));
   public static EnhancedJoystickButton overrideFrontConveyorButton = new EnhancedJoystickButton(
       buttonMap.getButtonIndex(OVERRIDE_FRONT_CONVEYOR_ON_KEY));
   public static EnhancedJoystickButton overrideBackConveyorButton = new EnhancedJoystickButton(

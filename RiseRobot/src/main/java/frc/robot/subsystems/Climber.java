@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.CANBusIDs.CLIMBER_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_LOCK_ID;
 import static frc.robot.Constants.PneumaticIDs.CLIMBER_TOGGLE_ID;
+import static frc.robot.OI.climberToggleButton;
+import static frc.robot.Robot.climber;
 
 public class Climber extends SubsystemBase {
 
@@ -28,6 +30,8 @@ public class Climber extends SubsystemBase {
     climberMotor.setInverted(true);
     climberMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(
             true, 25, 30, 1));
+
+    climberToggleButton.whenPressed(this::toggleClimberDeploy);
   }
 
   public void setClimberToggle(boolean value) {

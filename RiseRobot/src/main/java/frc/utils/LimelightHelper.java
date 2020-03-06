@@ -17,12 +17,13 @@ public class LimelightHelper {
     private static NetworkTableEntry ta = table.getEntry("ta");
     private static NetworkTableEntry tv = table.getEntry("tv");
     private static NetworkTableEntry ledMode = table.getEntry("ledMode");
+    private static NetworkTableEntry pipeline = table.getEntry("pipeline");
 
     private static double targetHeight = 89.69;
 
     private static MovingAverage linearFilter = new MovingAverage(5, 0);
 
-    private static final double FEET_OFFSET = 0.13;
+    private static final double FEET_OFFSET = 0.16;
 
     private static boolean limelightToggle = false;
 
@@ -79,5 +80,9 @@ public class LimelightHelper {
 
     public static double getDistanceFeet() {
         return ((targetHeight - currentRobot.getLimelightMountingHeight()) / (Math.tan(Units.degreesToRadians(currentRobot.getLimelightMountingAngle() + getTY())))) / 12 + FEET_OFFSET;
+    }
+
+    public static void setPipeline(int pipelineNumber) {
+        pipeline.setNumber(pipelineNumber);
     }
 }

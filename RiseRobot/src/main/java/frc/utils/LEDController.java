@@ -11,7 +11,7 @@ public final class LEDController {
   private static DigitalOutput LED1 = new DigitalOutput(LED1_ID);
   private static DigitalOutput LED2 = new DigitalOutput(LED2_ID);
 
-  public static void setLEDFoundTargetMode() {
+  public static void setLEDClimbingMode() {
     LED1.set(true);
     LED2.set(true);
   }

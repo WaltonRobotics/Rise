@@ -17,6 +17,7 @@ import frc.robot.commands.teleop.ClimbCommand;
 import frc.robot.commands.teleop.DriveCommand;
 import frc.robot.commands.teleop.IntakeConveyorCommand;
 import frc.robot.commands.teleop.TurretShooterCommand;
+import frc.robot.commands.teleop.UnlockClimberCommand;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.Climber;
@@ -121,7 +122,7 @@ public class Robot extends WaltTimedRobot {
 
     if (LimelightHelper.getTV() == 1) {                     // Limelight sees a target
       if (Math.abs(LimelightHelper.getTX()) <= 1) {         // Within angle tolerance
-        LEDController.setLEDFoundTargetMode();
+        LEDController.setLEDPassiveMode();
       } else if (LimelightHelper.getTX() < 0) {             // Target is to the left
         LEDController.setLEDTurnLeftMode();
       } else {                                              // Target is to the right
@@ -138,10 +139,12 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void disabledInit () {
       SmartDashboard.putData("Auton Selector", autonChooser);
+      LimelightHelper.setPipeline(1);
     }
 
     @Override
     public void disabledPeriodic () {
+      CommandScheduler.getInstance().run();
     }
 
     /**
@@ -155,6 +158,7 @@ public class Robot extends WaltTimedRobot {
       intakeConveyor.setIntakeToggle(false);
       climber.setClimberToggle(false);
       drivetrain.resetHardware();
+      LimelightHelper.setPipeline(0);
       LimelightHelper.setLedMode(true);
       AutonSelector.findById(autonChooser.getSelected()).getCommandGroup().schedule();
     }
@@ -171,7 +175,9 @@ public class Robot extends WaltTimedRobot {
     public void teleopInit () {
       isAuto = false;
       drivetrain.resetHardware();
-      LimelightHelper.setLedMode(true);
+      LimelightHelper.setLedMode(false);
+      LimelightHelper.setPipeline(0);
+      CommandScheduler.getInstance().schedule(new UnlockClimberCommand());
     }
 
     /**
