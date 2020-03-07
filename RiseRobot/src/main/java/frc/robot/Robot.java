@@ -53,6 +53,7 @@ public class Robot extends WaltTimedRobot {
   private static ShuffleboardTimer matchTimer;
   private static SendableChooser<Integer> autonChooser;
   public Jaguar jaguar = new Jaguar(19);
+  public static Jaguar jaguar = new Jaguar(19);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -145,6 +146,7 @@ public class Robot extends WaltTimedRobot {
     @Override
     public void disabledPeriodic () {
       CommandScheduler.getInstance().run();
+      LimelightHelper.setPipeline(1);
     }
 
     /**
@@ -156,7 +158,7 @@ public class Robot extends WaltTimedRobot {
       turretShooter.autoShouldShoot = false;
       intakeConveyor.setBallCount(3);
       intakeConveyor.setIntakeToggle(false);
-      climber.setClimberToggle(false);
+//      climber.setClimberToggle(false);
       drivetrain.resetHardware();
       LimelightHelper.setPipeline(0);
       LimelightHelper.setLedMode(true);
@@ -176,6 +178,7 @@ public class Robot extends WaltTimedRobot {
       isAuto = false;
       drivetrain.resetHardware();
       LimelightHelper.setLedMode(false);
+//      LimelightHelper.setLedMode(false);
       LimelightHelper.setPipeline(0);
       CommandScheduler.getInstance().schedule(new UnlockClimberCommand());
     }

@@ -185,7 +185,7 @@ public class Paths {
               new Pose2d(Units.feetToMeters(13.083), Units.feetToMeters(21.291),
                   Rotation2d.fromDegrees(105.0)),
               new Pose2d(Units.feetToMeters(16.093), Units.feetToMeters(19.296),
-                  Rotation2d.fromDegrees(180))),
+                  Rotation2d.fromDegrees(-175))),
           config
       );
     }

@@ -98,7 +98,7 @@ public final class Constants {
     public static final String SHOOT_KEY = "Shoot";
     public static final String BARF_KEY = "Slow outtake";
     public static final String CLIMBER_TOGGLE_KEY = "Climber Toggle";
-//    public static final String CLIMBER_UNLOCK_KEY = "Unlock Climber";
+    public static final String CLIMBER_LOCK_KEY = "Unlock Climber";
     public static final String OVERRIDE_FRONT_CONVEYOR_ON_KEY = "Override Front Conveyor On";
     public static final String OVERRIDE_BACK_CONVEYOR_ON_KEY = "Override Back Conveyor On";
     //        public static final String OVERRIDE_INTAKE_ON = "Override Intake On";
@@ -123,7 +123,7 @@ public final class Constants {
         {SHOOT_KEY, new int[]{GAMEPAD_PORT, 8}},                      // Right Trigger
         {BARF_KEY, new int[]{GAMEPAD_PORT, 6}},                       // Right Bumper
         {CLIMBER_TOGGLE_KEY, new int[]{LEFT_JOYSTICK_PORT, 1}},
-//        {CLIMBER_UNLOCK_KEY, new int[]{GAMEPAD_PORT, 1}},             // XBox X, PS Square
+        {CLIMBER_LOCK_KEY, new int[]{GAMEPAD_PORT, 1}},               // XBox X, PS Square
         {OVERRIDE_FRONT_CONVEYOR_ON_KEY, new int[]{GAMEPAD_PORT, 9}}, // XBox "Select", PS "Share"
         {OVERRIDE_BACK_CONVEYOR_ON_KEY, new int[]{GAMEPAD_PORT, 10}}, // XBox & PS "Start"
 //        {OVERRIDE_INTAKE_ON, new int[]{GAMEPAD_PORT, UNBOUND}},
