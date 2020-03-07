@@ -52,7 +52,6 @@ public class Robot extends WaltTimedRobot {
   public static boolean isAuto = true;
   private static ShuffleboardTimer matchTimer;
   private static SendableChooser<Integer> autonChooser;
-  public Jaguar jaguar = new Jaguar(19);
   public static Jaguar jaguar = new Jaguar(19);
 
   /**
