@@ -3,6 +3,9 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2020.3.2"
 }
 
+wpi.maven.useFrcMavenLocalDevelopment = true
+wpi.wpilibVersion = '2021.424242.1.1-alpha-1-20201026191433'
+
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
