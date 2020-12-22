@@ -2,11 +2,10 @@ package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.Robot;
 import frc.utils.LimelightHelper;
+
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.OI.turnToTargetButton;
@@ -18,10 +17,10 @@ public class AlignToTarget extends CommandBase {
     private static final PIDController controller = new PIDController(0.056, 0, 0);
     private int atTargetCount;
     private double targetAngle;
-    
+
     public AlignToTarget() {
         addRequirements(drivetrain);
-        
+
         atTargetCount = 0;
     }
 

@@ -5,8 +5,7 @@ package frc.utils.interpolatingmap;
  * Given two end points and an interpolation parameter on [0, 1], it calculates
  * a new Interpolable representing the interpolated value.
  *
- * @param <T>
- *            The Type of Interpolable
+ * @param <T> The Type of Interpolable
  * @see InterpolatingTreeMap
  */
 
@@ -17,12 +16,10 @@ public interface Interpolable<T> {
      * method should return the other value. If 0 < x < 1, the return value
      * should be interpolated proportionally between the two.
      *
-     * @param other
-     *            The value of the upper bound
-     * @param x
-     *            The requested value. Should be between 0 and 1.
+     * @param other The value of the upper bound
+     * @param x     The requested value. Should be between 0 and 1.
      * @return Interpolable<T> The estimated average between the surrounding
-     *         data
+     * data
      */
-    public T interpolate(T other, double x);
+    T interpolate(T other, double x);
 }

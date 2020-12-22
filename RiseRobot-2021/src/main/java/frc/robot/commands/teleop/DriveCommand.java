@@ -1,10 +1,9 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.LimelightHelper;
 
-import static frc.robot.OI.*;
+import static frc.robot.OI.leftJoystick;
+import static frc.robot.OI.rightJoystick;
 import static frc.robot.Robot.drivetrain;
 
 public class DriveCommand extends CommandBase {
@@ -39,7 +38,7 @@ public class DriveCommand extends CommandBase {
 //        }
 ////
 //        else {
-            drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
+        drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
 //        }
     }
 

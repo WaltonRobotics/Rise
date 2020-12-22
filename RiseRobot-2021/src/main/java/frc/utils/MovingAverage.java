@@ -6,35 +6,40 @@ package frc.utils;
  */
 public class MovingAverage {
     private double[] values;
+
     public MovingAverage(int n, double init) {
         values = new double[n];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             values[i] = init;
     }
+
     public MovingAverage(int n, int init) {
         values = new double[n];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             values[i] = init;
     }
+
     public MovingAverage(int n, boolean init) {
         values = new double[n];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             values[i] = init ? 1 : 0;
     }
 
     //Update
     public void update(double n) {
-        for(int i = 0; i < values.length - 1; i++)
+        for (int i = 0; i < values.length - 1; i++)
             values[i] = values[i + 1];
         values[values.length - 1] = n;
     }
+
     public void update(int n) {
-        for(int i = 0; i < values.length - 1; i++)
+        for (int i = 0; i < values.length - 1; i++)
             values[i] = values[i + 1];
         values[values.length - 1] = n;
     }
+
     public void update(boolean b) {
-        for(int i = 0; i < values.length - 1; i++)
+        for (int i = 0; i < values.length - 1; i++)
             values[i] = values[i + 1];
         values[values.length - 1] = b ? 1 : 0;
     }
@@ -49,8 +54,9 @@ public class MovingAverage {
     public int getIntegerOutput() {
         double sum = 0;
         for (double value : values) sum += value;
-        return (int)(sum / values.length);
+        return (int) (sum / values.length);
     }
+
     public boolean getBooleanOutput() {
         double sum = 0;
         for (double value : values) sum += value;

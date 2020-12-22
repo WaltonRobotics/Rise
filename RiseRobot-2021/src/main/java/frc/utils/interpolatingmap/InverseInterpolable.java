@@ -6,8 +6,7 @@ package frc.utils.interpolatingmap;
  * object can calculate the interpolation parameter of the query key on the
  * interval [0, 1].
  *
- * @param <T>
- *            The Type of InverseInterpolable
+ * @param <T> The Type of InverseInterpolable
  * @see InterpolatingTreeMap
  */
 public interface InverseInterpolable<T> {
@@ -19,7 +18,7 @@ public interface InverseInterpolable<T> {
      * @param upper
      * @param query
      * @return The interpolation parameter on [0, 1] representing how far
-     *         between this point and the upper point the query point lies.
+     * between this point and the upper point the query point lies.
      */
-    public double inverseInterpolate(T upper, T query);
+    double inverseInterpolate(T upper, T query);
 }

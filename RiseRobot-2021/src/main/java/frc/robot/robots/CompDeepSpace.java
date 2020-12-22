@@ -15,11 +15,9 @@ public class CompDeepSpace implements WaltRobot {
     private final PIDController rightPIDController = new PIDController(2, 0, 0);  //maybe 2.53
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.199, 2.13, 0.534);
-
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
     private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.011, 0, 0,
             new TrapezoidProfile.Constraints(360, 80)); //0.009
-
-    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
 
     public CompDeepSpace() {
         turnPIDController.enableContinuousInput(-180f, 180f);

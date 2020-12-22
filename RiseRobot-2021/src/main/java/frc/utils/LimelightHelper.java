@@ -8,9 +8,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import static frc.robot.Robot.currentRobot;
 
 public class LimelightHelper {
-    private LimelightHelper() {
-    }
-
+    private static final double FEET_OFFSET = 0.16;
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private static NetworkTableEntry tx = table.getEntry("tx");
     private static NetworkTableEntry ty = table.getEntry("ty");
@@ -22,10 +20,10 @@ public class LimelightHelper {
     private static double targetHeight = 89.69;
 
     private static MovingAverage linearFilter = new MovingAverage(5, 0);
-
-    private static final double FEET_OFFSET = 0.16;
-
     private static boolean limelightToggle = false;
+
+    private LimelightHelper() {
+    }
 
     /**
      * @return tx The x angle from target in degrees
@@ -58,7 +56,7 @@ public class LimelightHelper {
 
     public static void setLedMode(boolean on) {
 
-        if(on) {
+        if (on) {
             ledMode.setNumber(3);
         } else {
             ledMode.setNumber(1);
