@@ -12,12 +12,10 @@ public class PracticeRise implements WaltRobot {
     private final PIDController leftPIDController = new PIDController(2.37, 0, 0);
     private final PIDController rightPIDController = new PIDController(2.37, 0, 0);
 
-    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04,0); //0.487
-
+    private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04, 0); //0.487
+    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
     private ProfiledPIDController turnPIDController = new ProfiledPIDController(0.013, 0, 0,
             new TrapezoidProfile.Constraints(400, 400)); //0.009
-
-    private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
 
     public PracticeRise() {
         turnPIDController.enableContinuousInput(-180f, 180f);

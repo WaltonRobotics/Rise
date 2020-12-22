@@ -1,6 +1,5 @@
 package frc.robot.commands.auton;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
