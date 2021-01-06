@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -27,6 +28,7 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax rightWheelsSlave = new CANSparkMax(DRIVE_RIGHT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
     private final CANSparkMax leftWheelsMaster = new CANSparkMax(DRIVE_LEFT_MASTER_ID, CANSparkMax.MotorType.kBrushless);
     private final CANSparkMax leftWheelsSlave = new CANSparkMax(DRIVE_LEFT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
+
     private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(currentRobot.getTrackWidth());
     private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
 
@@ -115,23 +117,6 @@ public class Drivetrain extends SubsystemBase {
     public void setVelocities(double leftVelocity, double leftFeedForward, double rightVelocity, double rightFeedForward, int sparkMaxPIDSlot) {
         leftWheelsMaster.getPIDController().setReference(leftVelocity, ControlType.kVelocity, sparkMaxPIDSlot, leftFeedForward, ArbFFUnits.kVoltage);
         rightWheelsMaster.getPIDController().setReference(rightVelocity, ControlType.kVelocity, sparkMaxPIDSlot, rightFeedForward, ArbFFUnits.kVoltage);
-    }
-
-    public void setArcadeSpeeds(double xSpeed, double zRotation) {
-        xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-        zRotation = Math.copySign(zRotation * zRotation, zRotation);
-
-        double leftMotorOutput;
-        double rightMotorOutput;
-
-        xSpeed = Math
-                .max(-1.0 + Math.abs(zRotation),
-                        Math.min(1.0 - Math.abs(zRotation), xSpeed));
-
-        leftMotorOutput = xSpeed + zRotation;
-        rightMotorOutput = xSpeed - zRotation;
-
-        setDutyCycles(leftMotorOutput, rightMotorOutput);
     }
 
     public Rotation2d getHeading() {

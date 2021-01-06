@@ -1,14 +1,19 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.AlignToTarget;
 import frc.robot.commands.teleop.*;
+import frc.robot.commands.teleop.driveMode.ArcadeDrive;
+import frc.robot.commands.teleop.driveMode.CurvatureDrive;
+import frc.robot.commands.teleop.driveMode.DriveMode;
+import frc.robot.commands.teleop.driveMode.TankDrive;
+import frc.robot.commands.teleop.responseFunction.CubicResponse;
+import frc.robot.commands.teleop.responseFunction.LinearResponse;
+import frc.robot.commands.teleop.responseFunction.ResponseFunction;
+import frc.robot.commands.teleop.responseFunction.SquaredResponse;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.*;
@@ -38,7 +43,8 @@ public class Robot extends WaltTimedRobot {
     public static WaltRobot currentRobot;
     public static boolean isBlue = true;
     public static boolean isAuto = true;
-    public static Jaguar jaguar = new Jaguar(19);
+    public static SendableChooser<DriveMode> driveModeChooser;
+    public static SendableChooser<ResponseFunction> responseFunctionChooser;
     private static ShuffleboardTimer matchTimer;
     private static SendableChooser<Integer> autonChooser;
 
@@ -60,6 +66,18 @@ public class Robot extends WaltTimedRobot {
         turretShooter = new TurretShooter();
         climber = new Climber();
         intakeConveyor = new IntakeConveyor();
+
+        driveModeChooser = new SendableChooser<>();
+        driveModeChooser.setDefaultOption("Curvature", new CurvatureDrive());
+        driveModeChooser.addOption("Tank", new TankDrive());
+        driveModeChooser.addOption("Arcade", new ArcadeDrive());
+        SmartDashboard.putData("Drive Mode Selector", driveModeChooser);
+
+        responseFunctionChooser = new SendableChooser<>();
+        responseFunctionChooser.setDefaultOption("Linear", new LinearResponse());
+        responseFunctionChooser.addOption("Squared", new SquaredResponse());
+        responseFunctionChooser.addOption("Cubic", new CubicResponse());
+        SmartDashboard.putData("Response Function Selector", responseFunctionChooser);
 
         matchTimer = new ShuffleboardTimer("Match Timer", Timer::getMatchTime, 0,
                 "0x0024D6", "0x000b40");

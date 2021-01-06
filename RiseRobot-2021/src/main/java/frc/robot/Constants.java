@@ -103,6 +103,7 @@ public final class Constants {
         //        public static final String OVERRIDE_INTAKE_ON = "Override Intake On";
 //        public static final String OVERRIDE_CENTERING_ON = "Override Centering On";
         public static final String TURN_TO_TARGET_KEY = "Turn To Target";
+        public static final String QUICK_TURN_KEY = "Quick Turn";
         public static final String RESET_BALL_COUNT_KEY = "Reset Ball Count";
         public static final String ACTUATE_SPINNER_TOGGLE_KEY = "Spinner Toggle Hold";
         public static final String SPIN_WHEEL_KEY = "Spin Control Panel";
@@ -128,6 +129,7 @@ public final class Constants {
 //        {OVERRIDE_INTAKE_ON, new int[]{GAMEPAD_PORT, UNBOUND}},
 //        {OVERRIDE_CENTERING_ON, new int[]{RIGHT_JOYSTICK_PORT, UNBOUND}},
                 {TURN_TO_TARGET_KEY, new int[]{RIGHT_JOYSTICK_PORT, 1}},
+                {QUICK_TURN_KEY, new int[]{LEFT_JOYSTICK_PORT, 2}},
                 {RESET_BALL_COUNT_KEY, new int[]{GAMEPAD_PORT, 3}},           // XBox B, PS Circle
                 {ACTUATE_SPINNER_TOGGLE_KEY, new int[]{GAMEPAD_PORT, POV_E}},
                 {SPIN_WHEEL_KEY, new int[]{GAMEPAD_PORT, UNBOUND}},
@@ -164,6 +166,14 @@ public final class Constants {
 
         public static final int defaultShooterRPM = 12500;
         public static final int shooterTolerance = 500;
+
+    }
+
+    public static class DriveSettings {
+
+        public static final double DEADBAND = 0.1;
+        public static final double QUICK_STOP_THRESHOLD = 0.2;
+        public static final double QUICK_STOP_ALPHA = 0.1;
 
     }
 }
