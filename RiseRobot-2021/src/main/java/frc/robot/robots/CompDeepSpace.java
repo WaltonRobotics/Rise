@@ -49,12 +49,12 @@ public class CompDeepSpace implements WaltRobot {
 
     @Override
     public PIDController getLeftVoltagePIDController() {
-        return leftVelocityPIDController;
+        return leftVoltagePIDController;
     }
 
     @Override
     public PIDController getRightVoltagePIDController() {
-        return rightVelocityPIDController;
+        return rightVoltagePIDController;
     }
 
     @Override
