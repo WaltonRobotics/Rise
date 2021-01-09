@@ -43,37 +43,8 @@ public class RamseteTrackingCommand extends CommandBase {
     private final Supplier<DifferentialDriveWheelSpeeds> m_speeds;
     private final PIDController m_leftController;
     private final PIDController m_rightController;
-    private final int m_sparkMaxPIDSlot;
     private DifferentialDriveWheelSpeeds m_prevSpeeds;
     private double m_prevTime;
-
-    /**
-     * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
-     * PID control and feedforward are handled internally, and outputs are scaled -12 to 12
-     * representing units of volts.
-     *
-     * <p>Note: The controller will *not* set the outputVolts to zero upon completion of the path -
-     * this
-     * is left to the user, since it is not appropriate for paths with nonstationary endstates.
-     *
-     * @param trajectory The trajectory to follow.
-     */
-    @SuppressWarnings("PMD.ExcessiveParameterList")
-    public RamseteTrackingCommand(Trajectory trajectory) {
-        m_trajectory = trajectory;
-        m_pose = drivetrain::getRobotPose;
-        m_follower = drivetrain.getRamseteController();
-        m_feedforward = currentRobot.getDrivetrainFeedforward();
-        m_kinematics = drivetrain.getDriveKinematics();
-        m_speeds = drivetrain::getSpeeds;
-        m_leftController = currentRobot.getLeftPIDController();
-        m_rightController = currentRobot.getRightPIDController();
-
-        m_useSparkPID = false;
-        m_sparkMaxPIDSlot = 0;
-
-        addRequirements(drivetrain);
-    }
 
     /**
      * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
@@ -82,7 +53,7 @@ public class RamseteTrackingCommand extends CommandBase {
      *
      * @param trajectory The trajectory to follow.
      */
-    public RamseteTrackingCommand(Trajectory trajectory, int sparkMaxPIDSlot) {
+    public RamseteTrackingCommand(Trajectory trajectory, boolean useSparkPID) {
         m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
         m_pose = drivetrain::getRobotPose;
         m_follower = drivetrain.getRamseteController();
@@ -90,12 +61,10 @@ public class RamseteTrackingCommand extends CommandBase {
 
         m_feedforward = currentRobot.getDrivetrainFeedforward();
         m_speeds = drivetrain::getSpeeds;
-        m_leftController = currentRobot.getLeftPIDController();
-        m_rightController = currentRobot.getRightPIDController();
+        m_leftController = currentRobot.getLeftVelocityPIDController();
+        m_rightController = currentRobot.getRightVelocityPIDController();
 
-        m_sparkMaxPIDSlot = sparkMaxPIDSlot;
-
-        m_useSparkPID = true;
+        m_useSparkPID = useSparkPID;
 
         addRequirements(drivetrain);
     }
@@ -168,7 +137,7 @@ public class RamseteTrackingCommand extends CommandBase {
                     m_feedforward.calculate(rightSpeedSetpoint,
                             (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
-            drivetrain.setVelocities(leftSpeedSetpoint, leftFeedforward, rightSpeedSetpoint, rightFeedforward, m_sparkMaxPIDSlot);
+            drivetrain.setVelocities(leftSpeedSetpoint, leftFeedforward, rightSpeedSetpoint, rightFeedforward);
         }
 
         m_prevTime = curTime;

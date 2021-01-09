@@ -14,10 +14,15 @@ public interface WaltRobot {
 
     double getKZeta();
 
-    // Velocity controller
-    PIDController getLeftPIDController();
+    // Voltage controller
+    PIDController getLeftVoltagePIDController();
 
-    PIDController getRightPIDController();
+    PIDController getRightVoltagePIDController();
+
+    // Velocity controller
+    PIDController getLeftVelocityPIDController();
+
+    PIDController getRightVelocityPIDController();
 
     // Turn controller
     ProfiledPIDController getTurnPIDController();
