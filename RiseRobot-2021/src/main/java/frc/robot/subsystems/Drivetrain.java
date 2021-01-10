@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.LimelightHelper;
 
 import static frc.robot.Constants.CANBusIDs.*;
+import static frc.robot.Constants.DrivetrainPIDSlots.VELOCITY_PID_SLOT;
+import static frc.robot.Constants.DrivetrainPIDSlots.VOLTAGE_PID_SLOT;
 import static frc.robot.OI.toggleLimelightLEDButton;
 import static frc.robot.Robot.currentRobot;
 import static frc.robot.Robot.drivetrain;
@@ -87,13 +89,21 @@ public class Drivetrain extends SubsystemBase {
         leftWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
         rightWheelsMaster.getEncoder().setPositionConversionFactor(currentRobot.getPositionFactor());
 
-        leftWheelsMaster.getPIDController().setP(currentRobot.getLeftPIDController().getP(), 0);
-        leftWheelsMaster.getPIDController().setI(currentRobot.getLeftPIDController().getI(), 0);
-        leftWheelsMaster.getPIDController().setD(currentRobot.getLeftPIDController().getD(), 0);
+        leftWheelsMaster.getPIDController().setP(currentRobot.getLeftVoltagePIDController().getP(), VOLTAGE_PID_SLOT);
+        leftWheelsMaster.getPIDController().setI(currentRobot.getLeftVoltagePIDController().getI(), VOLTAGE_PID_SLOT);
+        leftWheelsMaster.getPIDController().setD(currentRobot.getLeftVoltagePIDController().getD(), VOLTAGE_PID_SLOT);
 
-        rightWheelsMaster.getPIDController().setP(currentRobot.getRightPIDController().getP(), 0);
-        rightWheelsMaster.getPIDController().setI(currentRobot.getRightPIDController().getI(), 0);
-        rightWheelsMaster.getPIDController().setD(currentRobot.getRightPIDController().getD(), 0);
+        rightWheelsMaster.getPIDController().setP(currentRobot.getRightVoltagePIDController().getP(), VOLTAGE_PID_SLOT);
+        rightWheelsMaster.getPIDController().setI(currentRobot.getRightVoltagePIDController().getI(), VOLTAGE_PID_SLOT);
+        rightWheelsMaster.getPIDController().setD(currentRobot.getRightVoltagePIDController().getD(), VOLTAGE_PID_SLOT);
+
+        leftWheelsMaster.getPIDController().setP(currentRobot.getLeftVelocityPIDController().getP(), VELOCITY_PID_SLOT);
+        leftWheelsMaster.getPIDController().setI(currentRobot.getLeftVelocityPIDController().getI(), VELOCITY_PID_SLOT);
+        leftWheelsMaster.getPIDController().setD(currentRobot.getLeftVelocityPIDController().getD(), VELOCITY_PID_SLOT);
+
+        rightWheelsMaster.getPIDController().setP(currentRobot.getRightVelocityPIDController().getP(), VELOCITY_PID_SLOT);
+        rightWheelsMaster.getPIDController().setI(currentRobot.getRightVelocityPIDController().getI(), VELOCITY_PID_SLOT);
+        rightWheelsMaster.getPIDController().setD(currentRobot.getRightVelocityPIDController().getD(), VELOCITY_PID_SLOT);
 
 //        leftWheelsMaster.burnFlash();
 //        leftWheelsSlave.burnFlash();
@@ -112,9 +122,9 @@ public class Drivetrain extends SubsystemBase {
         rightWheelsMaster.setVoltage(rightVoltage);
     }
 
-    public void setVelocities(double leftVelocity, double leftFeedForward, double rightVelocity, double rightFeedForward, int sparkMaxPIDSlot) {
-        leftWheelsMaster.getPIDController().setReference(leftVelocity, ControlType.kVelocity, sparkMaxPIDSlot, leftFeedForward, ArbFFUnits.kVoltage);
-        rightWheelsMaster.getPIDController().setReference(rightVelocity, ControlType.kVelocity, sparkMaxPIDSlot, rightFeedForward, ArbFFUnits.kVoltage);
+    public void setVelocities(double leftVelocity, double leftFeedForward, double rightVelocity, double rightFeedForward) {
+        leftWheelsMaster.getPIDController().setReference(leftVelocity, ControlType.kVelocity, VELOCITY_PID_SLOT, leftFeedForward, ArbFFUnits.kVoltage);
+        rightWheelsMaster.getPIDController().setReference(rightVelocity, ControlType.kVelocity, VELOCITY_PID_SLOT, rightFeedForward, ArbFFUnits.kVoltage);
     }
 
     public void setArcadeSpeeds(double xSpeed, double zRotation) {

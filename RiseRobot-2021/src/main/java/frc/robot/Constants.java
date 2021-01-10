@@ -68,6 +68,13 @@ public final class Constants {
 
     }
 
+    public static class DrivetrainPIDSlots {
+
+        public static final int VOLTAGE_PID_SLOT = 0;
+        public static final int VELOCITY_PID_SLOT = 1;
+
+    }
+
     /**
      * The Joysticks class contains port mappings for the HID controllers.
      */

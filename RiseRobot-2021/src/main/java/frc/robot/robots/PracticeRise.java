@@ -9,8 +9,11 @@ import frc.utils.interpolatingmap.InterpolatingTreeMap;
 
 public class PracticeRise implements WaltRobot {
 
-    private final PIDController leftPIDController = new PIDController(2.37, 0, 0);
-    private final PIDController rightPIDController = new PIDController(2.37, 0, 0);
+    private final PIDController leftVoltagePIDController = new PIDController(1, 0, 0);
+    private final PIDController rightVoltagePIDController = new PIDController(1, 0, 0);
+
+    private final PIDController leftVelocityPIDController = new PIDController(2.37, 0, 0);
+    private final PIDController rightVelocityPIDController = new PIDController(2.37, 0, 0);
 
     private final SimpleMotorFeedforward drivetrainFeedforward = new SimpleMotorFeedforward(0.165, 2.04, 0); //0.487
     private final InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> shooterCalibrationMap = new InterpolatingTreeMap<>();
@@ -39,13 +42,23 @@ public class PracticeRise implements WaltRobot {
     }
 
     @Override
-    public PIDController getLeftPIDController() {
-        return leftPIDController;
+    public PIDController getLeftVoltagePIDController() {
+        return leftVoltagePIDController;
     }
 
     @Override
-    public PIDController getRightPIDController() {
-        return rightPIDController;
+    public PIDController getRightVoltagePIDController() {
+        return rightVoltagePIDController;
+    }
+
+    @Override
+    public PIDController getLeftVelocityPIDController() {
+        return leftVelocityPIDController;
+    }
+
+    @Override
+    public PIDController getRightVelocityPIDController() {
+        return rightVelocityPIDController;
     }
 
     @Override

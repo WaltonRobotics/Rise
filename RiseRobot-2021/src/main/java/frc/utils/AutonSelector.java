@@ -14,24 +14,24 @@ public enum AutonSelector {
     DO_NOTHING(0, "Do Nothing", new SequentialCommandGroup()),
     ZERO_A(1, "Cross Baseline Forwards", new SequentialCommandGroup(
             new ResetPose(Paths.CrossBaseline.forwards.getInitialPose()),
-            new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
+            new RamseteTrackingCommand(Paths.CrossBaseline.forwards, true)
     )),
     ZERO_B(2, "Cross Baseline Backwards", new SequentialCommandGroup(
             new ResetPose(Paths.CrossBaseline.backwards.getInitialPose()),
-            new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
+            new RamseteTrackingCommand(Paths.CrossBaseline.backwards, true)
     )),
     ONE_A(3, "Shoot 3 Go back", new TimedAuton(
             new ResetPose(Paths.CrossBaseline.generateBackwards().getInitialPose()),
 //            new AlignToTarget().withTimeout(2),
             new ShootAllBalls(6),
-            new RamseteTrackingCommand(Paths.CrossBaseline.backwards)
+            new RamseteTrackingCommand(Paths.CrossBaseline.backwards, true)
     )),
     ONE_B(4, "Shoot 3 Go forwards", new TimedAuton(
             new ShootAllBalls(5),
 //            new AlignToTarget().withTimeout(2),
 //            new TurnToAngle(180),
             new ResetPose(Paths.CrossBaseline.generateForwards().getInitialPose()),
-            new RamseteTrackingCommand(Paths.CrossBaseline.forwards)
+            new RamseteTrackingCommand(Paths.CrossBaseline.forwards, true)
     )),
     TWO_A(9, "Shoot 3 Pick up 3 turn shoot", new TimedAuton(
             new InstantCommand(() -> drivetrain.resetHardware()),
@@ -41,9 +41,9 @@ public enum AutonSelector {
                     Rotation2d.fromDegrees(180))),
             new TurnToAngle(-150).withTimeout(1.375),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Two.trenchAndIntake), new EnableIntakeCommand()),
+                    new RamseteTrackingCommand(Two.trenchAndIntake, true), new EnableIntakeCommand()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Two.backUpAndTurn),
+                    new RamseteTrackingCommand(Two.backUpAndTurn, true),
                     new EnableIntakeCommand()),
 //            new TurnToAngle(25).withTimeout(2),
             new AlignToTarget().withTimeout(1.5),
@@ -61,9 +61,9 @@ public enum AutonSelector {
                     Rotation2d.fromDegrees(180))),
             new TurnToAngle(-150).withTimeout(1.375),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Two.trenchAndIntake), new EnableIntakeCommand()),
+                    new RamseteTrackingCommand(Two.trenchAndIntake, true), new EnableIntakeCommand()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Paths.Two.goShoot), new EnableIntakeCommand()),
+                    new RamseteTrackingCommand(Paths.Two.goShoot, true), new EnableIntakeCommand()),
             new TurnToAngle(0).withTimeout(2.5),
             new AlignToTarget().withTimeout(1.5),
             new ShootAllBalls(4)
@@ -79,9 +79,9 @@ public enum AutonSelector {
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Four.intakeTwo.getInitialPose()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Four.intakeTwo), new EnableIntakeCommand()),
+                    new RamseteTrackingCommand(Four.intakeTwo, true), new EnableIntakeCommand()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Four.getAwayFromTrenchFor6),
+                    new RamseteTrackingCommand(Four.getAwayFromTrenchFor6, true),
                     new EnableIntakeCommand()),
 //            new TurnToAngle(-15).withTimeout(1.375),
             new AlignToTarget().withTimeout(1.25),
@@ -98,9 +98,9 @@ public enum AutonSelector {
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Four.intakeTwo.getInitialPose()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Four.intakeTwo), new EnableIntakeCommand()),
+                    new RamseteTrackingCommand(Four.intakeTwo, true), new EnableIntakeCommand()),
             new ParallelDeadlineGroup(
-                    new RamseteTrackingCommand(Four.getAwayFromTrenchFor4),
+                    new RamseteTrackingCommand(Four.getAwayFromTrenchFor4, true),
                     new EnableIntakeCommand()),
 //            new TurnToAngle(-15).withTimeout(1.375),
             new AlignToTarget().withTimeout(1.25),
@@ -118,7 +118,7 @@ public enum AutonSelector {
     SCREWING_AROUND(420, "Lol", new TimedAuton(
             new InstantCommand(() -> drivetrain.resetHardware()),
             new ResetPose(Paths.ScrewingAround.infiniteLoop.getInitialPose()),
-            new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop, 0)
+            new RamseteTrackingCommand(Paths.ScrewingAround.infiniteLoop, true)
     ));
 
     int id;
