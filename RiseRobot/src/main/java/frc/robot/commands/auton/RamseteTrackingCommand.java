@@ -43,9 +43,9 @@ public class RamseteTrackingCommand extends CommandBase {
     private final Supplier<DifferentialDriveWheelSpeeds> m_speeds;
     private final PIDController m_leftController;
     private final PIDController m_rightController;
+    private final int m_sparkMaxPIDSlot;
     private DifferentialDriveWheelSpeeds m_prevSpeeds;
     private double m_prevTime;
-    private final int m_sparkMaxPIDSlot;
 
     /**
      * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
@@ -56,7 +56,7 @@ public class RamseteTrackingCommand extends CommandBase {
      * this
      * is left to the user, since it is not appropriate for paths with nonstationary endstates.
      *
-     * @param trajectory      The trajectory to follow.
+     * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("PMD.ExcessiveParameterList")
     public RamseteTrackingCommand(Trajectory trajectory) {
@@ -80,7 +80,7 @@ public class RamseteTrackingCommand extends CommandBase {
      * Performs no PID control and calculates no feedforwards; outputs are the raw wheel speeds
      * in meters per second from the RAMSETE controller, and will need to be converted into a usable form by the user.
      *
-     * @param trajectory            The trajectory to follow.
+     * @param trajectory The trajectory to follow.
      */
     public RamseteTrackingCommand(Trajectory trajectory, int sparkMaxPIDSlot) {
         m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
