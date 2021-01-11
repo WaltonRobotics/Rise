@@ -1,4 +1,4 @@
-package frc.utils.json;
+package frc.robot.utils.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

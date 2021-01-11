@@ -3,8 +3,8 @@ package frc.robot.robots;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import frc.utils.interpolatingmap.InterpolatingDouble;
-import frc.utils.interpolatingmap.InterpolatingTreeMap;
+import frc.robot.utils.interpolatingmap.InterpolatingDouble;
+import frc.robot.utils.interpolatingmap.InterpolatingTreeMap;
 
 public interface WaltRobot {
 

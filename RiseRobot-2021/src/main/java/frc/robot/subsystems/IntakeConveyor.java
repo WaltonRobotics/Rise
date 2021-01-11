@@ -5,8 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.utils.EnhancedBoolean;
-import frc.utils.IRSensor;
+import frc.robot.utils.EnhancedBoolean;
+import frc.robot.utils.IRSensor;
 
 import static frc.robot.Constants.CANBusIDs.*;
 import static frc.robot.Constants.DioIDs.BACK_CONVEYOR_SENSOR_ID;

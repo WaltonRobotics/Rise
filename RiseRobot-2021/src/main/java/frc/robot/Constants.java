@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static frc.robot.Constants.Joysticks.*;
-import static frc.utils.EnhancedJoystickButton.*;
+import static frc.robot.utils.EnhancedJoystickButton.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean

@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.robot.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
-import frc.utils.EnhancedJoystickButton.EnhancedButtonIndex;
+import frc.robot.utils.EnhancedJoystickButton.EnhancedButtonIndex;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,8 +20,8 @@ import java.util.TreeMap;
 
 import static edu.wpi.first.networktables.EntryListenerFlags.kNew;
 import static edu.wpi.first.networktables.EntryListenerFlags.kUpdate;
-import static frc.utils.json.JsonHandler.parseJsonToMap;
-import static frc.utils.json.JsonHandler.sendObjectToJson;
+import static frc.robot.utils.json.JsonHandler.parseJsonToMap;
+import static frc.robot.utils.json.JsonHandler.sendObjectToJson;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**

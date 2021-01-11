@@ -2,9 +2,9 @@ package frc.robot.commands.teleop;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.ColorSensorHelper;
-import frc.utils.ColorSensorHelper.ControlPanelColor;
-import frc.utils.EnhancedBoolean;
+import frc.robot.utils.ColorSensorHelper;
+import frc.robot.utils.ColorSensorHelper.ControlPanelColor;
+import frc.robot.utils.EnhancedBoolean;
 
 import static frc.robot.OI.spinControlPanelButton;
 import static frc.robot.Robot.spinner;

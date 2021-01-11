@@ -5,22 +5,32 @@ import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
 import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.wpilibj.estimator.KalmanFilter;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.system.LinearSystem;
+import edu.wpi.first.wpilibj.system.LinearSystemLoop;
+import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.utils.LimelightHelper;
+import edu.wpi.first.wpiutil.math.Nat;
+import edu.wpi.first.wpiutil.math.VecBuilder;
+import edu.wpi.first.wpiutil.math.numbers.N1;
+import edu.wpi.first.wpiutil.math.numbers.N2;
+import frc.robot.utils.LimelightHelper;
 
 import static frc.robot.Constants.CANBusIDs.*;
 import static frc.robot.Constants.DrivetrainPIDSlots.VELOCITY_PID_SLOT;
 import static frc.robot.Constants.DrivetrainPIDSlots.VOLTAGE_PID_SLOT;
 import static frc.robot.OI.toggleLimelightLEDButton;
 import static frc.robot.Robot.currentRobot;
-import static frc.robot.Robot.drivetrain;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -29,6 +39,32 @@ public class Drivetrain extends SubsystemBase {
     private final CANSparkMax rightWheelsSlave = new CANSparkMax(DRIVE_RIGHT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
     private final CANSparkMax leftWheelsMaster = new CANSparkMax(DRIVE_LEFT_MASTER_ID, CANSparkMax.MotorType.kBrushless);
     private final CANSparkMax leftWheelsSlave = new CANSparkMax(DRIVE_LEFT_SLAVE_ID, CANSparkMax.MotorType.kBrushless);
+
+    private final LinearSystem<N2, N2, N2> driveModel = LinearSystemId.identifyDrivetrainSystem(
+            currentRobot.getDrivetrainFeedforward().kv, currentRobot.getDrivetrainFeedforward().ka,
+            1.0, 1.0
+    );
+    private final KalmanFilter<N2, N2, N2> driveObserver = new KalmanFilter<>(
+            Nat.N2(), Nat.N2(),
+            driveModel,
+            VecBuilder.fill(3.0, 3.0), // Standard deviations of drivetrain model
+            VecBuilder.fill(0.01, 0.01), // Standard deviations of encoder velocities
+            0.02
+    );
+    private final LinearQuadraticRegulator<N2, N2, N2> driveLQRController = new LinearQuadraticRegulator<>(
+            driveModel,
+            VecBuilder.fill(8.0, 8.0), // qelms. Velocity error tolerance, in radians per second
+            VecBuilder.fill(12.0, 12.0), // relms. Control effort (voltage) tolerance
+            0.02
+    );
+
+    private final LinearSystemLoop<N2, N2, N2> driveControlLoop = new LinearSystemLoop<>(
+            driveModel,
+            driveLQRController,
+            driveObserver,
+            12.0, 0.02
+    );
+
     private DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(currentRobot.getTrackWidth());
     private DifferentialDriveOdometry driveOdometry = new DifferentialDriveOdometry(getHeading());
 
@@ -49,10 +85,10 @@ public class Drivetrain extends SubsystemBase {
 
         SmartDashboard.putNumber("Angular Rate", getAngularVelocity());
         SmartDashboard.putNumber("Angle", getHeading().getDegrees());
-        SmartDashboard.putNumber("Left neo encoder velocity", drivetrain.getCANEncoderLeftVelocity());
-        SmartDashboard.putNumber("right neo encoder velocity", drivetrain.getCANEncoderRightVelocity());
-        SmartDashboard.putNumber("Left neo encoder distance", drivetrain.getCANEncoderLeftMeters());
-        SmartDashboard.putNumber("right neo encoder distance", drivetrain.getCANEncoderRightMeters());
+        SmartDashboard.putNumber("Left neo encoder velocity", getCANEncoderLeftVelocity());
+        SmartDashboard.putNumber("right neo encoder velocity", getCANEncoderRightVelocity());
+        SmartDashboard.putNumber("Left neo encoder distance", getCANEncoderLeftMeters());
+        SmartDashboard.putNumber("right neo encoder distance", getCANEncoderRightMeters());
 
         SmartDashboard.putNumber("Right Spark Max P", rightWheelsMaster.getPIDController().getP());
     }
@@ -205,6 +241,10 @@ public class Drivetrain extends SubsystemBase {
 
     public double getCANEncoderRightVelocity() {
         return rightWheelsMaster.getEncoder().getVelocity();
+    }
+
+    public LinearSystemLoop<N2, N2, N2> getDriveControlLoop() {
+        return driveControlLoop;
     }
 
     public void zeroNeoEncoders() {

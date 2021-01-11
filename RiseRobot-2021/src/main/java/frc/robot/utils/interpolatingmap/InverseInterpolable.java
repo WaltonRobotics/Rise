@@ -1,4 +1,4 @@
-package frc.utils.interpolatingmap;
+package frc.robot.utils.interpolatingmap;
 
 /**
  * InverseInterpolable is an interface used by an Interpolating Tree as the Key

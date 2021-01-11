@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.robot.utils;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.NotifierJNI;

@@ -1,7 +1,7 @@
 package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.LEDController;
+import frc.robot.utils.LEDController;
 
 import static com.ctre.phoenix.motorcontrol.TalonFXControlMode.PercentOutput;
 import static frc.robot.OI.gamepad;

@@ -10,7 +10,11 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.LiveDashboardHelper;
+import edu.wpi.first.wpiutil.math.Matrix;
+import edu.wpi.first.wpiutil.math.VecBuilder;
+import edu.wpi.first.wpiutil.math.numbers.N1;
+import edu.wpi.first.wpiutil.math.numbers.N2;
+import frc.robot.utils.LiveDashboardHelper;
 
 import java.util.function.Supplier;
 
@@ -107,6 +111,7 @@ public class RamseteTrackingCommand extends CommandBase {
         double rightOutput;
 
         if (!m_useSparkPID) {
+            /*
             double leftFeedforward =
                     m_feedforward.calculate(leftSpeedSetpoint,
                             (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
@@ -124,7 +129,16 @@ public class RamseteTrackingCommand extends CommandBase {
                     rightSpeedSetpoint);
 
             drivetrain.setVoltages(leftOutput, rightOutput);
+            */
 
+            drivetrain.getDriveControlLoop().setNextR(VecBuilder.fill(leftSpeedSetpoint, rightSpeedSetpoint));
+            drivetrain.getDriveControlLoop().correct(VecBuilder.fill(m_speeds.get().leftMetersPerSecond, m_speeds.get().rightMetersPerSecond));
+            drivetrain.getDriveControlLoop().predict(dt);
+
+            leftOutput = drivetrain.getDriveControlLoop().getU(0);
+            rightOutput = drivetrain.getDriveControlLoop().getU(1);
+
+            drivetrain.setVoltages(leftOutput, rightOutput);
         } else {
             double leftFeedforward =
                     m_feedforward.calculate(leftSpeedSetpoint,

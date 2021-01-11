@@ -1,4 +1,4 @@
-package frc.utils;
+package frc.robot.utils;
 
 /**
  * Simply smoothes out a input by using an average between the last n inputs.

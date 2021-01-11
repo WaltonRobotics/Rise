@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.utils.interpolatingmap.InterpolatingDouble;
-import frc.utils.interpolatingmap.InterpolatingTreeMap;
+import frc.robot.utils.interpolatingmap.InterpolatingDouble;
+import frc.robot.utils.interpolatingmap.InterpolatingTreeMap;
 
 import static frc.robot.Constants.CANBusIDs.*;
 import static frc.robot.Constants.Shooter.defaultShooterRPM;

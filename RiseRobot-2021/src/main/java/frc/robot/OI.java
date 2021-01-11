@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.utils.DynamicButtonMap;
-import frc.utils.EnhancedJoystickButton;
-import frc.utils.Gamepad;
+import frc.robot.utils.DynamicButtonMap;
+import frc.robot.utils.EnhancedJoystickButton;
+import frc.robot.utils.Gamepad;
 
 import static frc.robot.Constants.ButtonMapDefaults.*;
 import static frc.robot.Constants.Joysticks.*;

@@ -2,15 +2,15 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.utils.ColorSensorHelper;
-import frc.utils.ColorSensorHelper.ControlPanelColor;
-import frc.utils.EnhancedBoolean;
+import frc.robot.utils.ColorSensorHelper;
+import frc.robot.utils.ColorSensorHelper.ControlPanelColor;
+import frc.robot.utils.EnhancedBoolean;
 
 import static com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput;
 import static edu.wpi.first.wpilibj.Timer.getFPGATimestamp;
 import static frc.robot.OI.spinToColorButton;
 import static frc.robot.Robot.spinner;
-import static frc.utils.ColorSensorHelper.ControlPanelColor.*;
+import static frc.robot.utils.ColorSensorHelper.ControlPanelColor.*;
 
 public class SpinnerStage3Command extends CommandBase {
 

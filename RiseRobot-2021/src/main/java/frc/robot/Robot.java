@@ -12,7 +12,7 @@ import frc.robot.commands.teleop.*;
 import frc.robot.robots.RobotIdentifier;
 import frc.robot.robots.WaltRobot;
 import frc.robot.subsystems.*;
-import frc.utils.*;
+import frc.robot.utils.*;
 
 import java.util.Arrays;
 
@@ -20,7 +20,7 @@ import static frc.robot.Constants.SmartDashboardKeys.AUTON_SELECT_ID;
 import static frc.robot.Constants.SmartDashboardKeys.IS_BLUE;
 import static frc.robot.OI.buttonMap;
 import static frc.robot.OI.turnToTargetButton;
-import static frc.utils.AutonSelector.DO_NOTHING;
+import static frc.robot.utils.AutonSelector.DO_NOTHING;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
