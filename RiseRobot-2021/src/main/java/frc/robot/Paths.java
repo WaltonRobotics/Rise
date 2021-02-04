@@ -140,10 +140,8 @@ public class Paths {
             config.setEndVelocity(0);
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13),
-                                    Rotation2d.fromDegrees(26)),
-                            new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487),
-                                    Rotation2d.fromDegrees(0.0))),
+                    Arrays.asList(new Pose2d(Units.feetToMeters(10.609), Units.feetToMeters(19.13), Rotation2d.fromDegrees(26)),
+                            new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }
@@ -202,10 +200,8 @@ public class Paths {
             config.setReversed(true);
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487),
-                                    Rotation2d.fromDegrees(0.0)),
-                            new Pose2d(Units.feetToMeters(14.581), Units.feetToMeters(18.964),
-                                    Rotation2d.fromDegrees(0.0))),
+                    Arrays.asList(new Pose2d(Units.feetToMeters(25.904), Units.feetToMeters(24.487), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(14.581), Units.feetToMeters(18.964), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }
@@ -302,10 +298,8 @@ public class Paths {
             config.setKinematics(drivetrain.getDriveKinematics());
 
             return TrajectoryGenerator.generateTrajectory(
-                    Arrays.asList(new Pose2d(Units.feetToMeters(10.821), Units.feetToMeters(2.25),
-                                    Rotation2d.fromDegrees(0.0)),
-                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25),
-                                    Rotation2d.fromDegrees(0.0))),
+                    Arrays.asList(new Pose2d(Units.feetToMeters(10.821), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0.0)),
+                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0.0))),
                     config
             );
         }
@@ -322,14 +316,10 @@ public class Paths {
 
             return TrajectoryGenerator.generateTrajectory(
                     Arrays.asList(
-                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25),
-                                    Rotation2d.fromDegrees(0)),
-                            new Pose2d(Units.feetToMeters(13.238), Units.feetToMeters(6.498),
-                                    Rotation2d.fromDegrees(-60.481)),
-                            new Pose2d(Units.feetToMeters(12.904), Units.feetToMeters(11.83),
-                                    Rotation2d.fromDegrees(-101.496)),
-                            new Pose2d(Units.feetToMeters(16.485), Units.feetToMeters(16.799),
-                                    Rotation2d.fromDegrees(176.59))),
+                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0)),
+                            new Pose2d(Units.feetToMeters(13.238), Units.feetToMeters(6.498), Rotation2d.fromDegrees(-60.481)),
+                            new Pose2d(Units.feetToMeters(12.904), Units.feetToMeters(11.83), Rotation2d.fromDegrees(-101.496)),
+                            new Pose2d(Units.feetToMeters(16.485), Units.feetToMeters(16.799), Rotation2d.fromDegrees(176.59))),
                     config
             );
         }
@@ -346,14 +336,10 @@ public class Paths {
 
             return TrajectoryGenerator.generateTrajectory(
                     Arrays.asList(
-                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25),
-                                    Rotation2d.fromDegrees(0)),
-                            new Pose2d(Units.feetToMeters(13.238), Units.feetToMeters(6.498),
-                                    Rotation2d.fromDegrees(-60.481)),
-                            new Pose2d(Units.feetToMeters(12.904), Units.feetToMeters(11.83),
-                                    Rotation2d.fromDegrees(-101.496)),
-                            new Pose2d(Units.feetToMeters(16.514), Units.feetToMeters(14.725),
-                                    Rotation2d.fromDegrees(171.752))),
+                            new Pose2d(Units.feetToMeters(20.504), Units.feetToMeters(2.25), Rotation2d.fromDegrees(0)),
+                            new Pose2d(Units.feetToMeters(13.238), Units.feetToMeters(6.498), Rotation2d.fromDegrees(-60.481)),
+                            new Pose2d(Units.feetToMeters(12.904), Units.feetToMeters(11.83), Rotation2d.fromDegrees(-101.496)),
+                            new Pose2d(Units.feetToMeters(16.514), Units.feetToMeters(14.725), Rotation2d.fromDegrees(171.752))),
                     config
             );
         }
