@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.utils.DynamicButtonMap;
 import frc.utils.EnhancedJoystickButton;
 import frc.utils.Gamepad;
@@ -13,6 +14,7 @@ public class OI {
 
     public static Joystick leftJoystick = new Joystick(LEFT_JOYSTICK_PORT);
     public static Joystick rightJoystick = new Joystick(RIGHT_JOYSTICK_PORT);
+    public static Gamepad driver = new Gamepad(3);
     public static Gamepad gamepad = new Gamepad(GAMEPAD_PORT);
 
     public static DynamicButtonMap buttonMap = new DynamicButtonMap(

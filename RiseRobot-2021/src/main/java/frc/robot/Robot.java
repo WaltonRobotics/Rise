@@ -41,6 +41,7 @@ public class Robot extends WaltTimedRobot {
     public static Jaguar jaguar = new Jaguar(19);
     private static ShuffleboardTimer matchTimer;
     private static SendableChooser<Integer> autonChooser;
+    public static boolean controller = false;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -119,6 +120,8 @@ public class Robot extends WaltTimedRobot {
         } else {
             LEDController.setLEDPassiveMode();
         }
+
+        controller = SmartDashboard.getBoolean("controller", false);
     }
 
     /**

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.OI.leftJoystick;
 import static frc.robot.OI.rightJoystick;
+import static frc.robot.OI.driver;
+import static frc.robot.Robot.controller;
 import static frc.robot.Robot.drivetrain;
 
 public class DriveCommand extends CommandBase {
@@ -38,7 +40,11 @@ public class DriveCommand extends CommandBase {
 //        }
 ////
 //        else {
-        drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
+        if (controller) {
+            drivetrain.setDutyCycles(-driver.getLeftY(), -driver.getRightY());
+        } else { 
+            drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
+        }
 //        }
     }
 
