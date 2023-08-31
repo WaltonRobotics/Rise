@@ -81,6 +81,7 @@ public class Robot extends WaltTimedRobot {
 
         LEDController.setLEDPassiveMode();
         LimelightHelper.setLedMode(true);
+        SmartDashboard.putBoolean("controller", false);
     }
 
     /**
