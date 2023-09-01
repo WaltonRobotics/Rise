@@ -42,6 +42,7 @@ public class Robot extends WaltTimedRobot {
     private static ShuffleboardTimer matchTimer;
     private static SendableChooser<Integer> autonChooser;
     public static boolean controller = false;
+    public static boolean arcade = false;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -82,6 +83,7 @@ public class Robot extends WaltTimedRobot {
         LEDController.setLEDPassiveMode();
         LimelightHelper.setLedMode(true);
         SmartDashboard.putBoolean("controller", false);
+        SmartDashboard.putBoolean("arcade", false);
     }
 
     /**
@@ -123,6 +125,7 @@ public class Robot extends WaltTimedRobot {
         }
 
         controller = SmartDashboard.getBoolean("controller", false);
+        arcade = SmartDashboard.getBoolean("arcade", false);
     }
 
     /**

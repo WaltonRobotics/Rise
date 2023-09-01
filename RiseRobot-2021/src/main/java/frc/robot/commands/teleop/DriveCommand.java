@@ -6,6 +6,7 @@ import static frc.robot.OI.leftJoystick;
 import static frc.robot.OI.rightJoystick;
 import static frc.robot.OI.driver;
 import static frc.robot.Robot.controller;
+import static frc.robot.Robot.arcade;
 import static frc.robot.Robot.drivetrain;
 
 public class DriveCommand extends CommandBase {
@@ -22,6 +23,10 @@ public class DriveCommand extends CommandBase {
 
     public double getRightJoystickY() {
         return Math.abs(rightJoystick.getY()) > deadBand ? -rightJoystick.getY() : 0;
+    }
+
+    public double getRightJoystickX() {
+        return Math.abs(rightJoystick.getX()) > deadBand ? -rightJoystick.getX() : 0;
     }
 
     @Override
@@ -41,9 +46,17 @@ public class DriveCommand extends CommandBase {
 ////
 //        else {
         if (controller) {
-            drivetrain.setDutyCycles(-driver.getLeftY(), -driver.getRightY());
+            if (arcade) {
+                drivetrain.setArcadeSpeeds(driver.getLeftY(), driver.getRightX());
+            } else {
+                drivetrain.setDutyCycles(driver.getRightY(), driver.getLeftY());
+            }
         } else { 
-            drivetrain.setDutyCycles(getLeftJoystickY(), getRightJoystickY());
+            if (arcade) {
+                drivetrain.setArcadeSpeeds(-getLeftJoystickY(), -getRightJoystickX());
+            } else {
+                drivetrain.setDutyCycles(-getRightJoystickY(), -getLeftJoystickY());
+            }
         }
 //        }
     }
