@@ -47,15 +47,15 @@ public class DriveCommand extends CommandBase {
 //        else {
         if (controller) {
             if (arcade) {
-                drivetrain.setArcadeSpeeds(driver.getLeftY(), driver.getRightX());
+                drivetrain.setArcadeSpeeds(driver.getLeftY() * 0.6, driver.getRightX() * 0.6);
             } else {
-                drivetrain.setDutyCycles(driver.getRightY(), driver.getLeftY());
+                drivetrain.setDutyCycles(driver.getRightY() * 0.6, driver.getLeftY() * 0.6);
             }
         } else { 
             if (arcade) {
-                drivetrain.setArcadeSpeeds(-getLeftJoystickY(), -getRightJoystickX());
+                drivetrain.setArcadeSpeeds(-getLeftJoystickY() * 0.6, -getRightJoystickX() * 0.6);
             } else {
-                drivetrain.setDutyCycles(-getRightJoystickY(), -getLeftJoystickY());
+                drivetrain.setDutyCycles(-getRightJoystickY() * 0.6, -getLeftJoystickY() * 0.6);
             }
         }
 //        }
